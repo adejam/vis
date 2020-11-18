@@ -79,6 +79,7 @@ npm run format
 -   [HTML Style Guide](http://udacity.github.io/frontend-nanodegree-styleguide/index.html)
 -   [JavaScript Style Guide](http://udacity.github.io/frontend-nanodegree-styleguide/javascript.html)
 -   [Git Style Guide](https://udacity.github.io/git-styleguide/)
+-   [PHP Style Guide](https://pear.php.net/manual/en/standards.php)
 
 ## 👤 Author
 

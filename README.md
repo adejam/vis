@@ -23,7 +23,7 @@ The App is used to identify a user through the vehicle plate number. It can be u
 -   Clone the project
 
 ```bash
-git clone https://github.com/vis.git
+git clone https://github.com/adejam/vis.git
 
 ```
 

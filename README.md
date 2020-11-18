@@ -49,10 +49,10 @@ php artisan serve
 composer phpcs
 ```
 
--   Or to beautify PHP codes
+-   and to have it actually fix (to the best of its ability) any format issues, run:
 
 ```bash
-composer phpcs
+composer phpcbf
 ```
 
 -   Lints and fixes files(CSS|Js|)

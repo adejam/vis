@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ContactController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,3 +27,4 @@ Route::middleware(['auth:sanctum', 'verified'])->get(
         return view('dashboard');
     }
 )->name('dashboard');
+Route::post("/sendmail", [ContactController::class, 'sendmail'])->name('sendmail');

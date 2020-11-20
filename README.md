@@ -28,12 +28,13 @@ git clone https://github.com/adejam/vis.git
 ```
 
 -   Install Dependencies
-```bash
-composer install
-```
 
 ```bash
 npm install
+```
+
+```bash
+composer require
 ```
 
 -   Compiles and hot-reloads for development

@@ -18,7 +18,19 @@ class CommunityController extends Controller
             'communityLocation',
             'aboutCommunity'
         )->where('userId', '=', Auth::id())->get();
-        return view('user.community')->with('communities', $communities);
+        return view('user.community.community')->with('communities', $communities);
+    }
+
+    public function getCommunity($communityId)
+    {
+        $community =  DB::table('communities')->select(
+            'communityId',
+            'communityName',
+            'communityLocation',
+            'aboutCommunity'
+        )->where('userId', '=', Auth::id())
+            ->where('communityId', '=', $communityId)->first();
+        return view('user.community.getCommunity')->with('community', $community);
     }
        
  
@@ -40,9 +52,7 @@ class CommunityController extends Controller
         $community->communityLocation = $request->communityLocation;
         $community->aboutCommunity = $request->aboutCommunity;
         $community->save();
-              
-                
-        return back()->with('success', ''.$community->communityName.' successfully created!');
+        return redirect('/community/'.$community->communityId)->with('success', ''.$community->communityName.' successfully created!');
     }
 
     public function update(Request $request)
@@ -72,7 +82,7 @@ class CommunityController extends Controller
         $community = Community::where('communityId', '=', $communityId)->firstOrFail();
         $delete = $community->delete();
         if ($delete) {
-            return back()->with('success', ' successfully Deleted!');
+            return redirect('/community')->with('success', ' successfully created!');
         }
     }
 }

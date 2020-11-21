@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CommunityController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,15 +15,29 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get(
-    '/', function () {
+    '/',
+    function () {
         return view('welcome');
     }
 );
 
 Route::middleware(['auth:sanctum', 'verified'])->get(
-    '/dashboard', function () {
-
+    '/dashboard',
+    function () {
         return view('dashboard');
-
     }
 )->name('dashboard');
+
+Route::middleware(['auth:sanctum', 'verified'])->group(
+    function () {
+        Route::group(
+            ['prefix' => '/community'],
+            function () {
+                Route::get("/", [CommunityController::class, 'index'])->name('community');
+                Route::post("/add", [CommunityController::class, 'add'])->name('community.add');
+                Route::post("/update", [CommunityController::class, 'update'])->name('community.update');
+                Route::post("/delete", [CommunityController::class, 'delete'])->name('community.delete');
+            }
+        );
+    }
+);

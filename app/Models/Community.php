@@ -14,7 +14,7 @@ class Community extends Model
         'aboutCommunity',
     ];
 
-    protected $hidden = [
-        'communityId',
-    ];
+    // protected $hidden = [
+    //     'communityId',
+    // ];
 }

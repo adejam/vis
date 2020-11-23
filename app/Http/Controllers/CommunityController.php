@@ -73,10 +73,11 @@ class CommunityController extends Controller
         $communityAdmin->communityId = $community->communityId;
         $communityAdmin->userId = Auth::user()->id;
         $communityAdmin->verifyUser = 1;
-        $communityAdmin->editUserVehicle = 1;
-        $communityAdmin->removeUser = 1;
+        $communityAdmin->removeUserVehicle = 1;
+        $communityAdmin->removeAdmin = 1;
         $communityAdmin->addAdmin = 1;
-        $communityAdmin->addAdminRoles = 1;
+        $communityAdmin->editAdminRoles = 1;
+        $communityAdmin->identifyVehicleUser = 1;
         $communityAdmin->save();
                 
         return redirect('/my-community/'.$community->communityId)->with('success', ''.$community->communityName.' successfully created!');

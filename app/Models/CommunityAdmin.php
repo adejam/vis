@@ -11,9 +11,10 @@ class CommunityAdmin extends Model
     protected $fillable = [
         'id',
         'verifyUser',
-        'editUserVehicle',
-        'removeUser',
+        'removeUserVehicle',
+        'identifyVehicleUser',
         'addAdmin',
-        'addAdminRoles',
+        'removeAdmin',
+        'editAdminRoles',
     ];
 }

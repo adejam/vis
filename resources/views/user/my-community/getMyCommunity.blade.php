@@ -91,7 +91,12 @@
             @foreach ($communityAdmins as $admin)
                 <div>
                     <span>{{ $admin->name }} {{ $admin->lastname }} </span>
-                    <button>remove admin</button> <button>Edit roles</button>
+                <form method="POST" action="{{route('community.admin.remove')}}">
+                        @csrf
+            <input type="hidden" name="communityAdminId" value="{{ $admin->communityAdminId }}" />
+                        <button type="submit" >Remove Admin</button>
+                    </form>
+                     <button>Edit roles</button>
                 </div>
             @endforeach
 
@@ -141,23 +146,23 @@
 
             <div class="col-span-6 sm:col-span-4">
                 <label class="form-check-label">
-                    <input type="checkbox" name="editUserVehicle" />
+                    <input type="checkbox" name="removeUserVehicle" />
                     edit user vehicle role
                 </label>
-                @if ($errors->has('editUserVehicle'))
+                @if ($errors->has('removeUserVehicle'))
                     <span class="help-block alert alert-danger" role="alert">
-                        <strong>{{ $errors->first('editUserVehicle') }}</strong>
+                        <strong>{{ $errors->first('removeUserVehicle') }}</strong>
                     </span>
                 @endif
             </div>
             <div class="col-span-6 sm:col-span-4">
                 <label class="form-check-label">
-                    <input type="checkbox" name="removeUser" />
+                    <input type="checkbox" name="removeAdmin" />
                     remove user role
                 </label>
-                @if ($errors->has('removeUser'))
+                @if ($errors->has('removeAdmin'))
                     <span class="help-block alert alert-danger" role="alert">
-                        <strong>{{ $errors->first('removeUser') }}</strong>
+                        <strong>{{ $errors->first('removeAdmin') }}</strong>
                     </span>
                 @endif
             </div>
@@ -174,12 +179,23 @@
             </div>
             <div class="col-span-6 sm:col-span-4">
                 <label class="form-check-label">
-                    <input type="checkbox" name="addAdminRoles" />
+                    <input type="checkbox" name="editAdminRoles" />
                     Add admin roles role
                 </label>
-                @if ($errors->has('addAdminRoles'))
+                @if ($errors->has('editAdminRoles'))
                     <span class="help-block alert alert-danger" role="alert">
-                        <strong>{{ $errors->first('addAdminRoles') }}</strong>
+                        <strong>{{ $errors->first('editAdminRoles') }}</strong>
+                    </span>
+                @endif
+            </div>
+            <div class="col-span-6 sm:col-span-4">
+                <label class="form-check-label">
+                    <input type="checkbox" name="identifyVehicleUser" />
+                    Add admin roles role
+                </label>
+                @if ($errors->has('identifyVehicleUser'))
+                    <span class="help-block alert alert-danger" role="alert">
+                        <strong>{{ $errors->first('identifyVehicleUser') }}</strong>
                     </span>
                 @endif
             </div>

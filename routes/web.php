@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CommunityController;
 use App\Http\Controllers\CommunityAdminController;
+use App\Http\Controllers\UserVehicleController;
 
 /*
 |--------------------------------------------------------------------------
@@ -40,6 +41,14 @@ Route::middleware(['auth:sanctum', 'verified'])->group(
                 Route::post("/delete", [CommunityController::class, 'delete'])->name('community.delete');
                 Route::get("/{communityId}", [CommunityController::class, 'getMyCommunity'])->name('community.get');
                 Route::post("/add-admin", [CommunityAdminController::class, 'add'])->name('community.admin.add');
+                Route::post("/remove-admin", [CommunityAdminController::class, 'removeAdmin'])->name('community.admin.remove');
+            }
+        );
+
+        Route::group(
+            ['prefix' => '/my-vehicles'],
+            function () {
+                Route::get("/", [UserVehicleController::class, 'index'])->name('vehicles');
             }
         );
     }

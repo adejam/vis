@@ -20,11 +20,12 @@ class CreateCommunityAdminsTable extends Migration
             $table->foreign('userId')->references('id')->on('users');
             $table->char('communityId');
             $table->foreign('communityId')->references('communityId')->on('communities');
+            $table->boolean('identifyVehicleUser');
             $table->boolean('verifyUser');
-            $table->boolean('editUserVehicle');
-            $table->boolean('removeUser');
+            $table->boolean('removeUserVehicle');
             $table->boolean('addAdmin');
-            $table->boolean('addAdminRoles');
+            $table->boolean('removeAdmin');
+            $table->boolean('editAdminRoles');
             $table->timestamps();
         });
     }

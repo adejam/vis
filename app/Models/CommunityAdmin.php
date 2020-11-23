@@ -8,4 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class CommunityAdmin extends Model
 {
     use HasFactory;
+    protected $fillable = [
+        'id',
+        'verifyUser',
+        'editUserVehicle',
+        'removeUser',
+        'addAdmin',
+        'addAdminRoles',
+    ];
 }

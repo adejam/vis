@@ -86,39 +86,100 @@
     </div>
 
     <div>
+        <div>
+            <h3>Admins</h3>
+            @foreach ($communityAdmins as $admin)
+                <div>
+                    <span>{{ $admin->name }} {{ $admin->lastname }} </span>
+                    <button>remove admin</button> <button>Edit roles</button>
+                </div>
+            @endforeach
+
+        </div>
+
         <h4>Add admin</h4>
         @if (Session::has('success'))
             <div class="alert alert-success" role="alert">
                 {{ Session::get('success') }}
             </div>
         @endif
-        <form method="POST" action="{{ route('community.add') }}">
+        @if (Session::has('error'))
+            <div class="alert alert-danger" role="alert">
+                {{ Session::get('error') }}
+            </div>
+        @endif
+        <form method="POST" action="{{ route('community.admin.add') }}">
             @csrf
-
+            <input type="hidden" name="communityId" value="{{ $community->communityId }}" />
             <div class="col-span-6 sm:col-span-4">
-                <input type="text" name="communityName" />
-                @if ($errors->has('communityName'))
+                <input type="number" name="id" placeholder="user id" />
+                @if ($errors->has('id'))
                     <span class="help-block alert alert-danger" role="alert">
-                        <strong>{{ $errors->first('communityName') }}</strong>
+                        <strong>{{ $errors->first('id') }}</strong>
+                    </span>
+                @endif
+            </div>
+            <div class="col-span-6 sm:col-span-4">
+                <input type="text" name="username" placeholder="user name" />
+                @if ($errors->has('username'))
+                    <span class="help-block alert alert-danger" role="alert">
+                        <strong>{{ $errors->first('username') }}</strong>
+                    </span>
+                @endif
+            </div>
+            <div class="col-span-6 sm:col-span-4">
+                <label class="form-check-label">
+                    <input type="checkbox" name="verifyUser" />
+                    verify user role
+                </label>
+                @if ($errors->has('verifyUser'))
+                    <span class="help-block alert alert-danger" role="alert">
+                        <strong>{{ $errors->first('verifyUser') }}</strong>
                     </span>
                 @endif
             </div>
 
             <div class="col-span-6 sm:col-span-4">
-                <input type="text" name="communityLocation" />
-                @if ($errors->has('communityLocation'))
+                <label class="form-check-label">
+                    <input type="checkbox" name="editUserVehicle" />
+                    edit user vehicle role
+                </label>
+                @if ($errors->has('editUserVehicle'))
                     <span class="help-block alert alert-danger" role="alert">
-                        <strong>{{ $errors->first('communityLocation') }}</strong>
+                        <strong>{{ $errors->first('editUserVehicle') }}</strong>
                     </span>
                 @endif
             </div>
-
             <div class="col-span-6 sm:col-span-4">
-                <textarea class="form-control" id="aboutCommunity" rows="3" name="aboutCommunity"
-                    placeholder="About Community"></textarea>
-                @if ($errors->has('aboutCommunity'))
+                <label class="form-check-label">
+                    <input type="checkbox" name="removeUser" />
+                    remove user role
+                </label>
+                @if ($errors->has('removeUser'))
                     <span class="help-block alert alert-danger" role="alert">
-                        <strong>{{ $errors->first('aboutCommunity') }}</strong>
+                        <strong>{{ $errors->first('removeUser') }}</strong>
+                    </span>
+                @endif
+            </div>
+            <div class="col-span-6 sm:col-span-4">
+                <label class="form-check-label">
+                    <input type="checkbox" name="addAdmin" />
+                    Add admin role
+                </label>
+                @if ($errors->has('addAdmin'))
+                    <span class="help-block alert alert-danger" role="alert">
+                        <strong>{{ $errors->first('addAdmin') }}</strong>
+                    </span>
+                @endif
+            </div>
+            <div class="col-span-6 sm:col-span-4">
+                <label class="form-check-label">
+                    <input type="checkbox" name="addAdminRoles" />
+                    Add admin roles role
+                </label>
+                @if ($errors->has('addAdminRoles'))
+                    <span class="help-block alert alert-danger" role="alert">
+                        <strong>{{ $errors->first('addAdminRoles') }}</strong>
                     </span>
                 @endif
             </div>

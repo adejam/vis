@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use App\Models\Community;
+use App\Models\CommunityAdmin;
 use Webpatser\Uuid\Uuid;
 use Auth;
 use DB;
@@ -18,19 +20,31 @@ class CommunityController extends Controller
             'communityLocation',
             'aboutCommunity'
         )->where('userId', '=', Auth::id())->get();
-        return view('user.community.community')->with('communities', $communities);
+        return view('user.my-community.myCommunity')->with('communities', $communities);
     }
 
-    public function getCommunity($communityId)
+    public function getMyCommunity($communityId)
     {
         $community =  DB::table('communities')->select(
+            'userId',
             'communityId',
             'communityName',
             'communityLocation',
             'aboutCommunity'
         )->where('userId', '=', Auth::id())
             ->where('communityId', '=', $communityId)->first();
-        return view('user.community.getCommunity')->with('community', $community);
+        $communityAdmins =  DB::table('community_admins')
+            ->join('users', 'users.id', 'community_admins.userId')
+            ->select(
+                'communityAdminId',
+                'userId',
+                'username',
+                'name',
+                'lastname'
+            )->where('communityId', '=', $communityId)->get();
+        return view('user.my-community.getMyCommunity')
+            ->with('community', $community)
+            ->with('communityAdmins', $communityAdmins);
     }
        
  
@@ -39,7 +53,7 @@ class CommunityController extends Controller
         $this->validate(
             $request,
             [
-            'communityName' => ['required', 'string', 'max:255'],
+            'communityName' => ['required', 'string', 'max:255', 'unique:communities'],
             'communityLocation' => ['required', 'string', 'max:255'],
             'aboutCommunity' => ['required', 'string', 'max:255'],
             ]
@@ -52,26 +66,37 @@ class CommunityController extends Controller
         $community->communityLocation = $request->communityLocation;
         $community->aboutCommunity = $request->aboutCommunity;
         $community->save();
-        return redirect('/community/'.$community->communityId)->with('success', ''.$community->communityName.' successfully created!');
+
+        $communityAdminId = utf8_encode(Uuid::generate(4));
+        $communityAdmin = new CommunityAdmin;
+        $communityAdmin->communityAdminId = $communityAdminId;
+        $communityAdmin->communityId = $community->communityId;
+        $communityAdmin->userId = Auth::user()->id;
+        $communityAdmin->verifyUser = 1;
+        $communityAdmin->editUserVehicle = 1;
+        $communityAdmin->removeUser = 1;
+        $communityAdmin->addAdmin = 1;
+        $communityAdmin->addAdminRoles = 1;
+        $communityAdmin->save();
+                
+        return redirect('/my-community/'.$community->communityId)->with('success', ''.$community->communityName.' successfully created!');
     }
 
     public function update(Request $request)
     {
+        $community = Community::where('communityId', '=', $request->communityId)->firstOrFail();
         $this->validate(
             $request,
             [
-            'communityName' => ['required', 'string', 'max:255'],
+            'communityName' => ['required', 'string', 'max:255',Rule::unique('communities')->ignore($community->id)],
             'communityLocation' => ['required', 'string', 'max:255'],
             'aboutCommunity' => ['required', 'string', 'max:255'],
             ]
         );
-        $community = Community::where('communityId', '=', $request->communityId)->firstOrFail();
-        ;
         $community->communityName = $request->communityName;
         $community->communityLocation = $request->communityLocation;
         $community->aboutCommunity = $request->aboutCommunity;
         $community->save();
-              
                 
         return back()->with('success', ''.$community->communityName.' successfully Updated!');
     }
@@ -80,9 +105,11 @@ class CommunityController extends Controller
     {
         $communityId = $request->communityId ? $request->communityId : $id;
         $community = Community::where('communityId', '=', $communityId)->firstOrFail();
-        $delete = $community->delete();
-        if ($delete) {
-            return redirect('/community')->with('success', ' successfully created!');
+        $communityAdmins = CommunityAdmin::where('communityId', '=', $communityId)->get();
+        foreach ($communityAdmins as $admin) {
+            $admin->delete();
         }
+        $community->delete();
+        return redirect('/my-community')->with('success', ' successfully created!');
     }
 }

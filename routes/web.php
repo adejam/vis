@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CommunityController;
+use App\Http\Controllers\CommunityAdminController;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,13 +32,14 @@ Route::middleware(['auth:sanctum', 'verified'])->get(
 Route::middleware(['auth:sanctum', 'verified'])->group(
     function () {
         Route::group(
-            ['prefix' => '/community'],
+            ['prefix' => '/my-community'],
             function () {
                 Route::get("/", [CommunityController::class, 'index'])->name('community');
                 Route::post("/add", [CommunityController::class, 'add'])->name('community.add');
                 Route::post("/update", [CommunityController::class, 'update'])->name('community.update');
                 Route::post("/delete", [CommunityController::class, 'delete'])->name('community.delete');
-                Route::get("/{communityId}", [CommunityController::class, 'getCommunity'])->name('community.get');
+                Route::get("/{communityId}", [CommunityController::class, 'getMyCommunity'])->name('community.get');
+                Route::post("/add-admin", [CommunityAdminController::class, 'add'])->name('community.admin.add');
             }
         );
     }

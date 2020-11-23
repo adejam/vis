@@ -18,7 +18,7 @@ class CreateCommunitiesTable extends Migration
             $table->char('communityId')->unique();
             $table->bigInteger('userId')->unsigned();
             $table->foreign('userId')->references('id')->on('users');
-            $table->string('communityName');
+            $table->string('communityName')->unique();
             $table->string('communityLocation');
             $table->string('aboutCommunity');
             $table->timestamps();

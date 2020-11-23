@@ -36,13 +36,14 @@
 <body>
     @foreach ($communities as $community)
         <div>
-                <a class="underline text-sm text-gray-600 hover:text-gray-900" href="{{ url('community/'.$community->communityId) }}">
-                    {{ __($community->communityName) }}
-                </a>
-                
-            </div>
+            <a class="underline text-sm text-gray-600 hover:text-gray-900"
+                href="{{ url('my-community/' . $community->communityId) }}">
+                {{ __($community->communityName) }}
+            </a>
+
+        </div>
     @endforeach
-            
+
     @if (Session::has('success'))
         <div class="alert alert-success" role="alert">
             {{ Session::get('success') }}
@@ -70,8 +71,8 @@
         </div>
 
         <div class="col-span-6 sm:col-span-4">
-            <textarea class="form-control" id="aboutCommunity" rows="3"
-                name="aboutCommunity" placeholder="About Community"></textarea>
+            <textarea class="form-control" id="aboutCommunity" rows="3" name="aboutCommunity"
+                placeholder="About Community"></textarea>
             @if ($errors->has('aboutCommunity'))
                 <span class="help-block alert alert-danger" role="alert">
                     <strong>{{ $errors->first('aboutCommunity') }}</strong>

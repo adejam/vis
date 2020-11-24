@@ -1,3 +1,6 @@
+@php
+use App\Http\Controllers\UserVehicleController;
+@endphp
 <html lang="en">
 
 <head>
@@ -30,60 +33,210 @@
             color: #047404;
         }
 
+        .vehicle-class{
+            background-color: grey;
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 20px;
+        }
+
     </style>
 </head>
 
 <body>
+    @foreach ($userVehicles as $vehicle)
+
+        <div class="vehicle-class">
+            <div class="">
+                <p><b>Vehicle Brand: </b>{{ $vehicle->vehicleBrand }}</p>
+                <p><b>Vehicle Model: </b>{{ $vehicle->vehicleModel }}</p>
+                <p><b>Vehicle Color: </b>{{ $vehicle->vehicleColor }}</p>
+                <p><b>driver License Id: </b>{{ $vehicle->driverLicenseId }}</p>
+                <p><b>Vehicle Reg Num: </b>{{ $vehicle->vehicleRegNum }}</p>
+                <p><b>Vehicle Reg State: </b>{{ $vehicle->vehicleRegState }}</p>
+                <p><b>Vehicle Plate Number: </b>{{ $vehicle->plateNumber }}</p>
+                <p><b>Associated Communities: </b>{{ $vehicle->timesVerified }}</p>
+                <form method="POST" action="{{ route('vehicle.community.join') }}">
+                    @csrf
+                    <input type="hidden" value="{{ $vehicle->userVehicleId }}" name="userVehicleId" />
+                    <input type="text" name="communityId" />
+                    <textarea rows="" name="locationInCommunity"></textarea>
+                    <div class="flex items-center justify-end mt-4">
+                        <button type="submit" class="alert alert-success">Join Comunity</button>
+                    </div>
+                </form>
+            </div>
+
+            <div>
+                <form method="POST" action="{{ route('vehicle.update') }}">
+                    @csrf
+                    <input type="hidden" value="{{ $vehicle->userVehicleId }}" name="userVehicleId" />
+                    <div class="col-span-6 sm:col-span-4">
+                        <input type="text" name="vehicleBrand" value="{{ $vehicle->vehicleBrand }}"
+                            placeholder="vehicleBrand" />
+                        @if ($errors->has('vehicleBrand'))
+                            <span class="help-block alert alert-danger" role="alert">
+                                <strong>{{ $errors->first('vehicleBrand') }}</strong>
+                            </span>
+                        @endif
+                    </div>
+
+                    <div class="col-span-6 sm:col-span-4">
+                        <input type="text" name="vehicleModel" value="{{ $vehicle->vehicleModel }}"
+                            placeholder="vehicleModel" />
+                        @if ($errors->has('vehicleModel'))
+                            <span class="help-block alert alert-danger" role="alert">
+                                <strong>{{ $errors->first('vehicleModel') }}</strong>
+                            </span>
+                        @endif
+                    </div>
+
+                    <div class="col-span-6 sm:col-span-4">
+                        <input type="text" name="vehicleColor" value="{{ $vehicle->vehicleColor }}"
+                            placeholder="vehicleColor" />
+                        @if ($errors->has('vehicleColor'))
+                            <span class="help-block alert alert-danger" role="alert">
+                                <strong>{{ $errors->first('vehicleColor') }}</strong>
+                            </span>
+                        @endif
+                    </div>
+
+                    <div class="col-span-6 sm:col-span-4">
+                        <input type="text" name="driverLicenseId" value="{{ $vehicle->driverLicenseId }}"
+                            placeholder="driverLicenseId" />
+                        @if ($errors->has('driverLicenseId'))
+                            <span class="help-block alert alert-danger" role="alert">
+                                <strong>{{ $errors->first('driverLicenseId') }}</strong>
+                            </span>
+                        @endif
+                    </div>
+
+                    <div class="col-span-6 sm:col-span-4">
+                        <input type="text" name="vehicleRegNum" value="{{ $vehicle->vehicleRegNum }}"
+                            placeholder="vehicleRegNum" />
+                        @if ($errors->has('vehicleRegNum'))
+                            <span class="help-block alert alert-danger" role="alert">
+                                <strong>{{ $errors->first('vehicleRegNum') }}</strong>
+                            </span>
+                        @endif
+                    </div>
+
+                    <div class="col-span-6 sm:col-span-4">
+                        <input type="text" name="vehicleRegState" value="{{ $vehicle->vehicleRegState }}"
+                            placeholder="vehicleRegState" />
+                        @if ($errors->has('vehicleRegState'))
+                            <span class="help-block alert alert-danger" role="alert">
+                                <strong>{{ $errors->first('vehicleRegState') }}</strong>
+                            </span>
+                        @endif
+                    </div>
+
+                    <div class="col-span-6 sm:col-span-4">
+                        <input type="text" name="plateNumber" value="{{ $vehicle->plateNumber }}"
+                            placeholder="plateNumber" />
+                        @if ($errors->has('plateNumber'))
+                            <span class="help-block alert alert-danger" role="alert">
+                                <strong>{{ $errors->first('plateNumber') }}</strong>
+                            </span>
+                        @endif
+                    </div>
+
+                    <div class="flex items-center justify-end mt-4">
+                        <button type="submit">Update</button>
+                    </div>
+
+                </form>
+                <form method="POST" action="{{ route('vehicle.delete') }}">
+                    @csrf
+                    <input type="hidden" value="{{ $vehicle->userVehicleId }}" name="userVehicleId" />
+                    <div class="flex items-center justify-end mt-4">
+                        <button type="submit" class="alert alert-danger">delete</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    @endforeach
+    </div>
     <h2>My vehicles</h2>
     <div>
         <h4>Update</h4>
-        @if (Session::has('success'))
-            <div class="alert alert-success" role="alert">
-                {{ Session::get('success') }}
-            </div>
-        @endif
-        <form method="POST" action="{{ route('vehicles.add') }}">
+        <form method="POST" action="{{ route('vehicle.add') }}">
             @csrf
-            <input type="hidden" name="communityId" value={{ $community->communityId }} />
             <div class="col-span-6 sm:col-span-4">
-                <input type="text" name="communityName" value={{ $community->communityName }} />
-                @if ($errors->has('communityName'))
+                <input type="text" name="vehicleBrand" placeholder="vehicleBrand" />
+                @if ($errors->has('vehicleBrand'))
                     <span class="help-block alert alert-danger" role="alert">
-                        <strong>{{ $errors->first('communityName') }}</strong>
+                        <strong>{{ $errors->first('vehicleBrand') }}</strong>
                     </span>
                 @endif
             </div>
 
             <div class="col-span-6 sm:col-span-4">
-                <input type="text" name="communityLocation" value={{ $community->communityLocation }} />
-                @if ($errors->has('communityLocation'))
+                <input type="text" name="vehicleModel" placeholder="vehicleModel" />
+                @if ($errors->has('vehicleModel'))
                     <span class="help-block alert alert-danger" role="alert">
-                        <strong>{{ $errors->first('communityLocation') }}</strong>
+                        <strong>{{ $errors->first('vehicleModel') }}</strong>
                     </span>
                 @endif
             </div>
 
             <div class="col-span-6 sm:col-span-4">
-                <textarea class="form-control" value="{{ $community->aboutCommunity }}" id="aboutCommunity" rows="3"
-                    name="aboutCommunity">{{ $community->aboutCommunity }}</textarea>
-                @if ($errors->has('aboutCommunity'))
+                <input type="text" name="vehicleColor" placeholder="vehicleColor" />
+                @if ($errors->has('vehicleColor'))
                     <span class="help-block alert alert-danger" role="alert">
-                        <strong>{{ $errors->first('aboutCommunity') }}</strong>
+                        <strong>{{ $errors->first('vehicleColor') }}</strong>
+                    </span>
+                @endif
+            </div>
+
+            <div class="col-span-6 sm:col-span-4">
+                <input type="text" name="driverLicenseId" placeholder="driverLicenseId" />
+                @if ($errors->has('driverLicenseId'))
+                    <span class="help-block alert alert-danger" role="alert">
+                        <strong>{{ $errors->first('driverLicenseId') }}</strong>
+                    </span>
+                @endif
+            </div>
+
+            <div class="col-span-6 sm:col-span-4">
+                <input type="text" name="vehicleRegNum" placeholder="vehicleRegNum" />
+                @if ($errors->has('vehicleRegNum'))
+                    <span class="help-block alert alert-danger" role="alert">
+                        <strong>{{ $errors->first('vehicleRegNum') }}</strong>
+                    </span>
+                @endif
+            </div>
+
+            <div class="col-span-6 sm:col-span-4">
+                <input type="text" name="vehicleRegState" placeholder="vehicleRegState" />
+                @if ($errors->has('vehicleRegState'))
+                    <span class="help-block alert alert-danger" role="alert">
+                        <strong>{{ $errors->first('vehicleRegState') }}</strong>
+                    </span>
+                @endif
+            </div>
+
+            <div class="col-span-6 sm:col-span-4">
+                <input type="text" name="plateNumber" placeholder="plateNumber" />
+                @if ($errors->has('plateNumber'))
+                    <span class="help-block alert alert-danger" role="alert">
+                        <strong>{{ $errors->first('plateNumber') }}</strong>
                     </span>
                 @endif
             </div>
 
             <div class="flex items-center justify-end mt-4">
-                <button type="submit">Update</button>
+                <button type="submit">Submit</button>
             </div>
+
         </form>
-        <form method="POST" action="{{ route('community.delete') }}">
+        {{-- <form method="POST" action="{{ route('community.delete') }}">
             @csrf
             <input type="hidden" name="communityId" value={{ $community->communityId }} />
             <div class="flex items-center justify-end mt-4">
                 <button type="submit" class="alert alert-danger">delete</button>
             </div>
-        </form>
+        </form> --}}
     </div>
 </body>
 

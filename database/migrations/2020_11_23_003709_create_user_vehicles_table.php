@@ -18,15 +18,14 @@ class CreateUserVehiclesTable extends Migration
             $table->char('userVehicleId')->unique();
             $table->bigInteger('userId')->unsigned();
             $table->foreign('userId')->references('id')->on('users');
-            $table->string('userPhone');
             $table->string('timesVerified');
             $table->string('vehicleBrand');
             $table->string('vehicleModel');
-            $table->string('vehiceColor');
+            $table->string('vehicleColor');
             $table->string('driverLicenseId')->unique();
             $table->string('vehicleRegNum')->unique();
             $table->string('vehicleRegState');
-            $table->string('plateNumber');
+            $table->string('plateNumber')->unique();
             $table->timestamps();
         });
     }

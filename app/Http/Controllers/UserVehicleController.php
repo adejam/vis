@@ -152,8 +152,19 @@ class UserVehicleController extends Controller
 
     public function showCommunity($vehicleBrand, $userVehicleId, $communityName, $communityId)
     {
-        $ret = array($vehicleBrand, $userVehicleId, $communityName, $communityId);
-        return $ret;
+        // $ret = array($vehicleBrand, $userVehicleId, $communityName, $communityId);
+        $community = DB::table('communities')
+            ->select('communityId', 'communityName', 'communityLocation', 'aboutCommunity')
+            ->where('communityId', '=', $communityId)->first();
+
+        $communityAdmins = DB::table('community_admins')
+            ->join('users', 'users.id', 'community_admins.userId')
+            ->select('name', 'lastname', 'username', 'profile_photo_path')
+            ->where('community_admins.communityId', '=', $communityId)->get();
+
+        return view('user.user-vehicles.vehicleCommunity')
+            ->with('community', $community)
+            ->with('communityAdmins', $communityAdmins);
     }
 
     public function unjoinCommunity(Request $request)

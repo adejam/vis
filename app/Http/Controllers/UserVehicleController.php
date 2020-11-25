@@ -152,7 +152,6 @@ class UserVehicleController extends Controller
 
     public function showCommunity($vehicleBrand, $userVehicleId, $communityName, $communityId)
     {
-        // $ret = array($vehicleBrand, $userVehicleId, $communityName, $communityId);
         $community = DB::table('communities')
             ->select('communityId', 'communityName', 'communityLocation', 'aboutCommunity')
             ->where('communityId', '=', $communityId)->first();

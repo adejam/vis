@@ -33,7 +33,7 @@ use App\Http\Controllers\UserVehicleController;
             color: #047404;
         }
 
-        .vehicle-class{
+        .vehicle-class {
             background-color: grey;
             display: flex;
             justify-content: space-around;
@@ -45,7 +45,29 @@ use App\Http\Controllers\UserVehicleController;
 
 <body>
     @foreach ($userVehicles as $vehicle)
+        @php
+        $communities = UserVehicleController::getCurrentUserVehicleCommunity($vehicle->userVehicleId)
+        @endphp
+        @foreach ($communities as $community)
+            <p><a
+                    href="{{ url('my-vehicles/' . $vehicle->vehicleBrand . '/' . $vehicle->userVehicleId . '/community/' . $community->communityName . '/' . $community->communityId) }}">{{ $community->communityName }}</a>
+            <form method="POST" action="{{ route('vehicle.community.unjoin') }}">
+                @csrf
+                <input type="hidden" value="{{ $vehicle->userVehicleId }}" name="userVehicleId" />
+                <input type="hidden" value="{{ $community->communityName }}" name="communityName" />
+                <input type="hidden" name="communityId" value="{{ $community->communityId }}" />
+                <button class="" type="submit">
+                    @if ($community->verified)
+                        Exit Community
+                    @else
+                        Cancel request
+                    @endif
 
+                </button>
+            </form>
+
+            </p>
+        @endforeach
         <div class="vehicle-class">
             <div class="">
                 <p><b>Vehicle Brand: </b>{{ $vehicle->vehicleBrand }}</p>

@@ -31,18 +31,14 @@ class UserVehicleController extends Controller
 
     public static function getCurrentUserVehicleCommunity($userVehicleId)
     {
-        $communityVehicle=DB::table('community_vehicles')
-        ->select(
-            'communityId',
-        )->where('userVehicleId', '=', $userVehicleId)->first();
-        // dd($communityVehicle->communityId);
-        // return $communityVehicle;
-        $communities =  DB::table('communities')
-        ->select(
-            'communityName',
-            'communityId',
-        )->where('communityId', '=', $communityVehicle->communityId)->get();
-        // dd($communities);
+        $communities = DB::table('community_vehicles')
+            ->join('communities', 'communities.communityId', 'community_vehicles.communityId')
+            ->select(
+                'community_vehicles.communityId',
+                'community_vehicles.verified',
+                'communities.communityName'
+            )
+            ->where('community_vehicles.userVehicleId', '=', $userVehicleId)->get();
         return $communities;
     }
 
@@ -135,7 +131,8 @@ class UserVehicleController extends Controller
 
         $vehicleExistInCommunity = DB::table('community_vehicles')->select(
             'communityVehicleId',
-        )->where('userVehicleId', '=', $request->userVehicleId)->first();
+        )->where('userVehicleId', '=', $request->userVehicleId)
+            ->where('communityId', '=', $request->communityId)->first();
         
         if (!$vehicleExistInCommunity) {
             $communityVehicleId = utf8_encode(Uuid::generate());
@@ -149,7 +146,22 @@ class UserVehicleController extends Controller
             $communityVehicle->save();
             return back()->with('success', 'Request to join'.$community->communityName.' community Successfully sent!');
         } else {
-            return back()->with('error', 'This vehicle is already a part of '.$community->communityName.' community!');
+            return back()->with('error', 'This vehicle is already registered with '.$community->communityName.' community!');
         }
+    }
+
+    public function showCommunity($vehicleBrand, $userVehicleId, $communityName, $communityId)
+    {
+        $ret = array($vehicleBrand, $userVehicleId, $communityName, $communityId);
+        return $ret;
+    }
+
+    public function unjoinCommunity(Request $request)
+    {
+        $communityVehicle = CommunityVehicle::where('userId', '=', Auth::user()->id)
+                            ->where('userVehicleId', '=', $request->userVehicleId)
+                            ->where('communityId', '=', $request->communityId)->firstOrFail();
+        $communityVehicle->delete();
+        return back()->with('success', 'You have successfully unregistered this vehicle from '.$request->communityName);
     }
 }

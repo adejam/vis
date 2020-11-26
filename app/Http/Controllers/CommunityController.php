@@ -111,6 +111,6 @@ class CommunityController extends Controller
             $admin->delete();
         }
         $community->delete();
-        return redirect('/my-community')->with('success', ' successfully created!');
+        return redirect('/my-community')->with('success', ' successfully deleted!');
     }
 }

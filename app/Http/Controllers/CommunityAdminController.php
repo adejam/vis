@@ -85,4 +85,59 @@ class CommunityAdminController extends Controller
             return back()->with('error', ' The main admin of the community cannot be removed!');
         }
     }
+
+    public function verifyUser(Request $request)
+    {
+        return $request;
+    }
+
+    public function vehicleUsers($communityId)
+    {
+        $communityVehicleUsers =  DB::table('community_vehicles')
+            ->join('user_vehicles', 'user_vehicles.userVehicleId', 'community_vehicles.userVehicleId')
+            ->join('users', 'users.id', 'user_vehicles.userId')
+            ->distinct()
+            ->select(
+                'users.name',
+                'users.lastname',
+                'users.username'
+            )->where('communityId', '=', $communityId)
+            ->where('community_vehicles.verified', '=', 1)->get();
+        return view('user.my-community.communityUsers')
+            ->with('communityVehicleUsers', $communityVehicleUsers)
+            ->with('communityId', $communityId);
+    }
+
+    public function usersVehicle($communityId, $username)
+    {
+        $user =  DB::table('users')
+            ->select(
+                'id',
+                'name',
+                'username',
+                'lastname',
+                'profile_photo_path',
+                'user_phone'
+            )->where('username', '=', $username)->first();
+
+        $communityUserVehicles =  DB::table('community_vehicles')
+            ->join('user_vehicles', 'user_vehicles.userVehicleId', 'community_vehicles.userVehicleId')
+            ->select(
+                'community_vehicles.verified',
+                'community_vehicles.communityId',
+                'user_vehicles.userVehicleId',
+                'user_vehicles.vehicleBrand',
+                'user_vehicles.vehicleModel',
+                'user_vehicles.vehicleColor',
+                'user_vehicles.driverLicenseId',
+                'user_vehicles.vehicleRegNum',
+                'user_vehicles.vehicleRegState',
+                'user_vehicles.plateNumber',
+            )->where('community_vehicles.communityId', '=', $communityId)
+            ->where('community_vehicles.userId', '=', $user->id)
+            ->where('community_vehicles.verified', '=', 1)->get();
+        return view('user.my-community.communityVehicles')
+            ->with('communityUserVehicles', $communityUserVehicles)
+            ->with('user', $user);
+    }
 }

@@ -30,6 +30,13 @@
             color: #047404;
         }
 
+        .vehicle-class {
+            background-color: grey;
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 20px;
+        }
+
     </style>
 </head>
 
@@ -91,12 +98,12 @@
             @foreach ($communityAdmins as $admin)
                 <div>
                     <span>{{ $admin->name }} {{ $admin->lastname }} </span>
-                <form method="POST" action="{{route('community.admin.remove')}}">
+                    <form method="POST" action="{{ route('community.admin.remove') }}">
                         @csrf
-            <input type="hidden" name="communityAdminId" value="{{ $admin->communityAdminId }}" />
-                        <button type="submit" >Remove Admin</button>
+                        <input type="hidden" name="communityAdminId" value="{{ $admin->communityAdminId }}" />
+                        <button type="submit">Remove Admin</button>
                     </form>
-                     <button>Edit roles</button>
+                    <button>Edit roles</button>
                 </div>
             @endforeach
 
@@ -205,6 +212,16 @@
             </div>
         </form>
     </div>
+
+    <div>
+        <p><a href="{{ url('my-community/' . $community->communityId . '/vehicle-users') }}">view vehicle users</a></p>
+    </div>
+
+    <div>
+        <p><a href="{{ url('my-community/' . $community->communityId . '/registration-requests') }}">Pending Vehicle
+                registration requests</a></p>
+    </div>
+
 
 </body>
 

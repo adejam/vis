@@ -42,6 +42,10 @@ Route::middleware(['auth:sanctum', 'verified'])->group(
                 Route::get("/{communityId}", [CommunityController::class, 'getMyCommunity'])->name('community.get');
                 Route::post("/add-admin", [CommunityAdminController::class, 'add'])->name('community.admin.add');
                 Route::post("/remove-admin", [CommunityAdminController::class, 'removeAdmin'])->name('community.admin.remove');
+                Route::get("/{communityId}/vehicle-users", [CommunityAdminController::class, 'vehicleUsers'])->name('community.vehicle.users');
+                Route::get("/{communityId}/vehicle-users/{username}", [CommunityAdminController::class, 'usersVehicle'])->name('community.users.vehicle');
+                Route::post("/vehicle/user/remove-vehicle", [CommunityAdminController::class, 'removeUserVehicle'])->name('community.user.remove-vehicle');
+                Route::get("/{communityId}/vehicle-users/registration-requests", [CommunityAdminController::class, 'registrationRequest'])->name('community.registration-requests');
             }
         );
 

@@ -27,6 +27,12 @@
                     :value="old('username')" required autofocus autocomplete="username" />
             </div>
 
+            <div>
+                <x-jet-label for="user_phone" value="{{ __('Phone Number') }}" />
+                <x-jet-input id="user_phone" class="block mt-1 w-full" type="text" name="user_phone"
+                    :value="old('user_phone')" required autofocus autocomplete="user_phone" />
+            </div>
+
             <div class="mt-4">
                 <x-jet-label for="email" value="{{ __('Email') }}" />
                 <x-jet-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')"

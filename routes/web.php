@@ -45,7 +45,9 @@ Route::middleware(['auth:sanctum', 'verified'])->group(
                 Route::get("/{communityId}/vehicle-users", [CommunityAdminController::class, 'vehicleUsers'])->name('community.vehicle.users');
                 Route::get("/{communityId}/vehicle-users/{username}", [CommunityAdminController::class, 'usersVehicle'])->name('community.users.vehicle');
                 Route::post("/vehicle/user/remove-vehicle", [CommunityAdminController::class, 'removeUserVehicle'])->name('community.user.remove-vehicle');
-                Route::get("/{communityId}/vehicle-users/registration-requests", [CommunityAdminController::class, 'registrationRequest'])->name('community.registration-requests');
+                Route::get("/{communityId}/registration-requests", [CommunityAdminController::class, 'registrationRequests'])->name('community.registration-requests');
+                Route::get("/{communityId}/registration-requests/{username}", [CommunityAdminController::class, 'registrationRequestsVehicles'])->name('community.registration-requests.vehicles');
+                Route::post("/vehicle/user/verify-user", [CommunityAdminController::class, 'verifyUser'])->name('community.user.verify-user');
             }
         );
 

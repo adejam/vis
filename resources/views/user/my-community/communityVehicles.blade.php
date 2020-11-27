@@ -42,6 +42,16 @@
 
 <body>
     <div>
+        @if (Session::has('success'))
+        <div class="alert alert-success" role="alert">
+            {{ Session::get('success') }}
+        </div>
+    @endif
+    @if (Session::has('error'))
+        <div class="alert alert-danger" role="alert">
+            {{ Session::get('error') }}
+        </div>
+    @endif
         <h4>Ussers Vehicles</h4>
         <p><b>Name: </b>{{ $user->name }} {{ $user->lastname }}</p>
         <p><b>Phone Number: </b>{{ $user->user_phone }}</p>
@@ -60,8 +70,25 @@
                     @csrf
                     <input type="hidden" value="{{ $vehicle->userVehicleId }}" name="userVehicleId" />
                     <input type="hidden" name="communityId" value="{{ $vehicle->communityId }}" />
-                    <button type="submit" class="alert alert-danger">Remove Vehicle</button>
+                    <button type="submit" class="alert alert-danger">
+                        @if ($vehicle->verified)
+                            Remove Vehicle
+                        @else
+                            Reject request
+                        @endif
+                    </button>
                 </form>
+                @if (!$vehicle->verified)
+                    <form method="POST" action="{{ route('community.user.verify-user') }}">
+                        @csrf
+                        <input type="hidden" value="{{ $vehicle->userVehicleId }}" name="userVehicleId" />
+                        <input type="hidden" name="communityId" value="{{ $vehicle->communityId }}" />
+                        <button type="submit" class="alert alert-success">
+                            Verify User
+                        </button>
+                    </form>
+                @endif
+
             </div>
         @endforeach
     </div>

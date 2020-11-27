@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\CommunityAdmin;
 use App\Models\Community;
+use App\Models\CommunityVehicle;
 use Webpatser\Uuid\Uuid;
 use Auth;
 use DB;
@@ -25,6 +26,41 @@ class CommunityAdminController extends Controller
             ->where('communityId', '=', $communityId)
             ->where('userId', '=', Auth::user()->id)->first();
     }
+
+    public function getUserByUsername($username)
+    {
+        return DB::table('users')
+            ->select(
+                'id',
+                'name',
+                'username',
+                'lastname',
+                'profile_photo_path',
+                'user_phone'
+            )->where('username', '=', $username)->first();
+    }
+
+    public function communityUserVehicles($communityId, $id, $verifyStatus)
+    {
+        return DB::table('community_vehicles')
+            ->join('user_vehicles', 'user_vehicles.userVehicleId', 'community_vehicles.userVehicleId')
+            ->select(
+                'community_vehicles.verified',
+                'community_vehicles.communityId',
+                'user_vehicles.userVehicleId',
+                'user_vehicles.vehicleBrand',
+                'user_vehicles.vehicleModel',
+                'user_vehicles.vehicleColor',
+                'user_vehicles.driverLicenseId',
+                'user_vehicles.vehicleRegNum',
+                'user_vehicles.vehicleRegState',
+                'user_vehicles.plateNumber',
+            )->where('community_vehicles.communityId', '=', $communityId)
+            ->where('community_vehicles.userId', '=', $id)
+            ->where('community_vehicles.verified', '=', $verifyStatus)->get();
+    }
+    
+
     public function add(Request $request)
     {
         $this->validate(
@@ -86,58 +122,115 @@ class CommunityAdminController extends Controller
         }
     }
 
-    public function verifyUser(Request $request)
+    public function communityVehicleUsers($communityId, $verifiedStatus)
     {
-        return $request;
-    }
-
-    public function vehicleUsers($communityId)
-    {
-        $communityVehicleUsers =  DB::table('community_vehicles')
-            ->join('user_vehicles', 'user_vehicles.userVehicleId', 'community_vehicles.userVehicleId')
-            ->join('users', 'users.id', 'user_vehicles.userId')
+        return DB::table('community_vehicles')
+            ->join('users', 'users.id', 'community_vehicles.userId')
             ->distinct()
             ->select(
                 'users.name',
                 'users.lastname',
                 'users.username'
             )->where('communityId', '=', $communityId)
-            ->where('community_vehicles.verified', '=', 1)->get();
-        return view('user.my-community.communityUsers')
-            ->with('communityVehicleUsers', $communityVehicleUsers)
-            ->with('communityId', $communityId);
+            ->where('community_vehicles.verified', '=', $verifiedStatus)->get();
+    }
+
+    public function registrationRequests($communityId)
+    {
+        $adminPriveledges =  $this->getAdminPriv($communityId);
+        if ($adminPriveledges) {
+            $communityVehicleUsers =  $this->communityVehicleUsers($communityId, 0);
+            return view('user.my-community.registrationRequests')
+                ->with('communityVehicleUsers', $communityVehicleUsers)
+                ->with('communityId', $communityId);
+        } else {
+            abort(404);
+        }
+    }
+
+    public function registrationRequestsVehicles($communityId, $username)
+    {
+        $adminPriveledges =  $this->getAdminPriv($communityId);
+        if ($adminPriveledges) {
+            $user =  $this->getUserByUsername($username);
+
+            $communityUserVehicles = $this->communityUserVehicles($communityId, $user->id, 0);
+            if ($communityUserVehicles) {
+                return view('user.my-community.communityVehicles')
+                    ->with('communityUserVehicles', $communityUserVehicles)
+                    ->with('user', $user);
+            } else {
+                return redirect('/my-community/'.$communityId);
+            }
+        } else {
+            abort(404);
+        }
+    }
+
+    public function verifyUser(Request $request)
+    {
+        $adminPriveledges =  $this->getAdminPriv($request->communityId);
+        if ($adminPriveledges) {
+            if ($adminPriveledges->verifyUser) {
+                $communityVehicle = CommunityVehicle::where('userVehicleId', '=', $request->userVehicleId)
+                                  ->where('communityId', '=', $request->communityId)->firstOrFail();
+                $communityVehicle->verified = 1;
+                $communityVehicle->save();
+                return back()->with('success', ' Vehicle has been verified and registered with community!');
+            } else {
+                return back()->with('error', 'You don\'t have the priviledge to verify a user');
+            }
+        } else {
+            abort(404);
+        }
+    }
+
+    public function vehicleUsers($communityId)
+    {
+        $adminPriveledges =  $this->getAdminPriv($communityId);
+        if ($adminPriveledges) {
+            $communityVehicleUsers =  $this->communityVehicleUsers($communityId, 1);
+            return view('user.my-community.communityUsers')
+                ->with('communityVehicleUsers', $communityVehicleUsers)
+                ->with('communityId', $communityId);
+        } else {
+            abort(404);
+        }
     }
 
     public function usersVehicle($communityId, $username)
     {
-        $user =  DB::table('users')
-            ->select(
-                'id',
-                'name',
-                'username',
-                'lastname',
-                'profile_photo_path',
-                'user_phone'
-            )->where('username', '=', $username)->first();
+        $adminPriveledges =  $this->getAdminPriv($communityId);
+        if ($adminPriveledges) {
+            $user =  $this->getUserByUsername($username);
 
-        $communityUserVehicles =  DB::table('community_vehicles')
-            ->join('user_vehicles', 'user_vehicles.userVehicleId', 'community_vehicles.userVehicleId')
-            ->select(
-                'community_vehicles.verified',
-                'community_vehicles.communityId',
-                'user_vehicles.userVehicleId',
-                'user_vehicles.vehicleBrand',
-                'user_vehicles.vehicleModel',
-                'user_vehicles.vehicleColor',
-                'user_vehicles.driverLicenseId',
-                'user_vehicles.vehicleRegNum',
-                'user_vehicles.vehicleRegState',
-                'user_vehicles.plateNumber',
-            )->where('community_vehicles.communityId', '=', $communityId)
-            ->where('community_vehicles.userId', '=', $user->id)
-            ->where('community_vehicles.verified', '=', 1)->get();
-        return view('user.my-community.communityVehicles')
-            ->with('communityUserVehicles', $communityUserVehicles)
-            ->with('user', $user);
+            $communityUserVehicles = $this->communityUserVehicles($communityId, $user->id, 1);
+            if ($communityUserVehicles) {
+                return view('user.my-community.communityVehicles')
+                    ->with('communityUserVehicles', $communityUserVehicles)
+                    ->with('user', $user);
+            } else {
+                return redirect('/my-community/'.$communityId);
+            }
+        } else {
+            abort(404);
+        }
+    }
+
+    public function removeUserVehicle(Request $request)
+    {
+        $adminPriveledges =  $this->getAdminPriv($request->communityId);
+        if ($adminPriveledges) {
+            if ($adminPriveledges->removeUserVehicle) {
+                $communityVehicle = CommunityVehicle::where('userVehicleId', '=', $request->userVehicleId)
+                                  ->where('communityId', '=', $request->communityId)->firstOrFail();
+                $communityVehicle->delete();
+                return back()->with('success', ' Vehicle has been successfully removed!');
+            } else {
+                return back()->with('error', 'You don\'t have the priviledge to remove this vehicle');
+            }
+        } else {
+            abort(404);
+        }
     }
 }

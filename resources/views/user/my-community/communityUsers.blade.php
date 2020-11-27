@@ -42,15 +42,7 @@
 
 <body>
     <div>
-        @foreach ($communityVehicleUsers as $user)
-            <div class="vehicle-class">
-                <div class="">
-                    <p><b>Name: </b>{{ $user->name }} {{ $user->lastname }} @_{{ $user->username }}</p>
-                    <a href="{{ url('my-community/' . $communityId . '/vehicle-users/' . $user->username) }}">view
-                    </a>
-                </div>
-            </div>
-        @endforeach
+        <x-community-vehicle-users type="comUsers" :communityVehicleUsers="$communityVehicleUsers" :communityId="$communityId" />
     </div>
 
 

@@ -40,7 +40,13 @@ class CommunityController extends Controller
                 'userId',
                 'username',
                 'name',
-                'lastname'
+                'lastname',
+                'verifyUser',
+                'removeUserVehicle',
+                'addAdmin',
+                'identifyVehicleUser',
+                'editAdminRoles',
+                'removeAdmin'
             )->where('communityId', '=', $communityId)->get();
         return view('user.my-community.getMyCommunity')
             ->with('community', $community)

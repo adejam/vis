@@ -103,7 +103,107 @@
                         <input type="hidden" name="communityAdminId" value="{{ $admin->communityAdminId }}" />
                         <button type="submit">Remove Admin</button>
                     </form>
-                    <button>Edit roles</button>
+                    <form method="POST" action="{{ route('community.admin.update') }}">
+                        @csrf
+                        <input type="hidden" name="communityAdminId" value="{{ $admin->communityAdminId }}" />
+                        <input type="hidden" name="username" value="{{ $admin->username }}" />
+                        <div class="col-span-6 sm:col-span-4">
+                            <label class="form-check-label">
+                                @if ($admin->verifyUser)
+                                    <input type="checkbox" name="verifyUser" checked />
+                                @else
+                                    <input type="checkbox" name="verifyUser" />
+                                @endif
+
+                                verify user role
+                            </label>
+                            @if ($errors->has('verifyUser'))
+                                <span class="help-block alert alert-danger" role="alert">
+                                    <strong>{{ $errors->first('verifyUser') }}</strong>
+                                </span>
+                            @endif
+                        </div>
+
+                        <div class="col-span-6 sm:col-span-4">
+                            <label class="form-check-label">
+                                @if ($admin->removeUserVehicle)
+                                    <input type="checkbox" name="removeUserVehicle" checked />
+                                @else
+                                    <input type="checkbox" name="removeUserVehicle" />
+                                @endif
+                                remove user vehicle role
+                            </label>
+                            @if ($errors->has('removeUserVehicle'))
+                                <span class="help-block alert alert-danger" role="alert">
+                                    <strong>{{ $errors->first('removeUserVehicle') }}</strong>
+                                </span>
+                            @endif
+                        </div>
+                        <div class="col-span-6 sm:col-span-4">
+                            <label class="form-check-label">
+                                @if ($admin->removeAdmin)
+                                    <input type="checkbox" name="removeAdmin" checked />
+                                @else
+                                    <input type="checkbox" name="removeAdmin" />
+                                @endif
+                                remove admin role
+                            </label>
+                            @if ($errors->has('removeAdmin'))
+                                <span class="help-block alert alert-danger" role="alert">
+                                    <strong>{{ $errors->first('removeAdmin') }}</strong>
+                                </span>
+                            @endif
+                        </div>
+                        <div class="col-span-6 sm:col-span-4">
+                            <label class="form-check-label">
+                                @if ($admin->addAdmin)
+                                    <input type="checkbox" name="addAdmin" checked />
+                                @else
+                                    <input type="checkbox" name="addAdmin" />
+                                @endif
+                                Add admin role
+                            </label>
+                            @if ($errors->has('addAdmin'))
+                                <span class="help-block alert alert-danger" role="alert">
+                                    <strong>{{ $errors->first('addAdmin') }}</strong>
+                                </span>
+                            @endif
+                        </div>
+                        <div class="col-span-6 sm:col-span-4">
+                            <label class="form-check-label">
+                                @if ($admin->editAdminRoles)
+                                    <input type="checkbox" name="editAdminRoles" checked />
+                                @else
+                                    <input type="checkbox" name="editAdminRoles" />
+                                @endif
+                                edit admin roles role
+                            </label>
+                            @if ($errors->has('editAdminRoles'))
+                                <span class="help-block alert alert-danger" role="alert">
+                                    <strong>{{ $errors->first('editAdminRoles') }}</strong>
+                                </span>
+                            @endif
+                        </div>
+                        <div class="col-span-6 sm:col-span-4">
+                            <label class="form-check-label">
+                                @if ($admin->identifyVehicleUser)
+                                    <input type="checkbox" name="identifyVehicleUser" checked />
+                                @else
+                                    <input type="checkbox" name="identifyVehicleUser" />
+                                @endif
+                                identify admin roles role
+                            </label>
+                            @if ($errors->has('identifyVehicleUser'))
+                                <span class="help-block alert alert-danger" role="alert">
+                                    <strong>{{ $errors->first('identifyVehicleUser') }}</strong>
+                                </span>
+                            @endif
+                        </div>
+
+                        <div class="flex items-center justify-end mt-4">
+                            <button type="submit">Edit Roles</button>
+                        </div>
+                    </form>
                 </div>
             @endforeach
 
@@ -154,7 +254,7 @@
             <div class="col-span-6 sm:col-span-4">
                 <label class="form-check-label">
                     <input type="checkbox" name="removeUserVehicle" />
-                    edit user vehicle role
+                    remove user vehicle role
                 </label>
                 @if ($errors->has('removeUserVehicle'))
                     <span class="help-block alert alert-danger" role="alert">
@@ -165,7 +265,7 @@
             <div class="col-span-6 sm:col-span-4">
                 <label class="form-check-label">
                     <input type="checkbox" name="removeAdmin" />
-                    remove user role
+                    remove admin role
                 </label>
                 @if ($errors->has('removeAdmin'))
                     <span class="help-block alert alert-danger" role="alert">
@@ -187,7 +287,7 @@
             <div class="col-span-6 sm:col-span-4">
                 <label class="form-check-label">
                     <input type="checkbox" name="editAdminRoles" />
-                    Add admin roles role
+                    edit admin roles role
                 </label>
                 @if ($errors->has('editAdminRoles'))
                     <span class="help-block alert alert-danger" role="alert">
@@ -198,7 +298,7 @@
             <div class="col-span-6 sm:col-span-4">
                 <label class="form-check-label">
                     <input type="checkbox" name="identifyVehicleUser" />
-                    Add admin roles role
+                    identify vehicle user
                 </label>
                 @if ($errors->has('identifyVehicleUser'))
                     <span class="help-block alert alert-danger" role="alert">

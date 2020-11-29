@@ -104,6 +104,34 @@ class CommunityAdminController extends Controller
         }
     }
 
+    public function updateAdmin(Request $request)
+    {
+        $communityAdminId = $request->communityAdminId ? $request->communityAdminId : $communityAdminId;
+        $communityAdmin = CommunityAdmin::where('communityAdminId', '=', $communityAdminId)->firstOrFail();
+        $community = Community::where('communityId', '=', $communityAdmin->communityId)->firstOrFail();
+        $adminPriveledges =  $this->getAdminPriv($communityAdmin->communityId);
+        if ($community->userId != $communityAdmin->userId) {
+            if ($adminPriveledges->editAdminRoles === 1) {
+                if ($community->userId != $communityAdmin->userId) {
+                    $communityAdmin->verifyUser = $request->verifyUser ? 1 : 0;
+                    $communityAdmin->removeUserVehicle = $request->removeUserVehicle ? 1 : 0;
+                    $communityAdmin->removeAdmin = $request->removeAdmin ? 1 : 0;
+                    $communityAdmin->addAdmin = $request->addAdmin ? 1 : 0;
+                    $communityAdmin->editAdminRoles = $request->editAdminRoles  ? 1 : 0;
+                    $communityAdmin->identifyVehicleUser = $request->identifyVehicleUser  ? 1 : 0;
+                    $communityAdmin->save();
+                    return back()->with('success', 'You have successfully updated the role of '.$request->username);
+                } else {
+                    return back()->with('error', 'You cannot edit your roles');
+                }
+            } else {
+                return back()->with('error', 'You don\'t have the priviledge to edit admin roles');
+            }
+        } else {
+            return back()->with('error', ' The role of the main admin cannot change!');
+        }
+    }
+
     public function removeAdmin(Request $request, $communityAdminId=null)
     {
         $communityAdminId = $request->communityAdminId ? $request->communityAdminId : $communityAdminId;
@@ -113,7 +141,11 @@ class CommunityAdminController extends Controller
         if ($community->userId != $communityAdmin->userId) {
             if ($adminPriveledges->removeAdmin === 1) {
                 $communityAdmin->delete();
-                return back()->with('success', ' Admin successfully removed!');
+                if ($community->userId != $communityAdmin->userId) {
+                    return redirect('/my-community/')->with('success', ' you have successfully removed yourself as an admin of'.$community->communityName.'!');
+                } else {
+                    return back()->with('success', ' Admin successfully removed!');
+                }
             } else {
                 return back()->with('error', 'You don\'t have the priviledge to remove an admin');
             }

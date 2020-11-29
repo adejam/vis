@@ -42,6 +42,25 @@
 
 <body>
     <div>
+        <h3>Identify vehice</h3>
+        <form method="GET" action="{{ url('my-community/' . $community->communityId . '/identify-vehicle-user') }}">
+            @csrf
+            <input type="hidden" name="communityId" value={{ $community->communityId }} />
+            <div class="col-span-6 sm:col-span-4">
+                <input type="text" name="plateNumber" />
+                @if ($errors->has('plateNumber'))
+                    <span class="help-block alert alert-danger" role="alert">
+                        <strong>{{ $errors->first('plateNumber') }}</strong>
+                    </span>
+                @endif
+            </div>
+
+            <div class="flex items-center justify-end mt-4">
+                <button type="submit">Identify User</button>
+            </div>
+        </form>
+    </div>
+    <div>
         <h4>Update</h4>
         @if (Session::has('success'))
             <div class="alert alert-success" role="alert">

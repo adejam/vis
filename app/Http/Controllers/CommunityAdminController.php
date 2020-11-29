@@ -265,4 +265,41 @@ class CommunityAdminController extends Controller
             abort(404);
         }
     }
+
+    public function identifyVehicleUser(Request $request)
+    {
+        $adminPriveledges =  $this->getAdminPriv($request->communityId);
+        if ($adminPriveledges) {
+            if ($adminPriveledges->identifyVehicleUser) {
+                $user = DB::table('community_vehicles')
+                    ->join('user_vehicles', 'user_vehicles.userVehicleId', 'community_vehicles.userVehicleId')
+                    ->join('users', 'users.id', 'user_vehicles.userId')
+                    ->select(
+                        'community_vehicles.communityId',
+                        'community_vehicles.locationInCommunity',
+                        'user_vehicles.userVehicleId',
+                        'user_vehicles.vehicleBrand',
+                        'user_vehicles.vehicleModel',
+                        'user_vehicles.vehicleColor',
+                        'user_vehicles.driverLicenseId',
+                        'user_vehicles.vehicleRegNum',
+                        'user_vehicles.vehicleRegState',
+                        'user_vehicles.plateNumber',
+                        'users.name',
+                        'users.username',
+                        'users.lastname',
+                        'users.profile_photo_path',
+                        'users.user_phone'
+                    )->where('community_vehicles.communityId', '=', $request->communityId)
+                    ->where('user_vehicles.plateNumber', '=', $request->plateNumber)
+                    ->where('community_vehicles.verified', '=', 1)->first();
+                return view('user.my-community.identifyUser')
+                    ->with('user', $user);
+            } else {
+                return back()->with('error', 'You don\'t have the priviledge to identify this vehicle\'s user');
+            }
+        } else {
+            abort(404);
+        }
+    }
 }

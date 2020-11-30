@@ -16,15 +16,16 @@
         "arrow-parens": "off"
     },
     "ignorePatterns": [
-        "dist/", 
-        "build/", 
-        "vendor/", 
+        "dist/",
+        "build/",
+        "vendor/",
         "resources/js/bootstrap.js",
-        "webpack.mix.js", 
-        "public/css/app.css", 
+        "webpack.mix.js",
+        "public/css/app.css",
         "public/js/app.js",
         "resources/js/app.js",
         "resources/css/app.css",
-        "tailwind.config.js"
+        "tailwind.config.js",
+        "node_modules/**"
     ]
 }

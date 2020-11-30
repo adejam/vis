@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use App\Models\Community;
 use App\Models\CommunityAdmin;
+use App\Models\CommunityVehicle;
 use Webpatser\Uuid\Uuid;
 use Auth;
 use DB;
@@ -27,7 +28,7 @@ class CommunityController extends Controller
     {
         $community =  DB::table('communities')->select(
             'userId',
-            'communityId',
+            'communityId', 
             'communityName',
             'communityLocation',
             'aboutCommunity'
@@ -113,8 +114,12 @@ class CommunityController extends Controller
         $communityId = $request->communityId ? $request->communityId : $id;
         $community = Community::where('communityId', '=', $communityId)->firstOrFail();
         $communityAdmins = CommunityAdmin::where('communityId', '=', $communityId)->get();
+        $communityVehicles = CommunityVehicle::where('communityId', '=', $communityId)->get();
         foreach ($communityAdmins as $admin) {
             $admin->delete();
+        }
+        foreach ($communityVehicles as $vehicle) {
+            $vehicle->delete();
         }
         $community->delete();
         return redirect('/my-community')->with('success', ' successfully deleted!');

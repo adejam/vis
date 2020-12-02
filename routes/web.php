@@ -57,6 +57,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(
             ['prefix' => '/my-vehicles'],
             function () {
                 Route::get("/", [UserVehicleController::class, 'index'])->name('vehicles');
+                Route::get("/communities", [CommunityController::class, 'index'])->name('vehicles.communities');
                 Route::post("/vehicle-add", [UserVehicleController::class, 'addVehicle'])->name('vehicle.add');
                 Route::post("/vehicle-update", [UserVehicleController::class, 'updateVehicle'])->name('vehicle.update');
                 Route::post("/vehicle-delete", [UserVehicleController::class, 'deleteVehicle'])->name('vehicle.delete');

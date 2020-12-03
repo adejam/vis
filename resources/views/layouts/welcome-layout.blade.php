@@ -47,9 +47,7 @@
                 {{ $slot }}
             </main>
         </div>
-        <footer>
-            <div>Footer</div>
-        </footer>
+        <x-footer />
         @stack('modals')
 
         @livewireScripts

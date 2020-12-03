@@ -1,0 +1,13 @@
+.socialIcons a {
+  transition: transform 2s ease, color 2s ease;
+  display: inline-block;
+  padding: 5px 10px;
+  margin: 0 2.5px;
+  min-width: 40px;
+  height: 40px;
+  border-radius: 5px;
+}
+
+.socialIcons a:hover {
+  transform: translateY(-15px);
+}

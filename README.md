@@ -99,8 +99,6 @@ Give a ⭐️ if you like this project!
 
 ## Acknowledgments
 
--   [@bolah2009](http://github.com/bolah2009)
-
 -   [Laravel](https://laravel.com/)
 
 ## 📝 License

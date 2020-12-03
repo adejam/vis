@@ -31,9 +31,7 @@
                 {{ $slot }}
             </main>
         </section>
-        <footer class="bg-white">
-            <div>Footer</div>
-        </footer>
+        <x-footer />
     </div>
 
     @stack('modals')

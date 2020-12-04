@@ -1,4 +1,4 @@
-<footer class="flex flex-col pt-3">
+<footer class="flex flex-col pt-3 bg-white">
     <nav class="border-t border-gray-100">
         <ul class="flex p-3 justify-center">
             <li class="mr-2 py-2 px-2  hover:text-primary text-dark"><a href="{{url('/about-us')}}" class=" {{request()->routeIs('about-us') ? 'text-primary' : '' }}">About Us</a>  </li>

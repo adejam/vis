@@ -5,9 +5,6 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-
-    {{-- <title>{{ config('app.name', 'Laravel') }}</title>
-    --}}
     <title>@yield('title') . Communivis</title>
 
     <!-- Fonts -->
@@ -21,8 +18,8 @@
     <script src="{{ mix('js/app.js') }}" defer></script>
 </head>
 
-<body class="font-sans antialiased bg-white no">
-    <div class="min-h-screen bg-white">
+<body class="font-sans antialiased bg-white">
+    <div class="min-h-screen bg-gray-100">
         @livewire('navigation-dropdown')
         <section class="flex w-full">
             <x-side-nav :tabs="sideNavDatas()" />

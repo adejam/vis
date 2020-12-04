@@ -1,4 +1,4 @@
-<nav class="xl:w-3/12  medium:w-4/12 hidden medium:block border-r border-gray-100 px-8 py-2 relative">
+<nav class="bg-white xl:w-3/12  medium:w-4/12 hidden medium:block border-r border-gray-100 px-8 py-2 relative">
     <div class="sticky top-0 mt-6">
         <ul class="w-full ">
             @foreach ($tabs as $tab)

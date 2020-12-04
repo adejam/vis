@@ -21,7 +21,7 @@
 <body class="font-sans antialiased bg-white">
     <div class="min-h-screen bg-gray-100">
         @livewire('navigation-dropdown')
-        <section class="flex w-full">
+        <section class="flex w-full min-h-screen">
             <x-side-nav :tabs="sideNavDatas()" />
 
             <main class="xl:w-9/12 medium:w-8/12">
@@ -29,6 +29,7 @@
             </main>
         </section>
         <x-footer />
+
     </div>
 
     @stack('modals')

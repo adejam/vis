@@ -10,7 +10,7 @@
                         <!-- Logo hidden-->
                         <div class="flex-shrink-0 flex items-center">
                             <a href="{{ url('/') }}">
-                                <x-jet-application-mark class="block h-9 w-auto" />
+                            <img src="{{asset('communivis-logo.png')}}" class="block h-9 w-auto" alt="communivis-logo"/>
                             </a>
                         </div>
                         @if (Route::has('login'))

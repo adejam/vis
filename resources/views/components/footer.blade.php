@@ -26,9 +26,9 @@
                 </span>
               </a>
             </section>
-            <section class="text-base text-center relative w-full md:w-6/12 sm:w-6/12 sm:order-1 px-3 text-white">
+            <section class="text-center relative w-full md:w-6/12 sm:w-6/12 sm:order-1 px-3">
               <h2 class="hidden">by</h2>
-              <p>© 2020. Designed By <a class="text-primary hover:text-lightblue" href="https://adeleye-jamiu.netlify.app/" target="_blank" rel="noopener noreferrer">Adeleye Jamiu</a>.</p>
+              <p class="text-gray-500 text-xs mt-3">© 2020 <a class="text-primary hover:text-lightblue" href="https://adeleye-jamiu.netlify.app/" target="_blank" rel="noopener noreferrer">Adeleye Jamiu</a>.  All rights reserved.</p>
             </section>
           </section>
 </footer>

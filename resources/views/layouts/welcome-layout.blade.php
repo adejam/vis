@@ -18,7 +18,7 @@
         <script src="{{ mix('js/app.js') }}" defer></script>
     </head>
     <body class="font-sans antialiased bg-white">
-        <div class="min-h-screen bg-gray-100">
+        <div class="min-h-screen">
             @livewire('navigation-dropdown')
             <main>
                 {{ $slot }}

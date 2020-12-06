@@ -1,16 +1,20 @@
 <x-app-layout>
     @section('title', 'My-Communities')
         <div class="mx-auto py-10 sm:px-6 lg:px-8">
-
             <x-session-message />
-            @if (count($errors) > 0)
+            @if (count($communities) > 0)
             @foreach ($communities as $community)
                 <div class="p-3 m-3 text-center border-gray-100 border hover:bg-lightblue rounded-full">
-                    <a class="text-lg font-semibold text-primary"
+                    <a class="text-lg font-semibold text-primary w-full inline-block"
                         href="{{ url('my-community/' . $community->communityId) }}">
                         {{ __($community->communityName) }}
+                        @if ($community->userId === Auth::user()->id)
+                         <i class="inline-block py-1 px-2 text-xs font-semibold text-center whitespace-no-wrap align-baseline rounded-full bg-green-400 text-white">Main Admin</i>
+                        @else 
+                        <i class="inline-block py-1 px-2 text-xs font-semibold text-center whitespace-no-wrap align-baseline rounded-full bg-teal-400 text-white">Acting Admin</i>
+                        
+                        @endif
                     </a>
-
                 </div>
             @endforeach
             @else 

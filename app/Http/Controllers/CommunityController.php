@@ -15,12 +15,13 @@ class CommunityController extends Controller
 {
     public function index()
     {
-        $communities =  DB::table('communities')->select(
-            'communityId',
-            'communityName',
-            'communityLocation',
-            'aboutCommunity'
-        )->where('userId', '=', Auth::id())->get();
+        $communities =  DB::table('community_admins')
+            ->join('communities', 'communities.communityId', 'community_admins.communityId')
+            ->select(
+                'communities.communityId',
+                'communities.userId',
+                'communityName',
+            )->where('community_admins.userId', '=', Auth::id())->get();
         return view('user.my-community.myCommunity')->with('communities', $communities);
     }
 
@@ -28,7 +29,7 @@ class CommunityController extends Controller
     {
         $community =  DB::table('communities')->select(
             'userId',
-            'communityId', 
+            'communityId',
             'communityName',
             'communityLocation',
             'aboutCommunity'

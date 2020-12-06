@@ -35,6 +35,9 @@ class CommunityController extends Controller
             'aboutCommunity'
         )->where('userId', '=', Auth::id())
             ->where('communityId', '=', $communityId)->first();
+        if (!$community) {
+            abort(404);
+        }
         $communityAdmins =  DB::table('community_admins')
             ->join('users', 'users.id', 'community_admins.userId')
             ->select(

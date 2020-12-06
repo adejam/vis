@@ -4,7 +4,7 @@
             <x-session-message />
             @if (count($communities) > 0)
             @foreach ($communities as $community)
-                <div class="p-3 m-3 text-center border-gray-100 border hover:bg-lightblue rounded-full">
+                <section class="p-3 m-3 text-center border-gray-100 border hover:bg-lightblue rounded-full">
                     <a class="text-lg font-semibold text-primary w-full inline-block"
                         href="{{ url('my-community/' . $community->communityId) }}">
                         {{ __($community->communityName) }}
@@ -15,21 +15,21 @@
                         
                         @endif
                     </a>
-                </div>
+                </section>
             @endforeach
             @else 
-            <div class="p-3 m-3 text-center border-gray-100 border rounded-full">
+            <section class="p-3 m-3 text-center border-gray-100 border rounded-full">
                 <p class="text-lg font-semibold text-gray=100">
                     You have not created any community
                 </p>
-            </div>
+            </section>
             @endif
-            <div class="hidden sm:block">
+            <section class="hidden sm:block">
                 <div class="py-8">
                     <div class="border-t border-gray-200"></div>
                 </div>
-            </div>
-            <div class="mt-10 sm:mt-0">
+            </section>
+            <section class="mt-10 sm:mt-0">
                 <div class="">
                     <div class="">
                         <div class="px-4 sm:px-0">
@@ -61,7 +61,7 @@
                     </div>
                 </div>
 
-            </div>
+            </section>
 
         </div>
     </x-app-layout>

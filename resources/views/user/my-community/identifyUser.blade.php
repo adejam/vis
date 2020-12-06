@@ -41,7 +41,7 @@
 </head>
 
 <body>
-
+    <x-vehicle-identify-form :communityId="$communityId"/>
     @if ($user)
         <p><b>Name</b>: {{ $user->name }} {{ $user->lastname }}</p>
         <p><b>Phone Number</b>: {{ $user->user_phone }}</p>

@@ -1,4 +1,5 @@
 <x-guest-layout>
+    @section('title', 'Login')
     <x-jet-authentication-card>
         <x-slot name="logo">
             <img src="{{ asset('communivis-logo.png') }}" class="block h-9 w-auto" alt="communivis-logo" />

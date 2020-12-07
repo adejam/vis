@@ -26,13 +26,14 @@
                                     <x-text-area-input
                                         :input="['value' => $community->aboutCommunity, 'name' => 'aboutCommunity', 'title' => 'About Community']" />
                                 </div>
-
+                                @if ($community->userId === Auth::id())
                                 <div class="flex items-center justify-end px-4 py-3 bg-gray-50 text-right sm:px-6">
                                     <button type="submit"
                                         class="inline-flex items-center px-4 py-2 bg-primary border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:shadow-outline-gray disabled:opacity-25 transition ease-in-out duration-150">
                                         Edit
                                     </button>
                                 </div>
+                                @endif
                             </div>
                         </form>
                     </div>
@@ -44,6 +45,7 @@
                     <div class="border-t border-gray-200"></div>
                 </div>
             </section>
+            @if ($community->userId === Auth::id())
             <section class="mt-10">
                 <div class="">
                     <div class="">
@@ -86,9 +88,12 @@
                                 </div>
                             </div>
                         </section>
+                        
                     </div>
+                    
                 </div>
 
             </section>
+            @endif
         </div>
     </x-app-layout>

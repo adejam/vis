@@ -135,6 +135,9 @@ class CommunityController extends Controller
     public function update(Request $request)
     {
         $community = Community::where('communityId', '=', $request->communityId)->firstOrFail();
+        if ($community->userId !== Auth::id()) {
+            return back()->with('error', 'Only the creator of this community can edit the community details!');
+        }
         $this->validate(
             $request,
             [
@@ -155,6 +158,9 @@ class CommunityController extends Controller
     {
         $communityId = $request->communityId ? $request->communityId : $id;
         $community = Community::where('communityId', '=', $communityId)->firstOrFail();
+        if ($community->userId !== Auth::id()) {
+            return back()->with('error', 'Only the creator of this community can edit the community details!');
+        }
         $communityAdmins = CommunityAdmin::where('communityId', '=', $communityId)->get();
         $communityVehicles = CommunityVehicle::where('communityId', '=', $communityId)->get();
         foreach ($communityAdmins as $admin) {

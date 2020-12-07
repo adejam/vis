@@ -21262,11 +21262,18 @@ module.exports = function(module) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _closeAlert__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./closeAlert */ "./resources/js/closeAlert.js");
+/* harmony import */ var _modal__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./modal */ "./resources/js/modal.js");
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 __webpack_require__(/*! alpinejs */ "./node_modules/alpinejs/dist/alpine.js");
 
 
+
+var modalButton = document.querySelector('#modal-button');
+var closeButton = document.querySelector('#close-modal');
+modalButton.addEventListener('click', _modal__WEBPACK_IMPORTED_MODULE_1__["openModal"]);
+closeButton.addEventListener('click', _modal__WEBPACK_IMPORTED_MODULE_1__["closeModal"]);
+window.addEventListener('click', _modal__WEBPACK_IMPORTED_MODULE_1__["windowClickCloseModal"]);
 var sessionSuccessPath = document.querySelector('#sessionSuccessPath');
 var sessionErrorPath = document.querySelector('#sessionErrorPath');
 sessionSuccessPath.addEventListener('click', _closeAlert__WEBPACK_IMPORTED_MODULE_0__["default"]);
@@ -21320,6 +21327,33 @@ var closeAlert = function closeAlert(e) {
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (closeAlert);
+
+/***/ }),
+
+/***/ "./resources/js/modal.js":
+/*!*******************************!*\
+  !*** ./resources/js/modal.js ***!
+  \*******************************/
+/*! exports provided: openModal, closeModal, windowClickCloseModal */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "openModal", function() { return openModal; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "closeModal", function() { return closeModal; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "windowClickCloseModal", function() { return windowClickCloseModal; });
+var modal = document.querySelector('#modal');
+var openModal = function openModal() {
+  modal.style.display = 'block';
+};
+var closeModal = function closeModal() {
+  modal.style.display = 'none';
+};
+var windowClickCloseModal = function windowClickCloseModal(e) {
+  if (e.target === modal) {
+    modal.style.display = 'none';
+  }
+};
 
 /***/ }),
 

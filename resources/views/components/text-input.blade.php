@@ -4,7 +4,7 @@
     </label>
 
     <input class="form-input rounded-md shadow-sm mt-1 block w-full" id="{{ $input['name'] }}" type="text"
-        autocomplete="{{ $input['name'] }}" value="{{ old($input['name']) }}" placeholder="{{ $input['title'] }}"
+        autocomplete="{{ $input['name'] }}" value="{{ $input['value'] ? $input['value'] : old($input['name']) }}" placeholder="{{ $input['title'] }}"
         name="{{ $input['name'] }}" />
 
 

@@ -3,6 +3,9 @@
         <div class="mx-auto py-10 sm:px-6 lg:px-8">
             <x-session-message />
             <x-community-nav :communityId="$community->communityId" :communityName="$community->communityName" />
+                <div class="p-3 mb-5 border-gray-100">
+                    <h3 class="text-center font-bold text-3xl">Identify vehicle User </h3>
+                </div>
             <x-vehicle-identify-form :communityId="$community->communityId" />
 
             <section class="p-3 mb-3 mx-3 mt-10 text-center border-gray-100 border hover:bg-lightblue rounded-full">

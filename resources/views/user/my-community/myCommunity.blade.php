@@ -29,7 +29,7 @@
                     <div class="border-t border-gray-200"></div>
                 </div>
             </section>
-            <section class="mt-10 sm:mt-0">
+            <section class="mt-10">
                 <div class="">
                     <div class="">
                         <div class="px-4 sm:px-0">
@@ -44,9 +44,9 @@
                             <div class="overflow-hidden sm:rounded-md">
                                 <div class="px-4 py-5 bg-white sm:p-6">
                                     
-                                        <x-text-input :input="['name' => 'communityName', 'title' => 'Community Name']" />
-                                        <x-text-input :input="['name' => 'communityLocation', 'title' => 'Community Location']" />
-                                        <x-text-area-input :input="['name' => 'aboutCommunity', 'title' => 'About Community']" />  
+                                        <x-text-input :input="['value' => null, 'name' => 'communityName', 'title' => 'Community Name']" />
+                                        <x-text-input :input="['value' => null, 'name' => 'communityLocation', 'title' => 'Community Location']" />
+                                        <x-text-area-input :input="['value' => null, 'name' => 'aboutCommunity', 'title' => 'About Community']" />  
                                     
                                 </div>
 

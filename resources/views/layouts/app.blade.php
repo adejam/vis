@@ -26,7 +26,12 @@
 
             <main class="xl:w-9/12 medium:w-8/12 w-full md:flex">
                 <div class="md:w-2/3 mx-auto medium:border-r border-gray-100">
-                 {{ $slot }}
+                    <div id="alert-div">
+                        <x-session-message />
+                    </div>
+                    <div class="mx-auto py-5 sm:px-6 lg:px-8">
+                      {{ $slot }}
+                    </div>
                 </div>
                 <div class="hidden medium:block medium:w-1/3">
 

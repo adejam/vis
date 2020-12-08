@@ -1,5 +1,7 @@
 const closeAlert = (e) => {
-  e.target.parentElement.parentElement.parentElement.classList.add('hidden');
+  if (e.target.classList.contains('close-alert')) {
+    e.target.parentElement.classList.add('hidden');
+  }
 };
 
 export default closeAlert;

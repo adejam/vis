@@ -1,7 +1,5 @@
 <x-app-layout>
     @section('title', $community->communityName)
-        <x-session-message />
-        <div class="mx-auto py-10 sm:px-6 lg:px-8">
             <x-community-nav :communityId="$community->communityId" :communityName="$community->communityName" />
 
             <section class="mt-10">
@@ -95,5 +93,4 @@
 
             </section>
             @endif
-        </div>
     </x-app-layout>

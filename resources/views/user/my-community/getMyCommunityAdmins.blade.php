@@ -1,8 +1,6 @@
 <x-app-layout>
     @section('title', $community->communityName)
-        <div class="mx-auto py-10 sm:px-6 lg:px-8">
             <x-community-nav :communityId="$community->communityId" :communityName="$community->communityName" />
-            <x-session-message />
             <div>
                 <div>
                     <h3>Admins</h3>
@@ -223,5 +221,4 @@
                     </div>
                 </form>
             </div>
-        </div>
     </x-app-layout>

@@ -1,7 +1,5 @@
 <x-app-layout>
     @section('title', 'My-Communities')
-        <div class="mx-auto py-10 sm:px-6 lg:px-8">
-            <x-session-message />
             @if (count($communities) > 0)
             @foreach ($communities as $community)
                 <section class="p-3 m-3 text-center border-gray-100 border hover:bg-lightblue rounded-full">
@@ -62,6 +60,4 @@
                 </div>
 
             </section>
-
-        </div>
     </x-app-layout>

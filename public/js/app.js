@@ -21271,13 +21271,19 @@ __webpack_require__(/*! alpinejs */ "./node_modules/alpinejs/dist/alpine.js");
 
 var modalButton = document.querySelector('#modal-button');
 var closeButton = document.querySelector('#close-modal');
-modalButton.addEventListener('click', _modal__WEBPACK_IMPORTED_MODULE_1__["openModal"]);
-closeButton.addEventListener('click', _modal__WEBPACK_IMPORTED_MODULE_1__["closeModal"]);
+
+if (modalButton) {
+  modalButton.addEventListener('click', _modal__WEBPACK_IMPORTED_MODULE_1__["openModal"]);
+}
+
+if (closeButton) {
+  closeButton.addEventListener('click', _modal__WEBPACK_IMPORTED_MODULE_1__["closeModal"]);
+}
+
 window.addEventListener('click', _modal__WEBPACK_IMPORTED_MODULE_1__["windowClickCloseModal"]);
-var sessionSuccessPath = document.querySelector('#sessionSuccessPath');
-var sessionErrorPath = document.querySelector('#sessionErrorPath');
-sessionSuccessPath.addEventListener('click', _closeAlert__WEBPACK_IMPORTED_MODULE_0__["default"]);
-sessionErrorPath.addEventListener('click', _closeAlert__WEBPACK_IMPORTED_MODULE_0__["default"]);
+var alertDiv = document.querySelector('#alert-div'); // const sessionErrorPath = document.querySelector('#sessionErrorPath');
+
+alertDiv.addEventListener('click', _closeAlert__WEBPACK_IMPORTED_MODULE_0__["default"]); // sessionErrorPath.addEventListener('click', closeAlert);
 
 /***/ }),
 
@@ -21323,7 +21329,9 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 var closeAlert = function closeAlert(e) {
-  e.target.parentElement.parentElement.parentElement.classList.add('hidden');
+  if (e.target.classList.contains('close-alert')) {
+    e.target.parentElement.classList.add('hidden');
+  }
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (closeAlert);

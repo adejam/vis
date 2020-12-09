@@ -134,7 +134,6 @@ class CommunityAdminController extends Controller
 
     public function removeAdmin(Request $request, $communityAdminId=null)
     {
-        // return $request;
         $communityAdminId = $request->communityAdminId ? $request->communityAdminId : $communityAdminId;
         $communityAdmin = CommunityAdmin::where('communityAdminId', '=', $communityAdminId)->firstOrFail();
         $community = Community::where('communityId', '=', $communityAdmin->communityId)->firstOrFail();

@@ -1,4 +1,3 @@
-const modal = document.querySelector('#modal');
 export const openModal = ({ currentTarget }) => {
   const {
     dataset: { target },
@@ -17,12 +16,8 @@ export const closeModal = ({ currentTarget }) => {
   modal.style.display = 'none';
 };
 
-export const windowClickCloseModal = (e) => {
-  if (e.target === modal) {
-    modal.style.display = 'none';
+export const windowClickCloseModal = ({ target }) => {
+  if (target.classList.contains('modal')) {
+    target.style.display = 'none';
   }
 };
-
-// export const closeModal = e => {
-
-// };

@@ -55,17 +55,17 @@
 
                     <div class="mt-5 md:mt-0">
                         <div class="flex items-center justify-end px-4 py-3 bg-gray-50 text-right sm:px-6">
-                            <button type="button" id="modal-button"
-                                class="inline-flex items-center px-4 py-2 bg-red-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:shadow-outline-gray disabled:opacity-25 transition ease-in-out duration-150">
+                            <button type="button" data-target="delete-community-modal"
+                                class="open-modal-button inline-flex items-center px-4 py-2 bg-red-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:shadow-outline-gray disabled:opacity-25 transition ease-in-out duration-150">
                                 Delete Community
                             </button>
                         </div>
-                        <section id="modal" class="modal">
+                        <section id="delete-community-modal" class="modal">
                             <div class="modal-content md:max-w-md">
                                 <header class="modal-header">
                                     <h5 class="modal-title">Delete Community</h5>
-                                    <button type="button" id="close-modal" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
+                                    <button type="button" id="close-modal" class="close-modal-button" data-dismiss="delete-community-modal" aria-label="Close">
+                                        <span aria-hidden="true">X</span>
                                     </button>
                                 </header>
                                 <article class="modal-body">

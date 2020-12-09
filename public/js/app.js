@@ -21353,7 +21353,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "openModal", function() { return openModal; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "closeModal", function() { return closeModal; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "windowClickCloseModal", function() { return windowClickCloseModal; });
-var modal = document.querySelector('#modal');
 var openModal = function openModal(_ref) {
   var currentTarget = _ref.currentTarget;
   var target = currentTarget.dataset.target;
@@ -21368,12 +21367,13 @@ var closeModal = function closeModal(_ref2) {
   var modal = document.querySelector("#".concat(targetId));
   modal.style.display = 'none';
 };
-var windowClickCloseModal = function windowClickCloseModal(e) {
-  if (e.target === modal) {
-    modal.style.display = 'none';
+var windowClickCloseModal = function windowClickCloseModal(_ref3) {
+  var target = _ref3.target;
+
+  if (target.classList.contains('modal')) {
+    target.style.display = 'none';
   }
-}; // export const closeModal = e => {
-// };
+};
 
 /***/ }),
 

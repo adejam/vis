@@ -25,15 +25,15 @@
                                     class="inline-flex items-center mr-4 px-4 py-2 bg-teal-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:shadow-outline-gray disabled:opacity-25 transition ease-in-out duration-150">
                                     Edit
                                 </button>
-                                <button type="button" id="modal-button" data-target="admin-modal-{{$admin->communityAdminId}}"
+                                <button type="button" data-target="delete-admin-modal-{{$admin->communityAdminId}}"
                                     class="open-modal-button inline-flex items-center px-4 py-2 bg-red-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:shadow-outline-gray disabled:opacity-25 transition ease-in-out duration-150">
                                     Remove
                                 </button>
-                                <section id="admin-modal-{{$admin->communityAdminId}}" class="modal">
+                                <section id="delete-admin-modal-{{$admin->communityAdminId}}" class="modal">
                                     <div class="modal-content md:max-w-md">
                                         <header class="modal-header">
                                         <h5 class="modal-title">Delete {{$admin->name}} {{$admin->lastname}}</h5>
-                                            <button type="button" class="close-modal-button focus:outline-none" data-dismiss="admin-modal-{{$admin->communityAdminId}}" aria-label="Close">
+                                            <button type="button" class="close-modal-button focus:outline-none" data-dismiss="delete-admin-modal-{{$admin->communityAdminId}}" aria-label="Close">
                                                 <span aria-hidden="true">X</span>
                                             </button>
                                         </header>
@@ -45,7 +45,7 @@
                                         <div class="modal-footer">
                                             <form method="POST" action="{{ route('community.admin.remove') }}">
                                                 @csrf
-                                                <input type="hidden" name="communityId" value={{ $community->communityId }} />
+                                                <input type="hidden" name="communityAdminId" value={{ $admin->communityAdminId }} />
                                                 <button type="submit"
                                                     class="inline-flex items-center px-4 py-2 bg-red-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:shadow-outline-gray disabled:opacity-25 transition ease-in-out duration-150">
                                                     Delete Admin

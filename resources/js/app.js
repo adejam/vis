@@ -2,19 +2,22 @@ require('./bootstrap');
 
 require('alpinejs');
 import closeAlert from './closeAlert';
-import {openModal, closeModal, windowClickCloseModal} from './modal';
+import { openModal, closeModal, windowClickCloseModal } from './modal';
 
-const modalButton = document.querySelector('#modal-button');
-const closeButton = document.querySelector('#close-modal');
+const openModalButton = document.querySelectorAll('.open-modal-button');
+const closeModalButton = document.querySelectorAll('.close-modal-button');
 
-if (modalButton) {
-    modalButton.addEventListener('click', openModal);
+if (openModalButton) {
+  openModalButton.forEach((btn) => {
+    btn.addEventListener('click', openModal);
+  });
 }
 
-if (closeButton) {
-    closeButton.addEventListener('click', closeModal);
+if (closeModalButton) {
+  closeModalButton.forEach((btn) => {
+    btn.addEventListener('click', closeModal);
+  });
 }
-
 
 window.addEventListener('click', windowClickCloseModal);
 

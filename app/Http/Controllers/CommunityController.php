@@ -70,6 +70,7 @@ class CommunityController extends Controller
                 'communities.communityId',
                 'communityName',
                 'communityLocation',
+                'addAdmin',
                 'aboutCommunity'
             )->where('community_admins.userId', '=', Auth::id())
             ->where('community_admins.communityId', '=', $communityId)->first();
@@ -84,6 +85,8 @@ class CommunityController extends Controller
                 'username',
                 'name',
                 'lastname',
+                'user_phone',
+                'profile_photo_path',
                 'verifyUser',
                 'removeUserVehicle',
                 'addAdmin',

@@ -21269,21 +21269,24 @@ __webpack_require__(/*! alpinejs */ "./node_modules/alpinejs/dist/alpine.js");
 
 
 
-var modalButton = document.querySelector('#modal-button');
-var closeButton = document.querySelector('#close-modal');
+var openModalButton = document.querySelectorAll('.open-modal-button');
+var closeModalButton = document.querySelectorAll('.close-modal-button');
 
-if (modalButton) {
-  modalButton.addEventListener('click', _modal__WEBPACK_IMPORTED_MODULE_1__["openModal"]);
+if (openModalButton) {
+  openModalButton.forEach(function (btn) {
+    btn.addEventListener('click', _modal__WEBPACK_IMPORTED_MODULE_1__["openModal"]);
+  });
 }
 
-if (closeButton) {
-  closeButton.addEventListener('click', _modal__WEBPACK_IMPORTED_MODULE_1__["closeModal"]);
+if (closeModalButton) {
+  closeModalButton.forEach(function (btn) {
+    btn.addEventListener('click', _modal__WEBPACK_IMPORTED_MODULE_1__["closeModal"]);
+  });
 }
 
 window.addEventListener('click', _modal__WEBPACK_IMPORTED_MODULE_1__["windowClickCloseModal"]);
-var alertDiv = document.querySelector('#alert-div'); // const sessionErrorPath = document.querySelector('#sessionErrorPath');
-
-alertDiv.addEventListener('click', _closeAlert__WEBPACK_IMPORTED_MODULE_0__["default"]); // sessionErrorPath.addEventListener('click', closeAlert);
+var alertDiv = document.querySelector('#alert-div');
+alertDiv.addEventListener('click', _closeAlert__WEBPACK_IMPORTED_MODULE_0__["default"]);
 
 /***/ }),
 
@@ -21351,17 +21354,26 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "closeModal", function() { return closeModal; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "windowClickCloseModal", function() { return windowClickCloseModal; });
 var modal = document.querySelector('#modal');
-var openModal = function openModal() {
+var openModal = function openModal(_ref) {
+  var currentTarget = _ref.currentTarget;
+  var target = currentTarget.dataset.target;
+  var targetId = target;
+  var modal = document.querySelector("#".concat(targetId));
   modal.style.display = 'block';
 };
-var closeModal = function closeModal() {
+var closeModal = function closeModal(_ref2) {
+  var currentTarget = _ref2.currentTarget;
+  var dismiss = currentTarget.dataset.dismiss;
+  var targetId = dismiss;
+  var modal = document.querySelector("#".concat(targetId));
   modal.style.display = 'none';
 };
 var windowClickCloseModal = function windowClickCloseModal(e) {
   if (e.target === modal) {
     modal.style.display = 'none';
   }
-};
+}; // export const closeModal = e => {
+// };
 
 /***/ }),
 

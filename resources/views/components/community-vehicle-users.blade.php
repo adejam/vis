@@ -39,10 +39,6 @@
                             </div>
                         </div>
                     </a>
-                    {{-- @else
-                    <a
-                        href="{{ url('my-community/' . $communityId . '/registration-requests/' . $user->username) }}">view</a> --}}
-                {{-- @endif --}}
                         </div>
                     </div>
                 </div>

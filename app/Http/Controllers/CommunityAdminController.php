@@ -235,12 +235,17 @@ class CommunityAdminController extends Controller
 
     public function vehicleUsers($communityId)
     {
+        $community = DB::table('communities')
+            ->select('communityName')
+            ->where('communityId', '=', $communityId)
+            ->first();
         $adminPriveledges =  $this->getAdminPriv($communityId);
         if ($adminPriveledges) {
             $communityVehicleUsers =  $this->communityVehicleUsers($communityId, 1);
             return view('user.my-community.communityUsers')
                 ->with('communityVehicleUsers', $communityVehicleUsers)
-                ->with('communityId', $communityId);
+                ->with('communityId', $communityId)
+                ->with('communityName', $community->communityName);
         } else {
             abort(404);
         }

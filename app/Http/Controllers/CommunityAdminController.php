@@ -164,21 +164,33 @@ class CommunityAdminController extends Controller
             ->join('users', 'users.id', 'community_vehicles.userId')
             ->distinct()
             ->select(
+                'userId',
                 'users.name',
                 'users.lastname',
-                'users.username'
+                'users.username',
+                'user_phone',
+                'profile_photo_path',
             )->where('communityId', '=', $communityId)
             ->where('community_vehicles.verified', '=', $verifiedStatus)->get();
     }
 
     public function registrationRequests($communityId)
     {
+        $community = DB::table('communities')
+            ->select('communityName')
+            ->where('communityId', '=', $communityId)
+            ->first();
         $adminPriveledges =  $this->getAdminPriv($communityId);
         if ($adminPriveledges) {
-            $communityVehicleUsers =  $this->communityVehicleUsers($communityId, 0);
-            return view('user.my-community.registrationRequests')
-                ->with('communityVehicleUsers', $communityVehicleUsers)
-                ->with('communityId', $communityId);
+            if ($adminPriveledges->verifyUser) {
+                $communityVehicleUsers =  $this->communityVehicleUsers($communityId, 0);
+                return view('user.my-community.registrationRequests')
+                    ->with('communityVehicleUsers', $communityVehicleUsers)
+                    ->with('communityId', $communityId)
+                    ->with('communityName', $community->communityName);
+            } else {
+                return back()->with('error', 'You do not have the priviledge to verify users');
+            }
         } else {
             abort(404);
         }

@@ -66,25 +66,28 @@ class CommunityAdminController extends Controller
         $this->validate(
             $request,
             [
-            'id' => ['required', 'digits_between:1,10'],
             'username' => ['required', 'string', 'max:255'],
             ]
         );
+        $user = DB::table('users')
+            ->select('id')
+            ->where('username', '=', $request->username)
+            ->first();
         $userAlreadyAnAdmin =  DB::table('community_admins')
             ->select('communityAdminId')
             ->where('communityId', '=', $request->communityId)
-            ->where('userId', '=', $request->id)->first();
+            ->where('userId', '=', $user->id)->first();
 
         $adminPriveledges =  $this->getAdminPriv($request->communityId);
             
-        if ($request->id != Auth::user()->id) {
+        if ($user->id != Auth::user()->id) {
             if (!$userAlreadyAnAdmin) {
                 if ($adminPriveledges->addAdmin === 1) {
                     $communityAdminId = utf8_encode(Uuid::generate());
                     $communityAdmin = new CommunityAdmin;
                     $communityAdmin->communityAdminId = $communityAdminId;
                     $communityAdmin->communityId = $request->communityId;
-                    $communityAdmin->userId = $request->id;
+                    $communityAdmin->userId = $user->id;
                     $communityAdmin->verifyUser = $request->verifyUser ? 1 : 0;
                     $communityAdmin->removeUserVehicle = $request->removeUserVehicle ? 1 : 0;
                     $communityAdmin->removeAdmin = $request->removeAdmin ? 1 : 0;
@@ -112,7 +115,7 @@ class CommunityAdminController extends Controller
         $adminPriveledges =  $this->getAdminPriv($communityAdmin->communityId);
         if ($community->userId != $communityAdmin->userId) {
             if ($adminPriveledges->editAdminRoles === 1) {
-                if ($community->userId != $communityAdmin->userId) {
+                if ($community->userId != $communityAdmin->userId && $communityAdmin->userId !== Auth::id()) {
                     $communityAdmin->verifyUser = $request->verifyUser ? 1 : 0;
                     $communityAdmin->removeUserVehicle = $request->removeUserVehicle ? 1 : 0;
                     $communityAdmin->removeAdmin = $request->removeAdmin ? 1 : 0;
@@ -140,10 +143,11 @@ class CommunityAdminController extends Controller
         $adminPriveledges =  $this->getAdminPriv($communityAdmin->communityId);
         if ($community->userId != $communityAdmin->userId) {
             if ($adminPriveledges->removeAdmin === 1) {
-                $communityAdmin->delete();
-                if ($community->userId != $communityAdmin->userId) {
-                    return redirect('/my-community/')->with('success', ' you have successfully removed yourself as an admin of'.$community->communityName.'!');
+                if (Auth::user()->id === $communityAdmin->userId) {
+                    $communityAdmin->delete();
+                    return redirect('/my-community/')->with('success', ' you have successfully removed yourself as an admin of '.$community->communityName.'!');
                 } else {
+                    $communityAdmin->delete();
                     return back()->with('success', ' Admin successfully removed!');
                 }
             } else {

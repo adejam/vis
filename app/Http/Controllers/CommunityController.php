@@ -71,6 +71,8 @@ class CommunityController extends Controller
                 'communityName',
                 'communityLocation',
                 'addAdmin',
+                'removeAdmin',
+                'editAdminRoles',
                 'aboutCommunity'
             )->where('community_admins.userId', '=', Auth::id())
             ->where('community_admins.communityId', '=', $communityId)->first();

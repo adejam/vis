@@ -47,6 +47,7 @@ class CommunityAdminController extends Controller
             ->select(
                 'community_vehicles.verified',
                 'community_vehicles.communityId',
+                'community_vehicles.locationInCommunity',
                 'user_vehicles.userVehicleId',
                 'user_vehicles.vehicleBrand',
                 'user_vehicles.vehicleModel',
@@ -169,7 +170,7 @@ class CommunityAdminController extends Controller
                 'users.lastname',
                 'users.username',
                 'user_phone',
-                'profile_photo_path',
+                'profile_photo_path'
             )->where('communityId', '=', $communityId)
             ->where('community_vehicles.verified', '=', $verifiedStatus)->get();
     }
@@ -200,13 +201,18 @@ class CommunityAdminController extends Controller
     {
         $adminPriveledges =  $this->getAdminPriv($communityId);
         if ($adminPriveledges) {
+            $community = DB::table('communities')
+                ->select('communityName', 'communityId')
+                ->where('communityId', '=', $communityId)
+                ->first();
             $user =  $this->getUserByUsername($username);
 
             $communityUserVehicles = $this->communityUserVehicles($communityId, $user->id, 0);
             if ($communityUserVehicles) {
                 return view('user.my-community.communityVehicles')
                     ->with('communityUserVehicles', $communityUserVehicles)
-                    ->with('user', $user);
+                    ->with('user', $user)
+                    ->with('community', $community);
             } else {
                 return redirect('/my-community/'.$communityId);
             }
@@ -255,13 +261,18 @@ class CommunityAdminController extends Controller
     {
         $adminPriveledges =  $this->getAdminPriv($communityId);
         if ($adminPriveledges) {
+            $community = DB::table('communities')
+                ->select('communityName', 'communityId')
+                ->where('communityId', '=', $communityId)
+                ->first();
             $user =  $this->getUserByUsername($username);
 
             $communityUserVehicles = $this->communityUserVehicles($communityId, $user->id, 1);
             if ($communityUserVehicles) {
                 return view('user.my-community.communityVehicles')
                     ->with('communityUserVehicles', $communityUserVehicles)
-                    ->with('user', $user);
+                    ->with('user', $user)
+                    ->with('community', $community);
             } else {
                 return redirect('/my-community/'.$communityId);
             }

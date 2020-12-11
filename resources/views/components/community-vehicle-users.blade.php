@@ -1,4 +1,5 @@
 <div>
+    @if(count($communityVehicleUsers) > 0)
     @foreach ($communityVehicleUsers as $user)
         <div class="vehicle-class">
             <div class="">
@@ -46,4 +47,14 @@
             </div>
         </div>
     @endforeach
+        
+    @else
+        <div>
+            @if ($type === 'comUsers')
+                <p class="text-center">You have no registered users at the moment</p>       
+            @else
+                <p class="text-center">You have no vehicle registration requests at the moment</p>
+            @endif
+        </div>
+    @endif
 </div>

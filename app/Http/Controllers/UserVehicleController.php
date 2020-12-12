@@ -17,19 +17,12 @@ class UserVehicleController extends Controller
         $userVehicles = DB::table('user_vehicles')
             ->select(
                 'userVehicleId',
-                'timesVerified',
-                'vehicleBrand',
-                'vehicleModel',
-                'vehicleColor',
-                'driverLicenseId',
-                'vehicleRegNum',
-                'vehicleRegState',
-                'plateNumber'
+                'vehicleBrand'
             )->where('userId', '=', Auth::id())->get();
         return view('user.user-vehicles.myVehicles')->with('userVehicles', $userVehicles);
     }
 
-    public static function getCurrentUserVehicleCommunity($userVehicleId)
+    public function getCurrentUserVehicleCommunity($userVehicleId)
     {
         $communities = DB::table('community_vehicles')
             ->join('communities', 'communities.communityId', 'community_vehicles.communityId')
@@ -40,6 +33,28 @@ class UserVehicleController extends Controller
             )
             ->where('community_vehicles.userVehicleId', '=', $userVehicleId)->get();
         return $communities;
+    }
+
+    public function myVehicle($userVehicleId, $vehicleBrand)
+    {
+        $vehicle = DB::table('user_vehicles')
+            ->select(
+                'userVehicleId',
+                'timesVerified',
+                'vehicleBrand',
+                'vehicleModel',
+                'vehicleColor',
+                'driverLicenseId',
+                'vehicleRegNum',
+                'vehicleRegState',
+                'plateNumber'
+            )->where('userId', '=', Auth::id())
+            ->where('userVehicleId', '=', $userVehicleId)->first();
+
+        $communities = $this->getCurrentUserVehicleCommunity($userVehicleId);
+        return view('user.user-vehicles.myVehicle')
+            ->with('vehicle', $vehicle)
+            ->with('communities', $communities);
     }
 
     public function addVehicle(Request $request)
@@ -70,7 +85,8 @@ class UserVehicleController extends Controller
         $vehicle->plateNumber = $request->plateNumber;
         $vehicle->save();
                 
-        return back()->with('success', ''.$vehicle->vehicleBrand.' successfully created!');
+        return redirect('my-vehicles/'.$vehicle->userVehicleId.'/'.$vehicle->vehicleBrand)
+            ->with('success', ''.$vehicle->vehicleBrand.' successfully created!');
     }
 
     public function updateVehicle(Request $request)
@@ -90,7 +106,7 @@ class UserVehicleController extends Controller
         );
 
         $userVehicle->vehicleColor = $request->vehicleColor;
-        if ($userVehicle->timesVerified == 1) {
+        if ($userVehicle->timesVerified < 1) {
             $userVehicle->vehicleBrand = $request->vehicleBrand;
             $userVehicle->vehicleModel = $request->vehicleModel;
             $userVehicle->vehicleRegState = $request->vehicleRegState;
@@ -104,6 +120,11 @@ class UserVehicleController extends Controller
         return back()->with('success', ''.$userVehicle->vehicleBrand.' successfully Updated!');
     }
 
+    public function searchCommunity(Request $request)
+    {
+        return $request;
+    }
+
     public function deleteVehicle(Request $request, $id=null)
     {
         $userVehicleId = $request->userVehicleId ? $request->userVehicleId : $id;
@@ -113,7 +134,7 @@ class UserVehicleController extends Controller
             $communityVehicle->delete();
         }
         $vehicle->delete();
-        return back()->with('success', 'Vehicle successfully Removed!');
+        return redirect('/my-vehicles')->with('success', 'Vehicle successfully Removed!');
     }
 
     public function joinCommunity(Request $request)

@@ -71,7 +71,7 @@
                                 <article class="modal-body">
                                     <p>
                                         Are you sure you want to delete your community? Once your community is deleted, all of its resources and data will be permanently deleted.
-                                         Please enter your password to confirm you would like to permanently delete your account.
+                                        
                                     </p>
                                 </article>
                                 <div class="modal-footer">

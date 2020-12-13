@@ -221,10 +221,18 @@ class UserVehicleController extends Controller
             ->join('users', 'users.id', 'community_admins.userId')
             ->select('name', 'lastname', 'username', 'profile_photo_path', 'user_phone', 'userId')
             ->where('community_admins.communityId', '=', $communityId)->get();
+        
+        $communityVehicle = DB::table('community_vehicles')
+            ->select('verified')
+            ->where('userId', '=', Auth::user()->id)
+            ->where('userVehicleId', '=', $userVehicleId)
+            ->where('communityId', '=', $communityId)->first();
 
         return view('user.user-vehicles.vehicleCommunity')
             ->with('community', $community)
-            ->with('communityAdmins', $communityAdmins);
+            ->with('communityAdmins', $communityAdmins)
+            ->with('userVehicleId', $userVehicleId)
+            ->with('communityVehicle', $communityVehicle);
     }
 
     public function unjoinCommunity(Request $request)
@@ -232,7 +240,13 @@ class UserVehicleController extends Controller
         $communityVehicle = CommunityVehicle::where('userId', '=', Auth::user()->id)
                             ->where('userVehicleId', '=', $request->userVehicleId)
                             ->where('communityId', '=', $request->communityId)->firstOrFail();
+        $userVehicle = UserVehicle::where('userVehicleId', '=', $request->userVehicleId)->firstOrFail();
+            
+        if ($communityVehicle->verified) {
+            $userVehicle->timesVerified -= 1;
+            $userVehicle->save();
+        }
         $communityVehicle->delete();
-        return back()->with('success', 'You have successfully unregistered this vehicle from '.$request->communityName);
+        return redirect('my-vehicles/'.$request->userVehicleId.'/'.$userVehicle->vehicleBrand)->with('success', 'You have successfully unregistered this vehicle from '.$request->communityName);
     }
 }

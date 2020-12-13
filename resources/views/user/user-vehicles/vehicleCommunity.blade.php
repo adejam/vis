@@ -45,5 +45,52 @@
     </div>
     @endforeach
     </div>
-    
+    <div class="flex items-center justify-end px-4 py-3 bg-gray-50 sm:px-6">
+        <button type="button" data-target="unjoin-community-{{ $userVehicleId }}"
+            class="open-modal-button inline-flex items-center px-4 py-2 bg-red-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:shadow-outline-gray disabled:opacity-25 transition ease-in-out duration-150">
+            @if ($communityVehicle->verified)
+                                Unjoin Community
+                            @else
+                                Cancel Registration request
+                            @endif
+        </button>
+        <section id="unjoin-community-{{ $userVehicleId }}" class="modal">
+            <div class="modal-content md:max-w-md">
+                <header class="modal-header">
+                    <h5 class="modal-title capitalize">Unjoin {{ $community->communityName }}
+                    </h5>
+                    <button type="button" class="close-modal-button focus:outline-none"
+                        data-dismiss="unjoin-community-{{ $userVehicleId }}" aria-label="Close">
+                        <span aria-hidden="true">X</span>
+                    </button>
+                </header>
+                <article class="modal-body">
+                    @if ($communityVehicle->verified)
+                        <p>
+                        Are you sure you want to unjoin this community?
+                    </p>
+                            @else
+                                <p>Are you sure you want to cancen your request to register with this community?</p>
+                            @endif
+                    
+                </article>
+                <div class="modal-footer">
+                    <form method="POST" action="{{ route('vehicle.community.unjoin') }}">
+                        @csrf
+                        <input type="hidden" value="{{ $userVehicleId }}" name="userVehicleId" />
+                        <input type="hidden" value="{{ $community->communityId }}" name="communityId" />
+                        <input type="hidden" value="{{ $community->communityName }}" name="communityName" />
+                        <button type="submit"
+                            class="inline-flex items-center px-4 py-2 bg-red-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:shadow-outline-gray disabled:opacity-25 transition ease-in-out duration-150">
+                            @if ($communityVehicle->verified)
+                                Unjoin Community
+                            @else
+                                Cancel Registration request
+                            @endif
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </div>  
 </x-app-layout>

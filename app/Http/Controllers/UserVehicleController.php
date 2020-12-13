@@ -22,6 +22,18 @@ class UserVehicleController extends Controller
         return view('user.user-vehicles.myVehicles')->with('userVehicles', $userVehicles);
     }
 
+    public static function checkIfVehicleAlreadyRegistered($communityId, $userVehicleId)
+    {
+        return DB::table('community_vehicles')
+            ->select(
+                'verified',
+                'communityVehicleId'
+            )
+            ->where('userId', '=', Auth::id())
+            ->where('communityId', '=', $communityId)
+            ->where('userVehicleId', '=', $userVehicleId)->first();
+    }
+
     public function getCurrentUserVehicleCommunity($userVehicleId)
     {
         $communities = DB::table('community_vehicles')
@@ -122,7 +134,35 @@ class UserVehicleController extends Controller
 
     public function searchCommunity(Request $request)
     {
-        return $request;
+        $this->validate(
+            $request,
+            [
+            'search' => ['required', 'string', 'max:255'],
+            ]
+        );
+
+        $communities = DB::table('communities')
+            ->select(
+                'communityId',
+                'communityName',
+                'communityLocation',
+                'aboutCommunity'
+            )
+            ->where('communityName', 'like', '%'.$request->search.'%')
+            ->orderBy('updated_at', 'desc')
+            ->paginate(10)
+            ->setpath('');
+
+        $communities->appends(
+            array(
+                'userVehicleId'=> $request->userVehicleId,
+                'search'=> $request->search,
+            )
+        );
+
+        return view('user.user-vehicles.searchCommunity')
+            ->with(compact('communities'))
+            ->with('userVehicleId', $request->userVehicleId);
     }
 
     public function deleteVehicle(Request $request, $id=null)
@@ -165,7 +205,7 @@ class UserVehicleController extends Controller
             $communityVehicle->locationInCommunity = $request->locationInCommunity;
             $communityVehicle->verified = 0;
             $communityVehicle->save();
-            return back()->with('success', 'Request to join'.$community->communityName.' community Successfully sent!');
+            return back()->with('success', 'Request to join '.$community->communityName.' community Successfully sent!');
         } else {
             return back()->with('error', 'This vehicle is already registered with '.$community->communityName.' community!');
         }

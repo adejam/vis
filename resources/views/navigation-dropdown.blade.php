@@ -28,8 +28,13 @@
             <!-- Settings Dropdown sm:items-center-->
             <div class="hidden sm:flex sm:ml-6">
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-jet-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
-                        {{ __('Communities') }}
+                    <x-jet-nav-link href="{{ route('community') }}" :active="request()->routeIs('community')">
+                        {{ __('My Communities') }}
+                    </x-jet-nav-link>
+                </div>
+                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                    <x-jet-nav-link href="{{ route('vehicles') }}" :active="request()->routeIs('vehicles')">
+                        {{ __('My Vehicles') }}
                     </x-jet-nav-link>
                 </div>
                 <div class="my-auto">
@@ -65,14 +70,6 @@
 
                         <x-jet-dropdown-link href="{{ route('profile.show') }}">
                             {{ __('Profile') }}
-                        </x-jet-dropdown-link>
-
-                        <x-jet-dropdown-link href="{{ url('/my-community') }}">
-                            {{ __('My Communities') }}
-                        </x-jet-dropdown-link>
-
-                        <x-jet-dropdown-link href="{{ url('my-vehicles') }}">
-                            {{ __('My vehicles') }}
                         </x-jet-dropdown-link>
 
                         @if (Laravel\Jetstream\Jetstream::hasApiFeatures())

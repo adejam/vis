@@ -117,8 +117,8 @@ class UserVehicleController extends Controller
             ]
         );
 
-        $userVehicle->vehicleColor = $request->vehicleColor;
         if ($userVehicle->timesVerified < 1) {
+            $userVehicle->vehicleColor = $request->vehicleColor;
             $userVehicle->vehicleBrand = $request->vehicleBrand;
             $userVehicle->vehicleModel = $request->vehicleModel;
             $userVehicle->vehicleRegState = $request->vehicleRegState;

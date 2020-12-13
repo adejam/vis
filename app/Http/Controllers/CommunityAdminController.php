@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\CommunityAdmin;
 use App\Models\Community;
 use App\Models\CommunityVehicle;
+use App\Models\UserVehicle;
 use Webpatser\Uuid\Uuid;
 use Auth;
 use DB;
@@ -230,6 +231,9 @@ class CommunityAdminController extends Controller
                                   ->where('communityId', '=', $request->communityId)->firstOrFail();
                 $communityVehicle->verified = 1;
                 $communityVehicle->save();
+                $userVehicle = UserVehicle::where('userVehicleId', '=', $request->userVehicleId)->firstOrFail();
+                $userVehicle->timesVerified += 1;
+                $userVehicle->save();
                 return back()->with('success', ' Vehicle has been verified and registered with community!');
             } else {
                 return back()->with('error', 'You don\'t have the priviledge to verify a user');
@@ -288,6 +292,11 @@ class CommunityAdminController extends Controller
             if ($adminPriveledges->removeUserVehicle) {
                 $communityVehicle = CommunityVehicle::where('userVehicleId', '=', $request->userVehicleId)
                                   ->where('communityId', '=', $request->communityId)->firstOrFail();
+                if ($communityVehicle->verified) {
+                    $userVehicle = UserVehicle::where('userVehicleId', '=', $request->userVehicleId)->firstOrFail();
+                    $userVehicle->timesVerified -= 1;
+                    $userVehicle->save();
+                }
                 $communityVehicle->delete();
                 return back()->with('success', ' Vehicle has been successfully removed!');
             } else {

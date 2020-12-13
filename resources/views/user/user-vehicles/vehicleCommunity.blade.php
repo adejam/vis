@@ -20,9 +20,6 @@
     <div class="mt-5">
         <h3 class="text-lg font-semibold text-gray-900 my-2 text-center">Admins Lists</h3>
         @foreach ($communityAdmins as $admin)
-    {{-- <div class="community-class">
-        <p><b>Admin Name: </b>{{ $admin->name }} {{ $admin->lastname }}</p>
-    </div> --}}
     <div class="md:flex bg-white m-3 rounded-lg border p-6">
         @if ($admin->profile_photo_path)
             <img class="h-16 w-16 md:h-24 md:w-24 rounded-full mx-auto md:mx-0 md:mr-6"

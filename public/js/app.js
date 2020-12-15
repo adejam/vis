@@ -19706,39 +19706,42 @@
                     : 'lodash.templateSources[' + ++templateCounter + ']') +
                   '\n';
 
-                string.replace(reDelimiters, function (
-                  match,
-                  escapeValue,
-                  interpolateValue,
-                  esTemplateValue,
-                  evaluateValue,
-                  offset,
-                ) {
-                  interpolateValue || (interpolateValue = esTemplateValue);
+                string.replace(
+                  reDelimiters,
+                  function (
+                    match,
+                    escapeValue,
+                    interpolateValue,
+                    esTemplateValue,
+                    evaluateValue,
+                    offset,
+                  ) {
+                    interpolateValue || (interpolateValue = esTemplateValue);
 
-                  // Escape characters that can't be included in string literals.
-                  source += string
-                    .slice(index, offset)
-                    .replace(reUnescapedString, escapeStringChar);
+                    // Escape characters that can't be included in string literals.
+                    source += string
+                      .slice(index, offset)
+                      .replace(reUnescapedString, escapeStringChar);
 
-                  // Replace delimiters with snippets.
-                  if (escapeValue) {
-                    isEscaping = true;
-                    source += "' +\n__e(" + escapeValue + ") +\n'";
-                  }
-                  if (evaluateValue) {
-                    isEvaluating = true;
-                    source += "';\n" + evaluateValue + ";\n__p += '";
-                  }
-                  if (interpolateValue) {
-                    source += "' +\n((__t = (" + interpolateValue + ")) == null ? '' : __t) +\n'";
-                  }
-                  index = offset + match.length;
+                    // Replace delimiters with snippets.
+                    if (escapeValue) {
+                      isEscaping = true;
+                      source += "' +\n__e(" + escapeValue + ") +\n'";
+                    }
+                    if (evaluateValue) {
+                      isEvaluating = true;
+                      source += "';\n" + evaluateValue + ";\n__p += '";
+                    }
+                    if (interpolateValue) {
+                      source += "' +\n((__t = (" + interpolateValue + ")) == null ? '' : __t) +\n'";
+                    }
+                    index = offset + match.length;
 
-                  // The JS engine embedded in Adobe products needs `match` returned in
-                  // order to produce the correct `offset` value.
-                  return match;
-                });
+                    // The JS engine embedded in Adobe products needs `match` returned in
+                    // order to produce the correct `offset` value.
+                    return match;
+                  },
+                );
 
                 source += "';\n";
 
@@ -21964,24 +21967,25 @@
               });
 
               // Add `Array` methods to `lodash.prototype`.
-              arrayEach(['pop', 'push', 'shift', 'sort', 'splice', 'unshift'], function (
-                methodName,
-              ) {
-                var func = arrayProto[methodName],
-                  chainName = /^(?:push|sort|unshift)$/.test(methodName) ? 'tap' : 'thru',
-                  retUnwrapped = /^(?:pop|shift)$/.test(methodName);
+              arrayEach(
+                ['pop', 'push', 'shift', 'sort', 'splice', 'unshift'],
+                function (methodName) {
+                  var func = arrayProto[methodName],
+                    chainName = /^(?:push|sort|unshift)$/.test(methodName) ? 'tap' : 'thru',
+                    retUnwrapped = /^(?:pop|shift)$/.test(methodName);
 
-                lodash.prototype[methodName] = function () {
-                  var args = arguments;
-                  if (retUnwrapped && !this.__chain__) {
-                    var value = this.value();
-                    return func.apply(isArray(value) ? value : [], args);
-                  }
-                  return this[chainName](function (value) {
-                    return func.apply(isArray(value) ? value : [], args);
-                  });
-                };
-              });
+                  lodash.prototype[methodName] = function () {
+                    var args = arguments;
+                    if (retUnwrapped && !this.__chain__) {
+                      var value = this.value();
+                      return func.apply(isArray(value) ? value : [], args);
+                    }
+                    return this[chainName](function (value) {
+                      return func.apply(isArray(value) ? value : [], args);
+                    });
+                  };
+                },
+              );
 
               // Map minified method names to their real names.
               baseForOwn(LazyWrapper.prototype, function (func, methodName) {

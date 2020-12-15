@@ -15,25 +15,70 @@ class CommunityController extends Controller
 {
     public function index()
     {
-        $communities =  DB::table('communities')->select(
-            'communityId',
-            'communityName',
-            'communityLocation',
-            'aboutCommunity'
-        )->where('userId', '=', Auth::id())->get();
+        $communities =  DB::table('community_admins')
+            ->join('communities', 'communities.communityId', 'community_admins.communityId')
+            ->select(
+                'communities.communityId',
+                'communities.userId',
+                'communityName',
+            )->where('community_admins.userId', '=', Auth::id())->get();
         return view('user.my-community.myCommunity')->with('communities', $communities);
     }
 
     public function getMyCommunity($communityId)
     {
-        $community =  DB::table('communities')->select(
-            'userId',
-            'communityId', 
-            'communityName',
-            'communityLocation',
-            'aboutCommunity'
-        )->where('userId', '=', Auth::id())
-            ->where('communityId', '=', $communityId)->first();
+        $community =  DB::table('community_admins')
+            ->join('communities', 'communities.communityId', 'community_admins.communityId')
+            ->select(
+                'communities.userId',
+                'communities.communityId',
+                'communityName'
+            )->where('community_admins.userId', '=', Auth::id())
+            ->where('community_admins.communityId', '=', $communityId)->first();
+        if (!$community) {
+            abort(404);
+        }
+        return view('user.my-community.getMyCommunity')
+            ->with('community', $community);
+    }
+
+    public function getMyCommunitySettings($communityId)
+    {
+        $community =  DB::table('community_admins')
+            ->join('communities', 'communities.communityId', 'community_admins.communityId')
+            ->select(
+                'communities.userId',
+                'communities.communityId',
+                'communityName',
+                'communityLocation',
+                'aboutCommunity'
+            )->where('community_admins.userId', '=', Auth::id())
+            ->where('community_admins.communityId', '=', $communityId)->first();
+        if (!$community) {
+            abort(404);
+        }
+        return view('user.my-community.getMyCommunitySettings')
+            ->with('community', $community);
+    }
+
+    public function getMyCommunityAdmins($communityId)
+    {
+        $community =  DB::table('community_admins')
+            ->join('communities', 'communities.communityId', 'community_admins.communityId')
+            ->select(
+                'communities.userId',
+                'communities.communityId',
+                'communityName',
+                'communityLocation',
+                'addAdmin',
+                'removeAdmin',
+                'editAdminRoles',
+                'aboutCommunity'
+            )->where('community_admins.userId', '=', Auth::id())
+            ->where('community_admins.communityId', '=', $communityId)->first();
+        if (!$community) {
+            abort(404);
+        }
         $communityAdmins =  DB::table('community_admins')
             ->join('users', 'users.id', 'community_admins.userId')
             ->select(
@@ -42,6 +87,8 @@ class CommunityController extends Controller
                 'username',
                 'name',
                 'lastname',
+                'user_phone',
+                'profile_photo_path',
                 'verifyUser',
                 'removeUserVehicle',
                 'addAdmin',
@@ -49,7 +96,7 @@ class CommunityController extends Controller
                 'editAdminRoles',
                 'removeAdmin'
             )->where('communityId', '=', $communityId)->get();
-        return view('user.my-community.getMyCommunity')
+        return view('user.my-community.getMyCommunityAdmins')
             ->with('community', $community)
             ->with('communityAdmins', $communityAdmins);
     }
@@ -93,6 +140,9 @@ class CommunityController extends Controller
     public function update(Request $request)
     {
         $community = Community::where('communityId', '=', $request->communityId)->firstOrFail();
+        if ($community->userId !== Auth::id()) {
+            return back()->with('error', 'Only the creator of this community can edit the community details!');
+        }
         $this->validate(
             $request,
             [
@@ -113,6 +163,9 @@ class CommunityController extends Controller
     {
         $communityId = $request->communityId ? $request->communityId : $id;
         $community = Community::where('communityId', '=', $communityId)->firstOrFail();
+        if ($community->userId !== Auth::id()) {
+            return back()->with('error', 'Only the creator of this community can edit the community details!');
+        }
         $communityAdmins = CommunityAdmin::where('communityId', '=', $communityId)->get();
         $communityVehicles = CommunityVehicle::where('communityId', '=', $communityId)->get();
         foreach ($communityAdmins as $admin) {

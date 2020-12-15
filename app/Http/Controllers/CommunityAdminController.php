@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\CommunityAdmin;
 use App\Models\Community;
 use App\Models\CommunityVehicle;
+use App\Models\UserVehicle;
 use Webpatser\Uuid\Uuid;
 use Auth;
 use DB;
@@ -47,6 +48,7 @@ class CommunityAdminController extends Controller
             ->select(
                 'community_vehicles.verified',
                 'community_vehicles.communityId',
+                'community_vehicles.locationInCommunity',
                 'user_vehicles.userVehicleId',
                 'user_vehicles.vehicleBrand',
                 'user_vehicles.vehicleModel',
@@ -66,25 +68,28 @@ class CommunityAdminController extends Controller
         $this->validate(
             $request,
             [
-            'id' => ['required', 'digits_between:1,10'],
             'username' => ['required', 'string', 'max:255'],
             ]
         );
+        $user = DB::table('users')
+            ->select('id')
+            ->where('username', '=', $request->username)
+            ->first();
         $userAlreadyAnAdmin =  DB::table('community_admins')
             ->select('communityAdminId')
             ->where('communityId', '=', $request->communityId)
-            ->where('userId', '=', $request->id)->first();
+            ->where('userId', '=', $user->id)->first();
 
         $adminPriveledges =  $this->getAdminPriv($request->communityId);
             
-        if ($request->id != Auth::user()->id) {
+        if ($user->id != Auth::user()->id) {
             if (!$userAlreadyAnAdmin) {
                 if ($adminPriveledges->addAdmin === 1) {
                     $communityAdminId = utf8_encode(Uuid::generate());
                     $communityAdmin = new CommunityAdmin;
                     $communityAdmin->communityAdminId = $communityAdminId;
                     $communityAdmin->communityId = $request->communityId;
-                    $communityAdmin->userId = $request->id;
+                    $communityAdmin->userId = $user->id;
                     $communityAdmin->verifyUser = $request->verifyUser ? 1 : 0;
                     $communityAdmin->removeUserVehicle = $request->removeUserVehicle ? 1 : 0;
                     $communityAdmin->removeAdmin = $request->removeAdmin ? 1 : 0;
@@ -112,7 +117,7 @@ class CommunityAdminController extends Controller
         $adminPriveledges =  $this->getAdminPriv($communityAdmin->communityId);
         if ($community->userId != $communityAdmin->userId) {
             if ($adminPriveledges->editAdminRoles === 1) {
-                if ($community->userId != $communityAdmin->userId) {
+                if ($community->userId != $communityAdmin->userId && $communityAdmin->userId !== Auth::id()) {
                     $communityAdmin->verifyUser = $request->verifyUser ? 1 : 0;
                     $communityAdmin->removeUserVehicle = $request->removeUserVehicle ? 1 : 0;
                     $communityAdmin->removeAdmin = $request->removeAdmin ? 1 : 0;
@@ -140,10 +145,11 @@ class CommunityAdminController extends Controller
         $adminPriveledges =  $this->getAdminPriv($communityAdmin->communityId);
         if ($community->userId != $communityAdmin->userId) {
             if ($adminPriveledges->removeAdmin === 1) {
-                $communityAdmin->delete();
-                if ($community->userId != $communityAdmin->userId) {
-                    return redirect('/my-community/')->with('success', ' you have successfully removed yourself as an admin of'.$community->communityName.'!');
+                if (Auth::user()->id === $communityAdmin->userId) {
+                    $communityAdmin->delete();
+                    return redirect('/my-community/')->with('success', ' you have successfully removed yourself as an admin of '.$community->communityName.'!');
                 } else {
+                    $communityAdmin->delete();
                     return back()->with('success', ' Admin successfully removed!');
                 }
             } else {
@@ -160,21 +166,33 @@ class CommunityAdminController extends Controller
             ->join('users', 'users.id', 'community_vehicles.userId')
             ->distinct()
             ->select(
+                'userId',
                 'users.name',
                 'users.lastname',
-                'users.username'
+                'users.username',
+                'user_phone',
+                'profile_photo_path'
             )->where('communityId', '=', $communityId)
             ->where('community_vehicles.verified', '=', $verifiedStatus)->get();
     }
 
     public function registrationRequests($communityId)
     {
+        $community = DB::table('communities')
+            ->select('communityName')
+            ->where('communityId', '=', $communityId)
+            ->first();
         $adminPriveledges =  $this->getAdminPriv($communityId);
         if ($adminPriveledges) {
-            $communityVehicleUsers =  $this->communityVehicleUsers($communityId, 0);
-            return view('user.my-community.registrationRequests')
-                ->with('communityVehicleUsers', $communityVehicleUsers)
-                ->with('communityId', $communityId);
+            if ($adminPriveledges->verifyUser) {
+                $communityVehicleUsers =  $this->communityVehicleUsers($communityId, 0);
+                return view('user.my-community.registrationRequests')
+                    ->with('communityVehicleUsers', $communityVehicleUsers)
+                    ->with('communityId', $communityId)
+                    ->with('communityName', $community->communityName);
+            } else {
+                return back()->with('error', 'You do not have the priviledge to verify users');
+            }
         } else {
             abort(404);
         }
@@ -184,13 +202,18 @@ class CommunityAdminController extends Controller
     {
         $adminPriveledges =  $this->getAdminPriv($communityId);
         if ($adminPriveledges) {
+            $community = DB::table('communities')
+                ->select('communityName', 'communityId')
+                ->where('communityId', '=', $communityId)
+                ->first();
             $user =  $this->getUserByUsername($username);
 
             $communityUserVehicles = $this->communityUserVehicles($communityId, $user->id, 0);
             if ($communityUserVehicles) {
                 return view('user.my-community.communityVehicles')
                     ->with('communityUserVehicles', $communityUserVehicles)
-                    ->with('user', $user);
+                    ->with('user', $user)
+                    ->with('community', $community);
             } else {
                 return redirect('/my-community/'.$communityId);
             }
@@ -208,6 +231,9 @@ class CommunityAdminController extends Controller
                                   ->where('communityId', '=', $request->communityId)->firstOrFail();
                 $communityVehicle->verified = 1;
                 $communityVehicle->save();
+                $userVehicle = UserVehicle::where('userVehicleId', '=', $request->userVehicleId)->firstOrFail();
+                $userVehicle->timesVerified += 1;
+                $userVehicle->save();
                 return back()->with('success', ' Vehicle has been verified and registered with community!');
             } else {
                 return back()->with('error', 'You don\'t have the priviledge to verify a user');
@@ -219,12 +245,17 @@ class CommunityAdminController extends Controller
 
     public function vehicleUsers($communityId)
     {
+        $community = DB::table('communities')
+            ->select('communityName')
+            ->where('communityId', '=', $communityId)
+            ->first();
         $adminPriveledges =  $this->getAdminPriv($communityId);
         if ($adminPriveledges) {
             $communityVehicleUsers =  $this->communityVehicleUsers($communityId, 1);
             return view('user.my-community.communityUsers')
                 ->with('communityVehicleUsers', $communityVehicleUsers)
-                ->with('communityId', $communityId);
+                ->with('communityId', $communityId)
+                ->with('communityName', $community->communityName);
         } else {
             abort(404);
         }
@@ -234,13 +265,18 @@ class CommunityAdminController extends Controller
     {
         $adminPriveledges =  $this->getAdminPriv($communityId);
         if ($adminPriveledges) {
+            $community = DB::table('communities')
+                ->select('communityName', 'communityId')
+                ->where('communityId', '=', $communityId)
+                ->first();
             $user =  $this->getUserByUsername($username);
 
             $communityUserVehicles = $this->communityUserVehicles($communityId, $user->id, 1);
             if ($communityUserVehicles) {
                 return view('user.my-community.communityVehicles')
                     ->with('communityUserVehicles', $communityUserVehicles)
-                    ->with('user', $user);
+                    ->with('user', $user)
+                    ->with('community', $community);
             } else {
                 return redirect('/my-community/'.$communityId);
             }
@@ -256,6 +292,11 @@ class CommunityAdminController extends Controller
             if ($adminPriveledges->removeUserVehicle) {
                 $communityVehicle = CommunityVehicle::where('userVehicleId', '=', $request->userVehicleId)
                                   ->where('communityId', '=', $request->communityId)->firstOrFail();
+                if ($communityVehicle->verified) {
+                    $userVehicle = UserVehicle::where('userVehicleId', '=', $request->userVehicleId)->firstOrFail();
+                    $userVehicle->timesVerified -= 1;
+                    $userVehicle->save();
+                }
                 $communityVehicle->delete();
                 return back()->with('success', ' Vehicle has been successfully removed!');
             } else {
@@ -294,7 +335,8 @@ class CommunityAdminController extends Controller
                     ->where('user_vehicles.plateNumber', '=', $request->plateNumber)
                     ->where('community_vehicles.verified', '=', 1)->first();
                 return view('user.my-community.identifyUser')
-                    ->with('user', $user);
+                    ->with('user', $user)
+                    ->with('communityId', $request->communityId);
             } else {
                 return back()->with('error', 'You don\'t have the priviledge to identify this vehicle\'s user');
             }

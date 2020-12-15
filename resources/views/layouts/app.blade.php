@@ -1,42 +1,50 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title>{{ config('app.name', 'Laravel') }}</title>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <title>@yield('title') . Communivis</title>
 
-        <!-- Fonts -->
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap">
+    <!-- Fonts -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap">
 
-        <!-- Styles -->
-        <link rel="stylesheet" href="{{ mix('css/app.css') }}">
+    <!-- Styles -->
+    <link rel="stylesheet" href="{{ mix('css/app.css') }}">
+    @livewireStyles
 
-        @livewireStyles
+    <!-- Scripts -->
+    <script src="{{ mix('js/app.js') }}" defer></script>
+</head>
 
-        <!-- Scripts -->
-        <script src="{{ mix('js/app.js') }}" defer></script>
-    </head>
-    <body class="font-sans antialiased">
-        <div class="min-h-screen bg-gray-100">
-            @livewire('navigation-dropdown')
+<body class="font-sans antialiased bg-white">
+    <div class="min-h-screen bg-white">
+        @livewire('navigation-dropdown')
+        <section class="flex w-full min-h-screen">
+            <x-side-nav :tabs="sideNavDatas()" />
 
-            <!-- Page Heading -->
-            <header class="bg-white shadow">
-                <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                    {{ $header }}
+            <main class="xl:w-9/12 medium:w-8/12 w-full md:flex">
+                <div class="md:w-2/3 mx-auto medium:border-r border-gray-100">
+                    <div id="alert-div">
+                        <x-session-message />
+                    </div>
+                    <div class="mx-auto py-5 sm:px-6 lg:px-8">
+                      {{ $slot }}
+                    </div>
                 </div>
-            </header>
+                <div class="hidden medium:block medium:w-1/3">
 
-            <!-- Page Content -->
-            <main>
-                {{ $slot }}
+                </div> 
             </main>
-        </div>
+        </section>
+        <x-footer />
 
-        @stack('modals')
+    </div>
 
-        @livewireScripts
-    </body>
+    @stack('modals')
+
+    @livewireScripts
+</body>
+
 </html>

@@ -5,17 +5,6 @@ use App\Http\Controllers\CommunityController;
 use App\Http\Controllers\CommunityAdminController;
 use App\Http\Controllers\UserVehicleController;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
-
 Route::get(
     '/',
     function () {
@@ -40,6 +29,8 @@ Route::middleware(['auth:sanctum', 'verified'])->group(
                 Route::post("/update", [CommunityController::class, 'update'])->name('community.update');
                 Route::post("/delete", [CommunityController::class, 'delete'])->name('community.delete');
                 Route::get("/{communityId}", [CommunityController::class, 'getMyCommunity'])->name('community.get');
+                Route::get("/{communityId}/admins", [CommunityController::class, 'getMyCommunityAdmins'])->name('community.get.admins');
+                Route::get("/{communityId}/settings", [CommunityController::class, 'getMyCommunitySettings'])->name('community.get.settings');
                 Route::post("/add-admin", [CommunityAdminController::class, 'add'])->name('community.admin.add');
                 Route::post("/update-admin", [CommunityAdminController::class, 'updateAdmin'])->name('community.admin.update');
                 Route::post("/remove-admin", [CommunityAdminController::class, 'removeAdmin'])->name('community.admin.remove');
@@ -57,6 +48,8 @@ Route::middleware(['auth:sanctum', 'verified'])->group(
             ['prefix' => '/my-vehicles'],
             function () {
                 Route::get("/", [UserVehicleController::class, 'index'])->name('vehicles');
+                Route::get("/{userVehicleId}/{vehicleBrand}", [UserVehicleController::class, 'myVehicle'])->name('vehicle');
+                Route::get("/search-communities", [UserVehicleController::class, 'searchCommunity'])->name('vehicles.community.search');
                 Route::post("/vehicle-add", [UserVehicleController::class, 'addVehicle'])->name('vehicle.add');
                 Route::post("/vehicle-update", [UserVehicleController::class, 'updateVehicle'])->name('vehicle.update');
                 Route::post("/vehicle-delete", [UserVehicleController::class, 'deleteVehicle'])->name('vehicle.delete');

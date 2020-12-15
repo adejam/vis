@@ -18,7 +18,7 @@ class CreateUserVehiclesTable extends Migration
             $table->char('userVehicleId')->unique();
             $table->bigInteger('userId')->unsigned();
             $table->foreign('userId')->references('id')->on('users');
-            $table->string('timesVerified');
+            $table->integer('timesVerified')->unsigned();
             $table->string('vehicleBrand');
             $table->string('vehicleModel');
             $table->string('vehicleColor');

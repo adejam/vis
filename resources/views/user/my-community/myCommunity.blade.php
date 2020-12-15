@@ -1,89 +1,58 @@
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Jamo</title>
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-        }
-
-        form {
-            border-bottom: 1px solid black;
-            margin-bottom: 50px;
-        }
-
-        .alert {
-            padding: 10px;
-        }
-
-        .alert-danger {
-            background-color: #e93434;
-            color: #af0a0a;
-        }
-
-        .alert-success {
-            background-color: #12d812;
-            color: #047404;
-        }
-
-    </style>
-</head>
-
-<body>
-    @foreach ($communities as $community)
-        <div>
-            <a class="underline text-sm text-gray-600 hover:text-gray-900"
-                href="{{ url('my-community/' . $community->communityId) }}">
-                {{ __($community->communityName) }}
-            </a>
-
-        </div>
-    @endforeach
-
-    @if (Session::has('success'))
-        <div class="alert alert-success" role="alert">
-            {{ Session::get('success') }}
-        </div>
-    @endif
-    <form method="POST" action="{{ route('community.add') }}">
-        @csrf
-
-        <div class="col-span-6 sm:col-span-4">
-            <input type="text" name="communityName" />
-            @if ($errors->has('communityName'))
-                <span class="help-block alert alert-danger" role="alert">
-                    <strong>{{ $errors->first('communityName') }}</strong>
-                </span>
+<x-app-layout>
+    @section('title', 'My-Communities')
+            @if (count($communities) > 0)
+            @foreach ($communities as $community)
+                <section class="p-3 m-3 text-center border-gray-100 border hover:bg-lightblue rounded-full">
+                    <a class="text-lg font-semibold text-primary w-full inline-block"
+                        href="{{ url('my-community/' . $community->communityId) }}">
+                        {{ __($community->communityName) }}
+                        <x-badge :userId="$community->userId" :authUser="Auth::user()->id"/>
+                    </a>
+                </section>
+            @endforeach
+            @else 
+            <section class="p-3 m-3 text-center border-gray-100 border rounded-full">
+                <p class="text-lg font-semibold text-gray=100">
+                    You have not created any community
+                </p>
+            </section>
             @endif
-        </div>
+            <section class="hidden sm:block">
+                <div class="py-8">
+                    <div class="border-t border-gray-200"></div>
+                </div>
+            </section>
+            <section class="mt-10">
+                <div class="">
+                    <div class="">
+                        <div class="px-4 sm:px-0">
+                            <h3 class="text-lg font-medium text-gray-900">Create Community</h3>
+                        </div>
+                    </div>
 
-        <div class="col-span-6 sm:col-span-4">
-            <input type="text" name="communityLocation" />
-            @if ($errors->has('communityLocation'))
-                <span class="help-block alert alert-danger" role="alert">
-                    <strong>{{ $errors->first('communityLocation') }}</strong>
-                </span>
-            @endif
-        </div>
 
-        <div class="col-span-6 sm:col-span-4">
-            <textarea class="form-control" id="aboutCommunity" rows="3" name="aboutCommunity"
-                placeholder="About Community"></textarea>
-            @if ($errors->has('aboutCommunity'))
-                <span class="help-block alert alert-danger" role="alert">
-                    <strong>{{ $errors->first('aboutCommunity') }}</strong>
-                </span>
-            @endif
-        </div>
+                    <div class="mt-5 md:mt-0">
+                        <form method="POST" action="{{ route('community.add') }}">
+                            @csrf
+                            <div class="overflow-hidden sm:rounded-md">
+                                <div class="px-4 py-5 bg-white sm:p-6">
+                                    
+                                        <x-text-input :input="['value' => null, 'name' => 'communityName', 'title' => 'Community Name']" />
+                                        <x-text-input :input="['value' => null, 'name' => 'communityLocation', 'title' => 'Community Location']" />
+                                        <x-text-area-input :input="['value' => null, 'name' => 'aboutCommunity', 'title' => 'About Community']" />  
+                                    
+                                </div>
 
-        <div class="flex items-center justify-end mt-4">
-            <button type="submit">Submit</button>
-        </div>
-    </form>
-</body>
+                                <div class="flex items-center justify-end px-4 py-3 bg-gray-50 text-right sm:px-6">
+                                    <button type="submit"
+                                        class="inline-flex items-center px-4 py-2 bg-primary border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:shadow-outline-gray disabled:opacity-25 transition ease-in-out duration-150">
+                                        Submit
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
 
-</html>
+            </section>
+    </x-app-layout>

@@ -19,5 +19,6 @@
     "resources/css/app.css",
     "tailwind.config.js",
     "**/normalize.css"
-  ]
+  ],
+  "ignorePattern": ["node_modules/**/normalize.css"]
 }

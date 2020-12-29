@@ -1,5 +1,5 @@
 const mix = require('laravel-mix');
-
+require('laravel-mix-purgecss');
 /*
  |--------------------------------------------------------------------------
  | Mix Asset Management
@@ -17,4 +17,5 @@ mix
     require('postcss-import'),
     require('tailwindcss'),
   ])
-  .webpackConfig(require('./webpack.config'));
+  .webpackConfig(require('./webpack.config'))
+  .purgeCss();

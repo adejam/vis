@@ -8,7 +8,7 @@
 
                     <div class="flex">
                         <!-- Logo hidden-->
-                        <div class="flex-shrink-0 flex items-center">
+                        <div class="flex-shrink-0 flex items-center here">
                             <a href="{{ url('/') }}">
                             <img src="{{asset('communivis-logo.png')}}" class="block h-9 w-auto" alt="communivis-logo"/>
                             </a>
@@ -237,12 +237,12 @@
         @else
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
-                <div class="flex justify-between h-16">
+                <div class="flex justify-between h-16 flex-wrap">
                     <div class="flex">
                         <div class="flex-shrink-0 flex items-center">
                             <a href="{{ url('/') }}">
-                                <x-jet-application-mark class="block h-9 w-auto" />
-                            </a>
+                                <img src="{{asset('communivis-logo.png')}}" class="block h-9 w-auto" alt="communivis-logo"/>
+                                </a>
                         </div>
                     </div>
                     <div class="flex">

@@ -173,7 +173,7 @@ class CommunityAdminController extends Controller
                 'user_phone',
                 'profile_photo_path'
             )->where('communityId', '=', $communityId)
-            ->where('community_vehicles.verified', '=', $verifiedStatus)->get();
+            ->where('community_vehicles.verified', '=', $verifiedStatus)->paginate(15);
     }
 
     public function registrationRequests($communityId)

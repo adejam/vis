@@ -130,7 +130,9 @@
                         </div>
                     </div>
                 @endforeach
-
+                <div class="p-3">
+                    {{$communityAdmins->render()}}
+                </div>
             </div>
             @if ($community->addAdmin)
                 <section class="mt-10 p-3">

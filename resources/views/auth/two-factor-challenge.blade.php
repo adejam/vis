@@ -2,7 +2,9 @@
     @section('title', 'Two Factor Challenge')
     <x-jet-authentication-card>
         <x-slot name="logo">
-            <img src="{{ asset('communivis-logo.png') }}" class="block h-9 w-auto" alt="communivis-logo" />
+            <a href="{{ url('/') }}">
+                <img src="{{ asset('communivis-logo.png') }}" class="block h-9 w-auto" alt="communivis-logo" />
+            </a>
         </x-slot>
 
         <div x-data="{ recovery: false }">

@@ -22,4 +22,6 @@ if (closeModalButton) {
 window.addEventListener('click', windowClickCloseModal);
 
 const alertDiv = document.querySelector('#alert-div');
-alertDiv.addEventListener('click', closeAlert);
+if (alertDiv) {
+  alertDiv.addEventListener('click', closeAlert);
+}

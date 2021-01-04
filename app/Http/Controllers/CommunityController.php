@@ -95,7 +95,7 @@ class CommunityController extends Controller
                 'identifyVehicleUser',
                 'editAdminRoles',
                 'removeAdmin'
-            )->where('communityId', '=', $communityId)->get();
+            )->where('communityId', '=', $communityId)->paginate(15);
         return view('user.my-community.getMyCommunityAdmins')
             ->with('community', $community)
             ->with('communityAdmins', $communityAdmins);

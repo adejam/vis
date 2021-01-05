@@ -17,5 +17,5 @@ mix
     require('postcss-import'),
     require('tailwindcss'),
   ])
-  .webpackConfig(require('./webpack.config'))
-  .purgeCss();
+  .webpackConfig(require('./webpack.config'));
+  // .purgeCss();

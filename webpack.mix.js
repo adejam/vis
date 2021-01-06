@@ -18,4 +18,4 @@ mix
     require('tailwindcss'),
   ])
   .webpackConfig(require('./webpack.config'));
-  // .purgeCss();
+// .purgeCss();

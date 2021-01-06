@@ -7,6 +7,7 @@ use Illuminate\Validation\Rule;
 use App\Models\Community;
 use App\Models\CommunityAdmin;
 use App\Models\CommunityVehicle;
+use App\Models\UserVehicle;
 use Webpatser\Uuid\Uuid;
 use Auth;
 use DB;
@@ -172,7 +173,10 @@ class CommunityController extends Controller
             $admin->delete();
         }
         foreach ($communityVehicles as $vehicle) {
+            $userVehicle = UserVehicle::where('userVehicleId', '=', $vehicle->userVehicleId)->firstOrFail();
             $vehicle->delete();
+            $userVehicle->timesVerified -= 1;
+            $userVehicle->save();
         }
         $community->delete();
         return redirect('/my-community')->with('success', ' successfully deleted!');

@@ -15,13 +15,7 @@ class CommunitySeeder extends Seeder
     public function run()
     {
         $datas = [
-            [
-                'communityId' => 'fe890840-3c82-11eb-bfcf-f31dabda9e64',
-                'userId' => 2,
-                'communityName' => 'Alhaja abass Street',
-                'communityLocation' => 'Ogudu,kosofe local govt, lagos, nigeria',
-                'aboutCommunity' => 'for alhaja street at ogudu',
-            ],
+            
             [
                 'communityId' => '5b12ec70-2f0f-11eb-a7d0-79509a2fd478',
                 'userId' => 1,
@@ -29,6 +23,13 @@ class CommunitySeeder extends Seeder
                 'communityLocation' => 'Ogudu,kosofe local govt, lagos, nigeria',
                 'aboutCommunity' => 'for buari street at ogudu',
             ],
+            // [
+            //     'communityId' => 'fe890840-3c82-11eb-bfcf-f31dabda9e64',
+            //     'userId' => 2,
+            //     'communityName' => 'Alhaja abass Street',
+            //     'communityLocation' => 'Ogudu,kosofe local govt, lagos, nigeria',
+            //     'aboutCommunity' => 'for alhaja street at ogudu',
+            // ],
             ];
         foreach ($datas as $data) {
             DB::table('communities')->insert([

@@ -23,13 +23,13 @@ class CommunitySeeder extends Seeder
                 'communityLocation' => 'Ogudu,kosofe local govt, lagos, nigeria',
                 'aboutCommunity' => 'for buari street at ogudu',
             ],
-            // [
-            //     'communityId' => 'fe890840-3c82-11eb-bfcf-f31dabda9e64',
-            //     'userId' => 2,
-            //     'communityName' => 'Alhaja abass Street',
-            //     'communityLocation' => 'Ogudu,kosofe local govt, lagos, nigeria',
-            //     'aboutCommunity' => 'for alhaja street at ogudu',
-            // ],
+            [
+                'communityId' => 'fe890840-3c82-11eb-bfcf-f31dabda9e64',
+                'userId' => 2,
+                'communityName' => 'Alhaja abass Street',
+                'communityLocation' => 'Ogudu,kosofe local govt, lagos, nigeria',
+                'aboutCommunity' => 'for alhaja street at ogudu',
+            ],
             ];
         foreach ($datas as $data) {
             DB::table('communities')->insert([

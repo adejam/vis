@@ -9,6 +9,7 @@ class Community extends Model
 {
     use HasFactory;
     protected $fillable = [
+        'userId',
         'communityName',
         'communityLocation',
         'aboutCommunity',

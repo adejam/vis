@@ -16,7 +16,7 @@ class CreateCommunitiesTable extends Migration
         Schema::create('communities', function (Blueprint $table) {
             $table->id();
             $table->char('communityId')->unique();
-            $table->bigInteger('userId')->unsigned();
+            $table->bigInteger('userId')->nullable()->unsigned();
             $table->foreign('userId')->references('id')->on('users');
             $table->string('communityName')->unique();
             $table->string('communityLocation');

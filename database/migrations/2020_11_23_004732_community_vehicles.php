@@ -18,7 +18,7 @@ class CommunityVehicles extends Migration
             $table->char('communityVehicleId')->unique();
             $table->char('communityId');
             $table->foreign('communityId')->references('communityId')->on('communities');
-            $table->bigInteger('userId')->unsigned();
+            $table->foreignId('userId')->unsigned();
             $table->foreign('userId')->references('id')->on('users');
             $table->char('userVehicleId');
             $table->foreign('userVehicleId')->references('userVehicleId')->on('user_vehicles');

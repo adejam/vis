@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use App\Models\User;
 
 class UserSeeder extends Seeder
 {
@@ -81,7 +82,8 @@ class UserSeeder extends Seeder
             ]
             ];
         foreach ($datas as $data) {
-            DB::table('users')->insert([
+            // DB::table('users')->insert([
+            User::create([
             'name' => $data['name'],
             'lastname' => $data['lastname'],
             'username' => $data['username'],

@@ -16,7 +16,7 @@ class CreateCommunityAdminsTable extends Migration
         Schema::create('community_admins', function (Blueprint $table) {
             $table->id();
             $table->char('communityAdminId')->unique();
-            $table->bigInteger('userId')->nullable()->unsigned();
+            $table->bigInteger('userId')->unsigned();
             $table->foreign('userId')->references('id')->on('users');
             $table->char('communityId');
             $table->foreign('communityId')->references('communityId')->on('communities');

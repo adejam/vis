@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use App\Models\Community;
 
 class CommunitySeeder extends Seeder
 {
@@ -32,7 +33,8 @@ class CommunitySeeder extends Seeder
             ],
             ];
         foreach ($datas as $data) {
-            DB::table('communities')->insert([
+            // DB::table('communities')->insert([
+            Community::create([
             'communityId' => $data['communityId'],
             'userId' => $data['userId'],
             'communityName' => $data['communityName'],

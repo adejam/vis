@@ -16,7 +16,7 @@ class CreateUserVehiclesTable extends Migration
         Schema::create('user_vehicles', function (Blueprint $table) {
             $table->id();
             $table->char('userVehicleId')->unique();
-            $table->bigInteger('userId')->nullable()->unsigned();
+            $table->bigInteger('userId')->unsigned();
             $table->foreign('userId')->references('id')->on('users');
             $table->integer('timesVerified')->unsigned();
             $table->string('vehicleBrand');

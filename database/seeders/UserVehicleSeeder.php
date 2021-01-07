@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use App\Models\UserVehicle;
 
 class UserVehicleSeeder extends Seeder
 {
@@ -101,7 +102,8 @@ class UserVehicleSeeder extends Seeder
          ],
         ];
         foreach ($datas as $data) {
-            DB::table('user_vehicles')->insert([
+            // DB::table('user_vehicles')->insert([
+            UserVehicle::create([
                 'userVehicleId' => $data['userVehicleId'],
                 'userId' => $data['userId'],
                 'timesVerified' => $data['timesVerified'],

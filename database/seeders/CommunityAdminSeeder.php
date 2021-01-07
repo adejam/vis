@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use App\Models\CommunityAdmin;
 
 class CommunityAdminSeeder extends Seeder
 {
@@ -61,7 +62,8 @@ class CommunityAdminSeeder extends Seeder
             ],
             ];
         foreach ($datas as $data) {
-            DB::table('community_admins')->insert([
+            // DB::table('community_admins')->insert([
+            CommunityAdmin::create([
                 'communityAdminId' => $data['communityAdminId'],
                 'userId' => $data['userId'],
                 'communityId' => $data['communityId'],

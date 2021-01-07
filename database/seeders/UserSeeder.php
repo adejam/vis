@@ -18,6 +18,7 @@ class UserSeeder extends Seeder
     {
         $datas = [
             [
+                'id' => 1,
                 'name' => 'Adeleye',
                 'lastname' => 'Jamiu',
                 'username' => 'Adejam',
@@ -25,6 +26,7 @@ class UserSeeder extends Seeder
                 'email' => 'adejam@gmail.com',
             ],
             [
+                'id' => 2,
                 'name' => 'Seun',
                 'lastname' => 'Oyelakin',
                 'username' => 'costa',
@@ -32,6 +34,7 @@ class UserSeeder extends Seeder
                 'email' => 'costa@gmail.com',
             ],
             [
+                'id' => 3,
                 'name' => 'Hafsoh',
                 'lastname' => 'Shittu',
                 'username' => 'hafshit',
@@ -39,6 +42,7 @@ class UserSeeder extends Seeder
                 'email' => 'hafshit@gmail.com',
             ],
             [
+                'id' => 4,
                 'name' => 'basit',
                 'lastname' => 'korede',
                 'username' => 'basituta',
@@ -46,13 +50,15 @@ class UserSeeder extends Seeder
                 'email' => 'basituta@gmail.com',
             ],
             [
-            'name' => 'Abu',
-            'lastname' => 'Ridwan',
-            'username' => 'Abu_ridwan',
-            'user_phone' => '09036476342',
-            'email' => 'aburidwan@gmail.com',
+                'id' => 5,
+                'name' => 'Abu',
+                'lastname' => 'Ridwan',
+                'username' => 'Abu_ridwan',
+                'user_phone' => '09036476342',
+                'email' => 'aburidwan@gmail.com',
             ],
             [
+                'id' => 6,
                 'name' => 'Abu',
                 'lastname' => 'Rahman',
                 'username' => 'Abu_rahman',
@@ -60,6 +66,7 @@ class UserSeeder extends Seeder
                 'email' => 'aburahman@gmail.com',
             ],
             [
+                'id' => 7,
                 'name' => 'Abu',
                 'lastname' => 'tah',
                 'username' => 'Abu_tah',
@@ -67,6 +74,7 @@ class UserSeeder extends Seeder
                 'email' => 'abutah@gmail.com',
             ],
             [
+                'id' => 8,
                 'name' => 'Omotosho',
                 'lastname' => 'Taofeek',
                 'username' => 'omotaofeek',
@@ -74,6 +82,7 @@ class UserSeeder extends Seeder
                 'email' => 'omotaofeek@gmail.com',
             ],
             [
+                'id' => 9,
                 'name' => 'Abass',
                 'lastname' => 'lanre',
                 'username' => 'dlarn',

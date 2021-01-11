@@ -6,6 +6,9 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Laravel\Fortify\Contracts\UpdatesUserProfileInformation;
+use JD\Cloudder\Facades\Cloudder;
+
+// use Illuminate\Support\Facades\Cloudder;
 
 class UpdateUserProfileInformation implements UpdatesUserProfileInformation
 {
@@ -31,7 +34,16 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
         )->validateWithBag('updateProfileInformation');
 
         if (isset($input['photo'])) {
-            $user->updateProfilePhoto($input['photo']);
+            $photo = $input['photo'];
+            $imagePath = $photo->getRealpath();
+            Cloudder::upload($imagePath, null);
+            $publicId = Cloudder::getPublicId();
+            $imageUrl = Cloudder::show($publicId, [
+                'width' => 300,
+                'height' => 300,
+            ]);
+            $user->profile_photo_path = $imageUrl;
+            // $user->updateProfilePhoto($input['photo']);
         }
 
         if ($input['email'] !== $user->email

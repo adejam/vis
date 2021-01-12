@@ -26,6 +26,17 @@ class CommunityController extends Controller
         return view('user.my-community.myCommunity')->with('communities', $communities);
     }
 
+    public function communityVehicleUsers($communityId, $verifiedStatus)
+    {
+        return DB::table('community_vehicles')
+            ->join('users', 'users.id', 'community_vehicles.userId')
+            ->distinct()
+            ->select(
+                'userId',
+            )->where('communityId', '=', $communityId)
+            ->where('community_vehicles.verified', '=', $verifiedStatus)->count();
+    }
+
     public function getMyCommunity($communityId)
     {
         $community =  DB::table('community_admins')
@@ -36,11 +47,16 @@ class CommunityController extends Controller
                 'communityName'
             )->where('community_admins.userId', '=', Auth::id())
             ->where('community_admins.communityId', '=', $communityId)->first();
+            
         if (!$community) {
             abort(404);
         }
+        $communityVehicleUsers =  $this->communityVehicleUsers($communityId, 1);
+        $registrationRequests =  $this->communityVehicleUsers($communityId, 0);
         return view('user.my-community.getMyCommunity')
-            ->with('community', $community);
+            ->with('community', $community)
+            ->with('communityVehicleUsers', $communityVehicleUsers)
+            ->with('registrationRequests', $registrationRequests);
     }
 
     public function getMyCommunitySettings($communityId)

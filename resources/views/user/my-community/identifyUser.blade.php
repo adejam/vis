@@ -1,6 +1,7 @@
 <x-app-layout>
     @section('title', 'Identify Vehicle')
-    <x-vehicle-identify-form :communityId="$communityId"/>
+    <x-community-nav :communityId="$communityId" :communityName="$communityName" />
+    <x-vehicle-identify-form :communityId="$communityId" :communityName="$communityName"/>
     @if ($user)
         <div class="md:flex bg-white m-3 rounded-lg border p-6">
             @if ($user->profile_photo_path)

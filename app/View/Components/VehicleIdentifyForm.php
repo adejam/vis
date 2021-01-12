@@ -7,14 +7,16 @@ use Illuminate\View\Component;
 class VehicleIdentifyForm extends Component
 {
     public $communityId;
+    public $communityName;
     /**
      * Create a new component instance.
      *
      * @return void
      */
-    public function __construct($communityId)
+    public function __construct($communityId, $communityName)
     {
         $this->communityId = $communityId;
+        $this->communityName = $communityName;
     }
 
     /**

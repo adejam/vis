@@ -1,7 +1,10 @@
 <x-guest-layout>
+    @section('title', 'verify-Email')
     <x-jet-authentication-card>
         <x-slot name="logo">
-            <x-jet-authentication-card-logo />
+            <a href="{{ url('/') }}">
+                <img src="{{ asset('communivis-logo.png') }}" class="block h-9 w-auto" alt="communivis-logo" />
+            </a>
         </x-slot>
 
         <div class="mb-4 text-sm text-gray-600">
@@ -33,5 +36,8 @@
                 </button>
             </form>
         </div>
+        <p class="text-center text-gray-500 text-xs mt-3">
+            &copy;2020 Adeleye jamiu. All rights reserved.
+        </p>
     </x-jet-authentication-card>
 </x-guest-layout>

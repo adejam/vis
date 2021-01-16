@@ -133,7 +133,11 @@ return [
     'features' => [
         Features::registration(),
         Features::resetPasswords(),
+<<<<<<< HEAD
         Features::emailVerification(),
+=======
+        // Features::emailVerification(),
+>>>>>>> development
         Features::updateProfileInformation(),
         Features::updatePasswords(),
         Features::twoFactorAuthentication(

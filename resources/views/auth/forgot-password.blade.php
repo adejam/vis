@@ -1,7 +1,10 @@
 <x-guest-layout>
+    @section('title', 'Forgot-password')
     <x-jet-authentication-card>
         <x-slot name="logo">
-            <x-jet-authentication-card-logo />
+            <a href="{{ url('/') }}">
+                <img src="{{ asset('communivis-logo.png') }}" class="block h-9 w-auto" alt="communivis-logo" />
+            </a>
         </x-slot>
 
         <div class="mb-4 text-sm text-gray-600">
@@ -21,7 +24,8 @@
 
             <div class="block">
                 <x-jet-label for="email" value="{{ __('Email') }}" />
-                <x-jet-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus />
+                <x-jet-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')"
+                    required autofocus />
             </div>
 
             <div class="flex items-center justify-end mt-4">
@@ -30,5 +34,8 @@
                 </x-jet-button>
             </div>
         </form>
+        <p class="text-center text-gray-500 text-xs mt-3">
+            &copy;2020 Adeleye jamiu. All rights reserved.
+        </p>
     </x-jet-authentication-card>
 </x-guest-layout>

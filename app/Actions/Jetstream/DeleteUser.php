@@ -2,6 +2,7 @@
 
 namespace App\Actions\Jetstream;
 
+use JD\Cloudder\Facades\Cloudder;
 use Laravel\Jetstream\Contracts\DeletesUsers;
 
 class DeleteUser implements DeletesUsers
@@ -16,6 +17,7 @@ class DeleteUser implements DeletesUsers
     {
         $user->deleteProfilePhoto();
         $user->tokens->each->delete();
+        Cloudder::destroyImage($user->profile_photo_public_id);
         $user->delete();
     }
 }

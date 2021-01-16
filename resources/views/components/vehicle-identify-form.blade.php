@@ -2,6 +2,7 @@
     <form method="GET" action="{{ url('my-community/' . $communityId . '/identify-vehicle-user') }}">
         @csrf
         <input type="hidden" name="communityId" value={{ $communityId }} />
+        <input type="hidden" name="communityName" value={{ $communityName }} />
         <div class="overflow-hidden sm:rounded-md">
             <div class="px-4 py-5 bg-white sm:p-6">
                 <x-text-input :input="['value' => null, 'name' => 'plateNumber', 'title' => 'Enter plate number']" />

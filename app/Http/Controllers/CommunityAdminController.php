@@ -336,7 +336,8 @@ class CommunityAdminController extends Controller
                     ->where('community_vehicles.verified', '=', 1)->first();
                 return view('user.my-community.identifyUser')
                     ->with('user', $user)
-                    ->with('communityId', $request->communityId);
+                    ->with('communityId', $request->communityId)
+                    ->with('communityName', $request->communityName);
             } else {
                 return back()->with('error', 'You don\'t have the priviledge to identify this vehicle\'s user');
             }

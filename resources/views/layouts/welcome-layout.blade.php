@@ -21,7 +21,13 @@
         <div class="min-h-screen">
             @livewire('navigation-dropdown')
             <main>
-                {{ $slot }}
+                {{-- {{ $slot }} --}}
+                    <div id="alert-div">
+                        <x-session-message />
+                    </div>
+                    <div class="mx-auto py-5 sm:px-6 lg:px-8">
+                      {{ $slot }}
+                    </div>
             </main>
         </div>
         <x-footer />

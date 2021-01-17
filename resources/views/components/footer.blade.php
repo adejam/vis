@@ -28,7 +28,7 @@
             </section>
             <section class="text-center relative w-full md:w-6/12 sm:w-6/12 sm:order-1 px-3">
               <h2 class="hidden">by</h2>
-              <p class="text-gray-500 text-xs mt-3">© 2020 <a class="text-primary hover:text-lightblue" href="https://adeleye-jamiu.netlify.app/" target="_blank" rel="noopener noreferrer">Adeleye Jamiu</a>.  All rights reserved.</p>
+              <p class="text-gray-500 text-xs mt-3">© {{ date('Y') }} <a class="text-primary hover:text-lightblue" href="https://adeleye-jamiu.netlify.app/" target="_blank" rel="noopener noreferrer">Adeleye Jamiu</a>.  All rights reserved.</p>
             </section>
           </section>
 </footer>

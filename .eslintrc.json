@@ -27,6 +27,7 @@
     "resources/css/app.css",
     "tailwind.config.js",
     "**/normalize.css",
-    "node_modules/**"
+    "node_modules/**",
+    "**/default.css"
   ]
 }

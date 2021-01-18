@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\UserVehicle;
 use App\Models\CommunityVehicle;
+use App\Models\UserVehicleAccess;
 use Webpatser\Uuid\Uuid;
 use Illuminate\Validation\Rule;
 use Auth;
@@ -192,15 +193,22 @@ class UserVehicleController extends Controller
 
     public function joinCommunity(Request $request)
     {
+        $userVehicle = UserVehicle::where('userVehicleId', '=', $request->userVehicleId)->firstOrFail();
         $this->validate(
             $request,
             [
             'locationInCommunity' => ['required', 'string', 'max:255'],
+            'driverLicenseId' => ['nullable', 'string', 'max:255', Rule::unique('user_vehicles')->ignore($userVehicle->id)],
+            'vehicleRegNum' => ['nullable', 'string', 'max:255', Rule::unique('user_vehicles')->ignore($userVehicle->id)],
+            'vehicleRegState' => ['nullable', 'string', 'max:255'],
             ]
         );
 
         $community = DB::table('communities')->select(
             'communityName',
+            'driverLicenseIdAccess',
+            'vehicleRegNumAccess',
+            'vehicleRegStateAccess'
         )->where('communityId', '=', $request->communityId)->first();
 
         $vehicleExistInCommunity = DB::table('community_vehicles')->select(
@@ -209,6 +217,33 @@ class UserVehicleController extends Controller
             ->where('communityId', '=', $request->communityId)->first();
         
         if (!$vehicleExistInCommunity) {
+            if ($request->driverLicenseId) {
+                $userVehicle->driverLicenseId = $request->driverLicenseId;
+            }
+
+            if ($request->vehicleRegNum) {
+                $userVehicle->vehicleRegNum = $request->vehicleRegNum;
+            }
+
+            if ($request->vehicleRegState) {
+                $userVehicle->vehicleRegState = $request->vehicleRegState;
+            }
+            $userVehicle->save();
+
+            $checkVehicleAccess = DB::table('user_vehicle_accesses')
+                ->select('id')
+                ->where('userId', '=', Auth::user()->id)
+                ->where('userVehicleId', '=', $request->userVehicleId)
+                ->where('communityId', '=', $request->communityId)->first();
+            
+            if (!$checkVehicleAccess && ($community->driverLicenseIdAccess || $community->vehicleRegNumAccess || $community->vehicleRegStateAccess)) {
+                $UserVehicleAccess = new UserVehicleAccess;
+                $UserVehicleAccess->userId = Auth::user()->id;
+                $UserVehicleAccess->userVehicleId = $request->userVehicleId;
+                $UserVehicleAccess->communityId = $request->communityId;
+                $UserVehicleAccess->save();
+            }
+
             $communityVehicleId = utf8_encode(Uuid::generate());
             $communityVehicle = new CommunityVehicle;
             $communityVehicle->communityVehicleId = $communityVehicleId;

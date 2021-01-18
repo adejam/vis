@@ -17,6 +17,8 @@ class CreateUserVehicleAccessesTable extends Migration
             $table->id();
             $table->foreignId('userId')->nullable()->index();
             $table->foreign('userId')->references('id')->on('users');
+            $table->char('userVehicleId');
+            $table->foreign('userVehicleId')->references('userVehicleId')->on('user_vehicles');
             $table->char('communityId');
             $table->foreign('communityId')->references('communityId')->on('communities');
             $table->timestamps();

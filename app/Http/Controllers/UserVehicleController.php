@@ -77,9 +77,9 @@ class UserVehicleController extends Controller
             'vehicleBrand' => ['required', 'string', 'max:255'],
             'vehicleModel' => ['required', 'string', 'max:255'],
             'vehicleColor' => ['required', 'string', 'max:255'],
-            'driverLicenseId' => ['required', 'string', 'max:255', 'unique:user_vehicles'],
-            'vehicleRegNum' => ['required', 'string', 'max:255', 'unique:user_vehicles'],
-            'vehicleRegState' => ['required', 'string', 'max:255'],
+            'driverLicenseId' => ['nullable', 'string', 'max:255', 'unique:user_vehicles'],
+            'vehicleRegNum' => ['nullable', 'string', 'max:255', 'unique:user_vehicles'],
+            'vehicleRegState' => ['nullable', 'string', 'max:255'],
             'plateNumber' => ['required', 'string', 'max:255', 'unique:user_vehicles'],
             ]
         );
@@ -110,9 +110,9 @@ class UserVehicleController extends Controller
             'vehicleBrand' => ['required', 'string', 'max:255'],
             'vehicleModel' => ['required', 'string', 'max:255'],
             'vehicleColor' => ['required', 'string', 'max:255'],
-            'driverLicenseId' => ['required', 'string', 'max:255', Rule::unique('user_vehicles')->ignore($userVehicle->id)],
-            'vehicleRegNum' => ['required', 'string', 'max:255', Rule::unique('user_vehicles')->ignore($userVehicle->id)],
-            'vehicleRegState' => ['required', 'string', 'max:255'],
+            'driverLicenseId' => ['nullable', 'string', 'max:255', Rule::unique('user_vehicles')->ignore($userVehicle->id)],
+            'vehicleRegNum' => ['nullable', 'string', 'max:255', Rule::unique('user_vehicles')->ignore($userVehicle->id)],
+            'vehicleRegState' => ['nullable', 'string', 'max:255'],
             'plateNumber' => ['required', 'string', 'max:255', Rule::unique('user_vehicles')->ignore($userVehicle->id)],
             ]
         );
@@ -146,13 +146,25 @@ class UserVehicleController extends Controller
                 'communityId',
                 'communityName',
                 'communityLocation',
-                'aboutCommunity'
+                'aboutCommunity',
+                'driverLicenseIdAccess',
+                'vehicleRegNumAccess',
+                'vehicleRegStateAccess'
             )
             ->where('communityName', 'like', '%'.$request->search.'%')
             ->orderBy('updated_at', 'desc')
             ->paginate(10)
             ->setpath('');
-
+        
+        $userVehicle = DB::table('user_vehicles')
+            ->select(
+                'vehicleBrand',
+                'driverLicenseId',
+                'vehicleRegNum',
+                'vehicleRegState'
+            )->where('userId', '=', Auth::id())
+            ->where('userVehicleId', '=', $request->userVehicleId)->first();
+        
         $communities->appends(
             array(
                 'userVehicleId'=> $request->userVehicleId,
@@ -162,7 +174,8 @@ class UserVehicleController extends Controller
 
         return view('user.user-vehicles.searchCommunity')
             ->with(compact('communities'))
-            ->with('userVehicleId', $request->userVehicleId);
+            ->with('userVehicleId', $request->userVehicleId)
+            ->with('userVehicle', $userVehicle);
     }
 
     public function deleteVehicle(Request $request, $id=null)

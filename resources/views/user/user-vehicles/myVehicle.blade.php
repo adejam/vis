@@ -76,14 +76,21 @@
                                 <x-text-input
                                     :input="['value' => $vehicle->vehicleColor, 'name' => 'vehicleColor', 'title' => 'Vehicle Colour']" />
                                 <x-text-input
-                                    :input="['value' => $vehicle->driverLicenseId, 'name' => 'driverLicenseId', 'title' => 'Driver License Id']" />
-                                <x-text-input
-                                    :input="['value' => $vehicle->vehicleRegNum, 'name' => 'vehicleRegNum', 'title' => 'Vehicle Registration Number']" />
-                                <x-text-input
-                                    :input="['value' => $vehicle->vehicleRegState, 'name' => 'vehicleRegState', 'title' => 'Vehicle Registration State']" />
-                                <x-text-input
                                     :input="['value' => $vehicle->plateNumber, 'name' => 'plateNumber', 'title' => 'Plate Number']" />
-
+                                    <div class="p-3 bg-gray-100 border-gray-300">
+                                        <div class="flex justify-between items-start bg-green-100 border border-green-400 text-green-700 px-4 py-3 m-3 rounded relative" role="alert">
+                                            <p class="block sm:inline">The field below should only be filled or updated if a community request for them.
+                                                <br />
+                                                Only the communities you grant access to can have access to them.
+                                            </p>
+                                        </div>
+                                        <x-text-input
+                                            :input="['value' => $vehicle->driverLicenseId, 'name' => 'driverLicenseId', 'title' => 'Driver License Id']" />
+                                        <x-text-input
+                                            :input="['value' => $vehicle->vehicleRegNum, 'name' => 'vehicleRegNum', 'title' => 'Vehicle Registration Number']" />
+                                        <x-text-input
+                                            :input="['value' => $vehicle->vehicleRegState, 'name' => 'vehicleRegState', 'title' => 'Vehicle Registration State']" />
+                                    </div>
                             </div>
                             <div class="flex items-center justify-end px-4 py-3 sm:px-6">
                                 @if ($vehicle->timesVerified < 1)

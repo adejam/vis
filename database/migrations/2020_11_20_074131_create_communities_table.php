@@ -21,6 +21,9 @@ class CreateCommunitiesTable extends Migration
             $table->string('communityName')->unique();
             $table->string('communityLocation');
             $table->string('aboutCommunity');
+            $table->boolean('driverLicenseIdAccess');
+            $table->boolean('vehicleRegNumAccess');
+            $table->boolean('vehicleRegStateAccess');
             $table->timestamps();
         });
     }

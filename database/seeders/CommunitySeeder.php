@@ -22,6 +22,9 @@ class CommunitySeeder extends Seeder
                 'communityName' => 'Buari Street',
                 'communityLocation' => 'Ogudu,kosofe local govt, lagos, nigeria',
                 'aboutCommunity' => 'for buari street at ogudu',
+                'driverLicenseIdAccess' => 1,
+                'vehicleRegNumAccess' => 0,
+                'vehicleRegStateAccess' => 1,
             ),
             1 => array(
                 'id' => 2,
@@ -30,6 +33,9 @@ class CommunitySeeder extends Seeder
                 'communityName' => 'Alhaja abass Street',
                 'communityLocation' => 'Ogudu,kosofe local govt, lagos, nigeria',
                 'aboutCommunity' => 'for alhaja street at ogudu',
+                'driverLicenseIdAccess' => 0,
+                'vehicleRegNumAccess' => 0,
+                'vehicleRegStateAccess' => 1,
             ),
         ));
     }

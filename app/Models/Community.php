@@ -12,6 +12,9 @@ class Community extends Model
         'communityName',
         'communityLocation',
         'aboutCommunity',
+        'driverLicenseIdAccess',
+        'vehicleRegNumAccess',
+        'vehicleRegStateAccess',
     ];
 
     // protected $hidden = [

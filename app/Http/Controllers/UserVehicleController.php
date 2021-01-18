@@ -187,6 +187,11 @@ class UserVehicleController extends Controller
         foreach ($communityVehicle as $communityVehicle) {
             $communityVehicle->delete();
         }
+        $userVehicleAccess = UserVehicleAccess::where('userId', '=', Auth::user()->id)
+                            ->where('userVehicleId', '=', $request->userVehicleId)->get();
+        foreach ($userVehicleAccess as $userVehicleAccess) {
+            $userVehicleAccess->delete();
+        }
         $vehicle->delete();
         return redirect('/my-vehicles')->with('success', 'Vehicle successfully Removed!');
     }
@@ -237,11 +242,11 @@ class UserVehicleController extends Controller
                 ->where('communityId', '=', $request->communityId)->first();
             
             if (!$checkVehicleAccess && ($community->driverLicenseIdAccess || $community->vehicleRegNumAccess || $community->vehicleRegStateAccess)) {
-                $UserVehicleAccess = new UserVehicleAccess;
-                $UserVehicleAccess->userId = Auth::user()->id;
-                $UserVehicleAccess->userVehicleId = $request->userVehicleId;
-                $UserVehicleAccess->communityId = $request->communityId;
-                $UserVehicleAccess->save();
+                $userVehicleAccess = new UserVehicleAccess;
+                $userVehicleAccess->userId = Auth::user()->id;
+                $userVehicleAccess->userVehicleId = $request->userVehicleId;
+                $userVehicleAccess->communityId = $request->communityId;
+                $userVehicleAccess->save();
             }
 
             $communityVehicleId = utf8_encode(Uuid::generate());
@@ -288,6 +293,9 @@ class UserVehicleController extends Controller
         $communityVehicle = CommunityVehicle::where('userId', '=', Auth::user()->id)
                             ->where('userVehicleId', '=', $request->userVehicleId)
                             ->where('communityId', '=', $request->communityId)->firstOrFail();
+        $userVehicleAccess = UserVehicleAccess::where('userId', '=', Auth::user()->id)
+                            ->where('userVehicleId', '=', $request->userVehicleId)
+                            ->where('communityId', '=', $request->communityId)->firstOrFail();
         $userVehicle = UserVehicle::where('userVehicleId', '=', $request->userVehicleId)->firstOrFail();
             
         if ($communityVehicle->verified) {
@@ -295,6 +303,7 @@ class UserVehicleController extends Controller
             $userVehicle->save();
         }
         $communityVehicle->delete();
+        $userVehicleAccess->delete();
         return redirect('my-vehicles/'.$request->userVehicleId.'/'.$userVehicle->vehicleBrand)->with('success', 'You have successfully unregistered this vehicle from '.$request->communityName);
     }
 }

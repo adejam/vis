@@ -85,6 +85,9 @@ use App\Http\Controllers\UserVehicleController;
                                         @csrf
                                         <input type="hidden" value="{{ $community->communityId }}" name="communityId" />
                                         <input type="hidden" value="{{ $userVehicleId }}" name="userVehicleId" />
+                                        <input type="hidden" value="{{ $community->driverLicenseIdAccess }}" name="driverLicenseIdAccess" />
+                                        <input type="hidden" value="{{ $community->vehicleRegNumAccess }}" name="vehicleRegNumAccess" />
+                                        <input type="hidden" value="{{ $community->vehicleRegStateAccess}}" name="vehicleRegStateAccess" />
 
                                         <article class="modal-body">
                                             @if ($community->driverLicenseIdAccess || $community->vehicleRegNumAccess || $community->vehicleRegStateAccess)

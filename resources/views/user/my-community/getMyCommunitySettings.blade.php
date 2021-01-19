@@ -25,6 +25,13 @@
                                         :input="['value' => $community->aboutCommunity, 'name' => 'aboutCommunity', 'title' => 'About Community']" />
                                     <h4 class="text-xl font-semibold text-gray-900">Select Additional vehicle information to
                                         request</h4>
+                                    <div class="flex justify-between items-start bg-green-100 border border-green-400 text-green-700 px-4 py-3 m-3 rounded relative" role="alert">
+                                        <p class="block sm:inline">Unchecking access to user vehicle informations that have previously been granted will make you lose access to those informations.
+                                            <br />
+                                            <br/>
+                                            Checking access to information that you didnt request for before requires you to notify the user to grant you access to such informations 
+                                        </p>
+                                    </div>
                                     <x-checkbox
                                         :input="['value' => $community->driverLicenseIdAccess, 'name' => 'driverLicenseIdAccess', 'title' => 'Request Driver License Id']" />
                                     <x-checkbox

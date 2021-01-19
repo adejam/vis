@@ -21,6 +21,9 @@ class CreateUserVehicleAccessesTable extends Migration
             $table->foreign('userVehicleId')->references('userVehicleId')->on('user_vehicles');
             $table->char('communityId');
             $table->foreign('communityId')->references('communityId')->on('communities');
+            $table->boolean('grantDriverLicenseIdAccess');
+            $table->boolean('grantVehicleRegNumAccess');
+            $table->boolean('grantVehicleRegStateAccess');
             $table->timestamps();
         });
     }

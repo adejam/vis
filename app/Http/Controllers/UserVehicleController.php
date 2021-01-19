@@ -246,6 +246,9 @@ class UserVehicleController extends Controller
                 $userVehicleAccess->userId = Auth::user()->id;
                 $userVehicleAccess->userVehicleId = $request->userVehicleId;
                 $userVehicleAccess->communityId = $request->communityId;
+                $userVehicleAccess->grantDriverLicenseIdAccess = $request->driverLicenseIdAccess;
+                $userVehicleAccess->grantVehicleRegNumAccess = $request->vehicleRegNumAccess;
+                $userVehicleAccess->grantVehicleRegStateAccess = $request->vehicleRegStateAccess;
                 $userVehicleAccess->save();
             }
 

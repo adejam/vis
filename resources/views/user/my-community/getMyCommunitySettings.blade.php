@@ -23,7 +23,7 @@
                                         :input="['value' => $community->communityLocation, 'name' => 'communityLocation', 'title' => 'Community Location']" />
                                     <x-text-area-input
                                         :input="['value' => $community->aboutCommunity, 'name' => 'aboutCommunity', 'title' => 'About Community']" />
-                                    <h4 class="text-xl font-semibold text-gray-900">Select Additional vehicle information to
+                                    <h4 class="font-semibold text-gray-900">Select Additional vehicle information to
                                         request</h4>
                                     <div class="flex justify-between items-start bg-green-100 border border-green-400 text-green-700 px-4 py-3 m-3 rounded relative" role="alert">
                                         <p class="block sm:inline">Unchecking access to user vehicle informations that have previously been granted will make you lose access to those informations.

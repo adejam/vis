@@ -55,12 +55,12 @@ use App\Http\Controllers\UserVehicleAccessController;
                         @endif
                         @if ($community->vehicleRegNumAccess && $checkGrantedAccess->grantVehicleRegNumAccess)
                             <li class="mb-2 py-3 px-5 border-b">
-                                <p><b>Vehicle Reg Number: </b>{{ $user->vehicleRegNum }}</p>
+                                <p><b>Vehicle Registration Number: </b>{{ $user->vehicleRegNum }}</p>
                             </li>
                         @endif
                         @if ($community->vehicleRegStateAccess && $checkGrantedAccess->grantVehicleRegStateAccess)
                             <li class="mb-2 py-3 px-5 border-b capitalize">
-                                <p><b>Vehicle Reg State: </b>{{ $user->vehicleRegState }}</p>
+                                <p><b>Vehicle Registration State: </b>{{ $user->vehicleRegState }}</p>
                             </li>
                         @endif
                     </ul>

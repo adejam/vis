@@ -5,7 +5,7 @@ use App\Http\Controllers\CommunityController;
 use App\Http\Controllers\CommunityAdminController;
 use App\Http\Controllers\UserVehicleController;
 use App\Http\Controllers\ContactUsController;
-use App\Mail\ContactUsMail;
+use App\Http\Controllers\UserVehicleAccessController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
 
@@ -63,6 +63,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(
                 Route::post("/join-community", [UserVehicleController::class, 'joinCommunity'])->name('vehicle.community.join');
                 Route::get("/{vehicleBrand}/{userVehicleId}/community/{communityName}/{communityId}", [UserVehicleController::class, 'showCommunity'])->name('vehicle.community.show');
                 Route::post("/unjoin-community", [UserVehicleController::class, 'unjoinCommunity'])->name('vehicle.community.unjoin');
+                Route::post("/grant-remove-access", [UserVehicleAccessController::class, 'grantOrRemoveAccess'])->name('vehicle.access.grantOrRemove');
             }
         );
     }

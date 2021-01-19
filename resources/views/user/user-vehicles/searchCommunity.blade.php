@@ -98,7 +98,7 @@ use App\Http\Controllers\UserVehicleController;
                                                         <ul class="flex flex-col">
                                                             @if ($community->driverLicenseIdAccess)
                                                                 <li class="relative block py-3 px-5 text-left">- Driver's
-                                                                    License Id </li>
+                                                                    License ID </li>
                                                             @endif
                                                             @if ($community->vehicleRegNumAccess)
                                                                 <li class="relative block py-3 px-5 ">- Vehicle Registration
@@ -123,7 +123,7 @@ use App\Http\Controllers\UserVehicleController;
                                                 <div class="p-3 bg-gray-100 border-gray-300">
                                                     @if ($community->driverLicenseIdAccess && !$userVehicle->driverLicenseId)
                                                         <x-text-input
-                                                            :input="['value' => '', 'name' => 'driverLicenseId', 'title' => 'Driver License Id']" />
+                                                            :input="['value' => '', 'name' => 'driverLicenseId', 'title' => 'Driver License ID']" />
                                                     @endif
                                                     @if ($community->vehicleRegNumAccess && !$userVehicle->vehicleRegNum)
                                                         <x-text-input

@@ -85,7 +85,7 @@
                                             </p>
                                         </div>
                                         <x-text-input
-                                            :input="['value' => $vehicle->driverLicenseId, 'name' => 'driverLicenseId', 'title' => 'Driver License Id']" />
+                                            :input="['value' => $vehicle->driverLicenseId, 'name' => 'driverLicenseId', 'title' => 'Driver License ID']" />
                                         <x-text-input
                                             :input="['value' => $vehicle->vehicleRegNum, 'name' => 'vehicleRegNum', 'title' => 'Vehicle Registration Number']" />
                                         <x-text-input

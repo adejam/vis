@@ -270,13 +270,25 @@ class UserVehicleController extends Controller
     public function showCommunity($vehicleBrand, $userVehicleId, $communityName, $communityId)
     {
         $community = DB::table('communities')
-            ->select('communityId', 'communityName', 'communityLocation', 'aboutCommunity', 'userId')
+            ->select(
+                'communityId',
+                'communityName',
+                'communityLocation',
+                'aboutCommunity',
+                'userId',
+                'driverLicenseIdAccess',
+                'vehicleRegNumAccess',
+                'vehicleRegStateAccess'
+            )
             ->where('communityId', '=', $communityId)->first();
 
         $communityAdmins = DB::table('community_admins')
             ->join('users', 'users.id', 'community_admins.userId')
             ->select('name', 'lastname', 'username', 'profile_photo_path', 'user_phone', 'userId')
-            ->where('community_admins.communityId', '=', $communityId)->get();
+            ->where('community_admins.communityId', '=', $communityId)
+            ->paginate(3)
+            ->setpath('');
+        ;
         
         $communityVehicle = DB::table('community_vehicles')
             ->select('verified')

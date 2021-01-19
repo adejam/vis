@@ -241,7 +241,7 @@ class UserVehicleController extends Controller
                 ->where('userVehicleId', '=', $request->userVehicleId)
                 ->where('communityId', '=', $request->communityId)->first();
             
-            if (!$checkVehicleAccess && ($community->driverLicenseIdAccess || $community->vehicleRegNumAccess || $community->vehicleRegStateAccess)) {
+            if (!$checkVehicleAccess) {
                 $userVehicleAccess = new UserVehicleAccess;
                 $userVehicleAccess->userId = Auth::user()->id;
                 $userVehicleAccess->userVehicleId = $request->userVehicleId;

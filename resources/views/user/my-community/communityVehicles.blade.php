@@ -1,3 +1,6 @@
+@php
+use App\Http\Controllers\UserVehicleAccessController;
+@endphp
 <x-app-layout>
     @section('title', 'Community vehicles')
         <x-community-nav :communityId="$community->communityId" :communityName="$community->communityName" />
@@ -32,7 +35,8 @@
                     <ul class="flex flex-col">
                         <li class="mb-2 py-3 px-5 border-b bg-gray-100">
                             <h3 class="text-lg font-semibold text-gray-900 my-2 text-center capitalize">
-                                {{ $vehicle->vehicleBrand }}</h3>
+                                {{ $vehicle->vehicleBrand }}
+                            </h3>
                         </li>
                         <li class="mb-2 py-3 px-5 border-b">
                             <p><b>Vehicle Model: </b>{{ $vehicle->vehicleModel }}</p>
@@ -41,17 +45,27 @@
                             <p><b>Vehicle Color: </b>{{ $vehicle->vehicleColor }}</p>
                         </li>
                         <li class="mb-2 py-3 px-5 border-b">
-                            <p><b>Driver's License Id: </b>{{ $vehicle->driverLicenseId }}</p>
-                        </li>
-                        <li class="mb-2 py-3 px-5 border-b">
-                            <p><b>Vehicle Reg Number: </b>{{ $vehicle->vehicleRegNum }}</p>
-                        </li>
-                        <li class="mb-2 py-3 px-5 border-b capitalize">
-                            <p><b>Vehicle Reg State: </b>{{ $vehicle->vehicleRegState }}</p>
-                        </li>
-                        <li class="mb-2 py-3 px-5 border-b">
                             <p><b>Vehicle plate Number: </b>{{ $vehicle->plateNumber }}</p>
                         </li>
+                        @php
+                        $checkGrantedAccess = UserVehicleAccessController::checkGrantedAccess($community->communityId,
+                        $vehicle->userVehicleId);
+                        @endphp
+                        @if ($community->driverLicenseIdAccess && $checkGrantedAccess->grantDriverLicenseIdAccess)
+                            <li class="mb-2 py-3 px-5 border-b">
+                                <p><b>Driver's License Id: </b>{{ $vehicle->driverLicenseId }}</p>
+                            </li>     
+                        @endif
+                        @if ($community->vehicleRegNumAccess && $checkGrantedAccess->grantVehicleRegNumAccess)
+                            <li class="mb-2 py-3 px-5 border-b">
+                                <p><b>Vehicle Reg Number: </b>{{ $vehicle->vehicleRegNum }}</p>
+                            </li>
+                        @endif
+                        @if ($community->vehicleRegStateAccess && $checkGrantedAccess->grantVehicleRegStateAccess)
+                            <li class="mb-2 py-3 px-5 border-b capitalize">
+                                <p><b>Vehicle Reg State: </b>{{ $vehicle->vehicleRegState }}</p>
+                            </li>
+                        @endif
                         <li class="mb-2 py-3 px-5 text-center border-b">
                             <p>Located at {{ $vehicle->locationInCommunity }}</p>
                         </li>
@@ -88,38 +102,38 @@
 
             </div>
         @endforeach
-        
+
         <div class="mt-2">
             <a href="{{ url('my-community/' . $community->communityId . '/registration-requests') }}">
-                                
-            <div class="mt-3 flex items-center text-sm font-semibold text-indigo-700">
-                <div>Go to Registration Requests</div>
 
-                <div class="ml-1 text-indigo-500">
-                    <svg viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4">
-                        <path fill-rule="evenodd"
-                            d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
-                            clip-rule="evenodd"></path>
-                    </svg>
+                <div class="mt-3 flex items-center text-sm font-semibold text-indigo-700">
+                    <div>Go to Registration Requests</div>
+
+                    <div class="ml-1 text-indigo-500">
+                        <svg viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4">
+                            <path fill-rule="evenodd"
+                                d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
+                                clip-rule="evenodd"></path>
+                        </svg>
+                    </div>
                 </div>
-            </div>
             </a>
         </div>
 
         <div class="mt-2">
             <a href="{{ url('my-community/' . $community->communityId . '/vehicle-users') }}">
-                                
-            <div class="mt-3 flex items-center text-sm font-semibold text-indigo-700">
-                <div>Check Community Vehicle Users</div>
 
-                <div class="ml-1 text-indigo-500">
-                    <svg viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4">
-                        <path fill-rule="evenodd"
-                            d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
-                            clip-rule="evenodd"></path>
-                    </svg>
+                <div class="mt-3 flex items-center text-sm font-semibold text-indigo-700">
+                    <div>Check Community Vehicle Users</div>
+
+                    <div class="ml-1 text-indigo-500">
+                        <svg viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4">
+                            <path fill-rule="evenodd"
+                                d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
+                                clip-rule="evenodd"></path>
+                        </svg>
+                    </div>
                 </div>
-            </div>
             </a>
         </div>
     </x-app-layout>

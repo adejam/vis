@@ -68,7 +68,10 @@ class CommunityController extends Controller
                 'communities.communityId',
                 'communityName',
                 'communityLocation',
-                'aboutCommunity'
+                'aboutCommunity',
+                'driverLicenseIdAccess',
+                'vehicleRegNumAccess',
+                'vehicleRegStateAccess'
             )->where('community_admins.userId', '=', Auth::id())
             ->where('community_admins.communityId', '=', $communityId)->first();
         if (!$community) {
@@ -127,8 +130,14 @@ class CommunityController extends Controller
             'communityName' => ['required', 'string', 'max:255', 'unique:communities'],
             'communityLocation' => ['required', 'string', 'max:255'],
             'aboutCommunity' => ['required', 'string', 'max:255'],
+            // 'driverLicenseIdAccess' => ['boolean'],
+            // 'vehicleRegNumAccess' => ['boolean'],
+            // 'vehicleRegStateAccess' => ['boolean'],
             ]
         );
+        
+        return $request;
+
         $communityId = utf8_encode(Uuid::generate());
         $community = new Community;
         $community->communityId = $communityId;
@@ -136,6 +145,9 @@ class CommunityController extends Controller
         $community->communityName = $request->communityName;
         $community->communityLocation = $request->communityLocation;
         $community->aboutCommunity = $request->aboutCommunity;
+        $community->driverLicenseIdAccess = $request->driverLicenseIdAccess ? 1 : 0;
+        $community->vehicleRegNumAccess = $request->vehicleRegNumAccess ? 1 : 0;
+        $community->vehicleRegStateAccess = $request->vehicleRegStateAccess ? 1 : 0;
         $community->save();
 
         $communityAdminId = utf8_encode(Uuid::generate(4));
@@ -171,6 +183,9 @@ class CommunityController extends Controller
         $community->communityName = $request->communityName;
         $community->communityLocation = $request->communityLocation;
         $community->aboutCommunity = $request->aboutCommunity;
+        $community->driverLicenseIdAccess = $request->driverLicenseIdAccess ? 1 : 0;
+        $community->vehicleRegNumAccess = $request->vehicleRegNumAccess ? 1 : 0;
+        $community->vehicleRegStateAccess = $request->vehicleRegStateAccess ? 1 : 0;
         $community->save();
                 
         return back()->with('success', ''.$community->communityName.' successfully Updated!');

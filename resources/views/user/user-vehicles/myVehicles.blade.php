@@ -21,7 +21,7 @@
             <div class="mt-5 md:mt-0">
                 <form method="POST" action="{{ route('vehicle.add') }}">
                     @csrf
-                    <div class="overflow-hidden sm:rounded-md">
+                    <div class="overflow-hidden sm:rounded-md bg-gray-300 p-5">
                         <x-text-input :input="['value' => '', 'name' => 'vehicleBrand', 'title' => 'Vehicle Brand']" />
                         <x-text-input :input="['value' => '', 'name' => 'vehicleModel', 'title' => 'Vehicle Model']" />
                         <x-text-input :input="['value' => '', 'name' => 'vehicleColor', 'title' => 'Vehicle Colour']" />

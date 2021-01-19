@@ -7,6 +7,7 @@ use App\Models\CommunityAdmin;
 use App\Models\Community;
 use App\Models\CommunityVehicle;
 use App\Models\UserVehicle;
+use App\Models\UserVehicleAccess;
 use Webpatser\Uuid\Uuid;
 use Auth;
 use DB;

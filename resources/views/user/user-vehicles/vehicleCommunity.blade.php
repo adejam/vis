@@ -49,19 +49,19 @@ use App\Http\Controllers\UserVehicleAccessController;
                             $text = "Driver's License ID";
                         @endphp
                         <x-show-requirement-access 
-                            :accessRequirement="['requirement' => $text, 'accessName' => 'grantDriverLicenseIdAccess']"
+                            :accessRequirement="['requiredAccess' => 'driverLicenseIdAccess', 'requirement' => $text, 'accessName' => 'grantDriverLicenseIdAccess']"
                             :communityRequirement="$community->driverLicenseIdAccess"
                             :grantedAccess="$checkGrantedAccess->grantDriverLicenseIdAccess"
                             :communityId="$community->communityId"
                             :userVehicleId="$userVehicleId"/>
                         <x-show-requirement-access 
-                            :accessRequirement="['requirement' => 'Vehicle Registration Number', 'accessName' => 'grantVehicleRegNumAccess']"
+                            :accessRequirement="['requiredAccess' => 'vehicleRegNumAccess', 'requirement' => 'Vehicle Registration Number', 'accessName' => 'grantVehicleRegNumAccess']"
                             :communityRequirement="$community->vehicleRegNumAccess"
                             :grantedAccess="$checkGrantedAccess->grantVehicleRegNumAccess"
                             :communityId="$community->communityId"
                             :userVehicleId="$userVehicleId"/>
                         <x-show-requirement-access 
-                            :accessRequirement="['requirement' => 'Vehicle Registration State', 'accessName' => 'grantVehicleRegStateAccess']"
+                            :accessRequirement="['requiredAccess' => 'vehicleRegStateAccess', 'requirement' => 'Vehicle Registration State', 'accessName' => 'grantVehicleRegStateAccess']"
                             :communityRequirement="$community->vehicleRegStateAccess"
                             :grantedAccess="$checkGrantedAccess->grantVehicleRegStateAccess"
                             :communityId="$community->communityId"

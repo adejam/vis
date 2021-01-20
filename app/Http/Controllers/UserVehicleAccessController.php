@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use DB;
 use Auth;
 use App\Models\UserVehicleAccess;
+use App\Models\Community;
 
 class UserVehicleAccessController extends Controller
 {
@@ -26,14 +27,28 @@ class UserVehicleAccessController extends Controller
     public function grantOrRemoveAccess(Request $request)
     {
         $vehicleAccess = $this->getVehicleAccess($request->communityId, $request->userVehicleId);
+        $community =  Community::select(
+            'driverLicenseIdAccess',
+            'vehicleRegNumAccess',
+            'vehicleRegStateAccess'
+        )
+            ->where('communityId', '=', $request->communityId)->first();
         if ($vehicleAccess[$request->accessName]) {
-            $vehicleAccess[$request->accessName] = 0;
-            $vehicleAccess->save();
-            return back()->with('success', ' Access Removed!');
+            if ($community[$request->requiredAccess] != $vehicleAccess[$request->accessName]) {
+                $vehicleAccess[$request->accessName] = 0;
+                $vehicleAccess->save();
+                return back()->with('success', ' Access Removed!');
+            } else {
+                return back()->with('error', 'Community Requirement changed. Review changes and try again!');
+            }
         } else {
-            $vehicleAccess[$request->accessName] = 1;
-            $vehicleAccess->save();
-            return back()->with('success', 'Access Granted!');
+            if ($community[$request->requiredAccess] != $vehicleAccess[$request->accessName]) {
+                $vehicleAccess[$request->accessName] = 1;
+                $vehicleAccess->save();
+                return back()->with('success', 'Access Granted!');
+            } else {
+                return back()->with('error', 'Community Requirement changed. Review changes and try again!');
+            }
         }
     }
 }

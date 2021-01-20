@@ -6,7 +6,7 @@
                 Access Granted
             @else
                 <x-show-requirement-access-form 
-                accessType="1" 
+                :accessType="['type' => 1, 'requiredAccess' => $accessRequirement['requiredAccess']]" 
                 :userVehicleId="$userVehicleId"
                 :communityId="$communityId"
                 :accessName="$accessRequirement['accessName']"/>
@@ -19,7 +19,7 @@
             <div class="flex justify-start">
                 <p class="mr-2"><b>{{ $accessRequirement['requirement'] }}: </b></p>
                 <x-show-requirement-access-form 
-                accessType="0" 
+                :accessType="['type' => 0, 'requiredAccess' => $accessRequirement['requiredAccess']]" 
                 :userVehicleId="$userVehicleId"
                 :communityId="$communityId"
                 :accessName="$accessRequirement['accessName']"/>

@@ -84,12 +84,21 @@
                                                 Only the communities you grant access to can have access to them.
                                             </p>
                                         </div>
-                                        <x-text-input
-                                            :input="['value' => $vehicle->driverLicenseId, 'name' => 'driverLicenseId', 'title' => 'Driver License ID']" />
-                                        <x-text-input
-                                            :input="['value' => $vehicle->vehicleRegNum, 'name' => 'vehicleRegNum', 'title' => 'Vehicle Registration Number']" />
-                                        <x-text-input
-                                            :input="['value' => $vehicle->vehicleRegState, 'name' => 'vehicleRegState', 'title' => 'Vehicle Registration State']" />
+                                        <div>
+                                            <x-jet-label for="driverLicenseId" value="{{ __('Driver License ID') }}" />
+                                            <x-jet-input id="driverLicenseId" class="block mt-1 w-full" type="text" name="driverLicenseId"
+                                                :value="$vehicle->driverLicenseId" autocomplete="driverLicenseId" />
+                                        </div>
+                                        <div>
+                                            <x-jet-label for="vehicleRegNum" value="{{ __('Vehicle Registration Number') }}" />
+                                            <x-jet-input id="vehicleRegNum" class="block mt-1 w-full" type="text" name="vehicleRegNum"
+                                                :value="$vehicle->vehicleRegNum" autocomplete="vehicleRegNum" />
+                                        </div>
+                                        <div>
+                                            <x-jet-label for="vehicleRegState" value="{{ __('Vehicle Registration Number') }}" />
+                                            <x-jet-input id="vehicleRegState" class="block mt-1 w-full" type="text" name="vehicleRegState"
+                                                :value="$vehicle->vehicleRegState" autocomplete="vehicleRegState" />
+                                        </div>
                                     </div>
                             </div>
                             <div class="flex items-center justify-end px-4 py-3 sm:px-6">

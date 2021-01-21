@@ -130,9 +130,6 @@ class CommunityController extends Controller
             'communityName' => ['required', 'string', 'max:255', 'unique:communities'],
             'communityLocation' => ['required', 'string', 'max:255'],
             'aboutCommunity' => ['required', 'string', 'max:255'],
-            // 'driverLicenseIdAccess' => ['boolean'],
-            // 'vehicleRegNumAccess' => ['boolean'],
-            // 'vehicleRegStateAccess' => ['boolean'],
             ]
         );
         

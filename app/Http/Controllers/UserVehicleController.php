@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\UserVehicle;
 use App\Models\CommunityVehicle;
+use App\Models\UserVehicleAccess;
 use Webpatser\Uuid\Uuid;
 use Illuminate\Validation\Rule;
 use Auth;
@@ -62,7 +63,6 @@ class UserVehicleController extends Controller
                 'plateNumber'
             )->where('userId', '=', Auth::id())
             ->where('userVehicleId', '=', $userVehicleId)->first();
-
         $communities = $this->getCurrentUserVehicleCommunity($userVehicleId);
         return view('user.user-vehicles.myVehicle')
             ->with('vehicle', $vehicle)
@@ -77,9 +77,9 @@ class UserVehicleController extends Controller
             'vehicleBrand' => ['required', 'string', 'max:255'],
             'vehicleModel' => ['required', 'string', 'max:255'],
             'vehicleColor' => ['required', 'string', 'max:255'],
-            'driverLicenseId' => ['required', 'string', 'max:255', 'unique:user_vehicles'],
-            'vehicleRegNum' => ['required', 'string', 'max:255', 'unique:user_vehicles'],
-            'vehicleRegState' => ['required', 'string', 'max:255'],
+            'driverLicenseId' => ['nullable', 'string', 'max:255', 'unique:user_vehicles'],
+            'vehicleRegNum' => ['nullable', 'string', 'max:255', 'unique:user_vehicles'],
+            'vehicleRegState' => ['nullable', 'string', 'max:255'],
             'plateNumber' => ['required', 'string', 'max:255', 'unique:user_vehicles'],
             ]
         );
@@ -110,19 +110,43 @@ class UserVehicleController extends Controller
             'vehicleBrand' => ['required', 'string', 'max:255'],
             'vehicleModel' => ['required', 'string', 'max:255'],
             'vehicleColor' => ['required', 'string', 'max:255'],
-            'driverLicenseId' => ['required', 'string', 'max:255', Rule::unique('user_vehicles')->ignore($userVehicle->id)],
-            'vehicleRegNum' => ['required', 'string', 'max:255', Rule::unique('user_vehicles')->ignore($userVehicle->id)],
-            'vehicleRegState' => ['required', 'string', 'max:255'],
+            'driverLicenseId' => ['nullable', 'string', 'max:255'],
+            'vehicleRegNum' => ['nullable', 'string', 'max:255', Rule::unique('user_vehicles')->ignore($userVehicle->id)],
+            'vehicleRegState' => ['nullable', 'string', 'max:255'],
             'plateNumber' => ['required', 'string', 'max:255', Rule::unique('user_vehicles')->ignore($userVehicle->id)],
             ]
         );
-
+        $driverLicenseOwner = DB::table('user_vehicles')
+            ->select(
+                'userId'
+            )->where('driverLicenseId', '=', $request->driverLicenseId)
+            ->where('userVehicleId', '!=', $request->userVehicleId)->first();
+        $alreadyHaveALicense = DB::table('user_vehicles')
+            ->select(
+                'driverLicenseId'
+            )->where('userId', '=', Auth::user()->id)
+            ->where('userVehicleId', '!=', $request->userVehicleId)->first();
+        // dd($alreadyHaveALicense);
         if ($userVehicle->timesVerified < 1) {
             $userVehicle->vehicleColor = $request->vehicleColor;
             $userVehicle->vehicleBrand = $request->vehicleBrand;
             $userVehicle->vehicleModel = $request->vehicleModel;
             $userVehicle->vehicleRegState = $request->vehicleRegState;
-            $userVehicle->driverLicenseId = $request->driverLicenseId;
+            if ($request->driverLicenseId && $driverLicenseOwner) {
+                if ($driverLicenseOwner->userId === Auth::user()->id) {
+                    $userVehicle->driverLicenseId = $request->driverLicenseId;
+                } else {
+                    return back()->with('error', 'The driver\'s License has already been used by another user');
+                }
+            } elseif ($request->driverLicenseId && $alreadyHaveALicense) {
+                if ($request->driverLicenseId === $alreadyHaveALicense->driverLicenseId) {
+                    $userVehicle->driverLicenseId = $request->driverLicenseId;
+                } else {
+                    return back()->with('error', 'You Licence id must be the same with the one you used with other vehicles');
+                }
+            } else {
+                $userVehicle->driverLicenseId = $request->driverLicenseId;
+            }
             $userVehicle->vehicleRegNum = $request->vehicleRegNum;
             $userVehicle->plateNumber = $request->plateNumber;
         }
@@ -146,13 +170,25 @@ class UserVehicleController extends Controller
                 'communityId',
                 'communityName',
                 'communityLocation',
-                'aboutCommunity'
+                'aboutCommunity',
+                'driverLicenseIdAccess',
+                'vehicleRegNumAccess',
+                'vehicleRegStateAccess'
             )
             ->where('communityName', 'like', '%'.$request->search.'%')
             ->orderBy('updated_at', 'desc')
             ->paginate(10)
             ->setpath('');
-
+        
+        $userVehicle = DB::table('user_vehicles')
+            ->select(
+                'vehicleBrand',
+                'driverLicenseId',
+                'vehicleRegNum',
+                'vehicleRegState'
+            )->where('userId', '=', Auth::id())
+            ->where('userVehicleId', '=', $request->userVehicleId)->first();
+        
         $communities->appends(
             array(
                 'userVehicleId'=> $request->userVehicleId,
@@ -162,7 +198,8 @@ class UserVehicleController extends Controller
 
         return view('user.user-vehicles.searchCommunity')
             ->with(compact('communities'))
-            ->with('userVehicleId', $request->userVehicleId);
+            ->with('userVehicleId', $request->userVehicleId)
+            ->with('userVehicle', $userVehicle);
     }
 
     public function deleteVehicle(Request $request, $id=null)
@@ -173,12 +210,18 @@ class UserVehicleController extends Controller
         foreach ($communityVehicle as $communityVehicle) {
             $communityVehicle->delete();
         }
+        $userVehicleAccess = UserVehicleAccess::where('userId', '=', Auth::user()->id)
+                            ->where('userVehicleId', '=', $request->userVehicleId)->get();
+        foreach ($userVehicleAccess as $userVehicleAccess) {
+            $userVehicleAccess->delete();
+        }
         $vehicle->delete();
         return redirect('/my-vehicles')->with('success', 'Vehicle successfully Removed!');
     }
 
     public function joinCommunity(Request $request)
     {
+        $userVehicle = UserVehicle::where('userVehicleId', '=', $request->userVehicleId)->firstOrFail();
         $this->validate(
             $request,
             [
@@ -188,14 +231,92 @@ class UserVehicleController extends Controller
 
         $community = DB::table('communities')->select(
             'communityName',
+            'driverLicenseIdAccess',
+            'vehicleRegNumAccess',
+            'vehicleRegStateAccess'
         )->where('communityId', '=', $request->communityId)->first();
 
         $vehicleExistInCommunity = DB::table('community_vehicles')->select(
             'communityVehicleId',
         )->where('userVehicleId', '=', $request->userVehicleId)
             ->where('communityId', '=', $request->communityId)->first();
-        
         if (!$vehicleExistInCommunity) {
+            if ($community->driverLicenseIdAccess && !$userVehicle->driverLicenseId) {
+                $driverLicenseOwner = DB::table('user_vehicles')
+                    ->select(
+                        'userId'
+                    )->where('driverLicenseId', '=', $request->driverLicenseId)
+                    ->where('userVehicleId', '!=', $request->userVehicleId)->first();
+                $alreadyHaveALicense = DB::table('user_vehicles')
+                    ->select(
+                        'driverLicenseId'
+                    )->where('userId', '=', Auth::user()->id)
+                    ->where('userVehicleId', '!=', $request->userVehicleId)->first();
+                if ($request->driverLicenseId && $driverLicenseOwner) {
+                    if ($driverLicenseOwner->userId === Auth::user()->id) {
+                        $this->validate(
+                            $request,
+                            [
+                            'driverLicenseId' => ['required', 'string', 'max:255'],
+                            ]
+                        );
+                        $userVehicle->driverLicenseId = $request->driverLicenseId;
+                    } else {
+                        return back()->with('error', 'The driver\'s License has already been used by another user');
+                    }
+                } else {
+                    $this->validate(
+                        $request,
+                        [
+                            'driverLicenseId' => ['required', 'string', 'max:255'],
+                            ]
+                    );
+                    if ($request->driverLicenseId === $alreadyHaveALicense->driverLicenseId) {
+                        $userVehicle->driverLicenseId = $request->driverLicenseId;
+                    } else {
+                        return back()->with('error', 'Your Licence id must be the same with the one you used with other vehicles');
+                    }
+                }
+            }
+
+            if ($community->vehicleRegNumAccess && !$userVehicle->vehicleRegNum) {
+                $this->validate(
+                    $request,
+                    [
+                    'vehicleRegNum' => ['required', 'string', 'max:255', Rule::unique('user_vehicles')->ignore($userVehicle->id)],
+                    ]
+                );
+                $userVehicle->vehicleRegNum = $request->vehicleRegNum;
+            }
+
+            if ($community->vehicleRegStateAccess && !$userVehicle->vehicleRegState) {
+                $this->validate(
+                    $request,
+                    [
+                    'vehicleRegState' => ['required', 'string', 'max:255'],
+                    ]
+                );
+                $userVehicle->vehicleRegState = $request->vehicleRegState;
+            }
+            $userVehicle->save();
+
+            $checkVehicleAccess = DB::table('user_vehicle_accesses')
+                ->select('id')
+                ->where('userId', '=', Auth::user()->id)
+                ->where('userVehicleId', '=', $request->userVehicleId)
+                ->where('communityId', '=', $request->communityId)->first();
+            
+            if (!$checkVehicleAccess) {
+                $userVehicleAccess = new UserVehicleAccess;
+                $userVehicleAccess->userId = Auth::user()->id;
+                $userVehicleAccess->userVehicleId = $request->userVehicleId;
+                $userVehicleAccess->communityId = $request->communityId;
+                $userVehicleAccess->grantDriverLicenseIdAccess = $request->driverLicenseIdAccess;
+                $userVehicleAccess->grantVehicleRegNumAccess = $request->vehicleRegNumAccess;
+                $userVehicleAccess->grantVehicleRegStateAccess = $request->vehicleRegStateAccess;
+                $userVehicleAccess->save();
+            }
+
             $communityVehicleId = utf8_encode(Uuid::generate());
             $communityVehicle = new CommunityVehicle;
             $communityVehicle->communityVehicleId = $communityVehicleId;
@@ -214,13 +335,25 @@ class UserVehicleController extends Controller
     public function showCommunity($vehicleBrand, $userVehicleId, $communityName, $communityId)
     {
         $community = DB::table('communities')
-            ->select('communityId', 'communityName', 'communityLocation', 'aboutCommunity', 'userId')
+            ->select(
+                'communityId',
+                'communityName',
+                'communityLocation',
+                'aboutCommunity',
+                'userId',
+                'driverLicenseIdAccess',
+                'vehicleRegNumAccess',
+                'vehicleRegStateAccess'
+            )
             ->where('communityId', '=', $communityId)->first();
 
         $communityAdmins = DB::table('community_admins')
             ->join('users', 'users.id', 'community_admins.userId')
             ->select('name', 'lastname', 'username', 'profile_photo_path', 'user_phone', 'userId')
-            ->where('community_admins.communityId', '=', $communityId)->get();
+            ->where('community_admins.communityId', '=', $communityId)
+            ->paginate(3)
+            ->setpath('');
+        ;
         
         $communityVehicle = DB::table('community_vehicles')
             ->select('verified')
@@ -240,6 +373,9 @@ class UserVehicleController extends Controller
         $communityVehicle = CommunityVehicle::where('userId', '=', Auth::user()->id)
                             ->where('userVehicleId', '=', $request->userVehicleId)
                             ->where('communityId', '=', $request->communityId)->firstOrFail();
+        $userVehicleAccess = UserVehicleAccess::where('userId', '=', Auth::user()->id)
+                            ->where('userVehicleId', '=', $request->userVehicleId)
+                            ->where('communityId', '=', $request->communityId)->firstOrFail();
         $userVehicle = UserVehicle::where('userVehicleId', '=', $request->userVehicleId)->firstOrFail();
             
         if ($communityVehicle->verified) {
@@ -247,6 +383,7 @@ class UserVehicleController extends Controller
             $userVehicle->save();
         }
         $communityVehicle->delete();
+        $userVehicleAccess->delete();
         return redirect('my-vehicles/'.$request->userVehicleId.'/'.$userVehicle->vehicleBrand)->with('success', 'You have successfully unregistered this vehicle from '.$request->communityName);
     }
 }

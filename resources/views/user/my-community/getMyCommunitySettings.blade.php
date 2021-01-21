@@ -15,14 +15,30 @@
                         <form method="POST" action="{{ route('community.update') }}">
                             @csrf
                             <input type="hidden" name="communityId" value={{ $community->communityId }} />
-                            <div class="overflow-hidden sm:rounded-md">
-                                <div class="px-4 py-5 bg-white sm:p-6">
+                            <div class="overflow-hidden sm:rounded-md ">
+                                <div class="px-4 py-5 sm:p-6 bg-gray-300">
                                     <x-text-input
                                         :input="['value' => $community->communityName, 'name' => 'communityName', 'title' => 'Community Name']" />
                                     <x-text-input
                                         :input="['value' => $community->communityLocation, 'name' => 'communityLocation', 'title' => 'Community Location']" />
                                     <x-text-area-input
                                         :input="['value' => $community->aboutCommunity, 'name' => 'aboutCommunity', 'title' => 'About Community']" />
+                                    <h4 class="font-semibold text-gray-900">Select Additional vehicle information to
+                                        request</h4>
+                                    <div class="flex justify-between items-start bg-green-100 border border-green-400 text-green-700 px-4 py-3 m-3 rounded relative" role="alert">
+                                        <p class="block sm:inline">Unchecking access to user vehicle informations that have previously been granted will make you lose access to those informations.
+                                            <br />
+                                            <br/>
+                                            Checking access to information that you didnt request for before requires you to notify the user to grant you access to such informations 
+                                        </p>
+                                    </div>
+                                    <x-checkbox
+                                        :input="['value' => $community->driverLicenseIdAccess, 'name' => 'driverLicenseIdAccess', 'title' => 'Request Driver License Id']" />
+                                    <x-checkbox
+                                        :input="['value' => $community->vehicleRegNumAccess, 'name' => 'vehicleRegNumAccess', 'title' => 'Request Vehicle Registration Number']" />
+                                    <x-checkbox
+                                        :input="['value' => $community->vehicleRegStateAccess, 'name' => 'vehicleRegStateAccess', 'title' => 'Request Vehicle Registration State']" />
+        
                                 </div>
                                 @if ($community->userId === Auth::id())
                                 <div class="flex items-center justify-end px-4 py-3 bg-gray-50 text-right sm:px-6">

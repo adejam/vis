@@ -7,7 +7,7 @@
         @endif
 
         <span class="text-sm">
-            {{ $input['title'] }} Role
+            {{ $input['title'] }}
         </span>
     </label>
     @if ($errors->has($input['name']))

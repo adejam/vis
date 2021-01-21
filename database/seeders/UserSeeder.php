@@ -24,6 +24,7 @@ class UserSeeder extends Seeder
                 'user_phone' => '08124009005',
                 'email' => 'adejam@gmail.com',
                 'password' => Hash::make('mmmmmmmm'),
+                'email_verified_at' => '2021-01-18 10:56:37.000000',
             ),
             1 => array(
                 'id' => 2,
@@ -33,6 +34,7 @@ class UserSeeder extends Seeder
                 'user_phone' => '08124509005',
                 'email' => 'costa@gmail.com',
                 'password' => Hash::make('mmmmmmmm'),
+                'email_verified_at' => '2021-01-18 10:56:37.000000',
             ),
             2 => array(
                 'id' => 3,
@@ -42,6 +44,7 @@ class UserSeeder extends Seeder
                 'user_phone' => '08124009005',
                 'email' => 'hafshit@gmail.com',
                 'password' => Hash::make('mmmmmmmm'),
+                'email_verified_at' => '2021-01-18 10:56:37.000000',
             ),
             3 => array(
                 'id' => 4,
@@ -51,6 +54,7 @@ class UserSeeder extends Seeder
                 'user_phone' => '08124009005',
                 'email' => 'basituta@gmail.com',
                 'password' => Hash::make('mmmmmmmm'),
+                'email_verified_at' => '2021-01-18 10:56:37.000000',
             ),
             4 => array(
                 'id' => 5,
@@ -60,6 +64,7 @@ class UserSeeder extends Seeder
                 'user_phone' => '09036476342',
                 'email' => 'aburidwan@gmail.com',
                 'password' => Hash::make('mmmmmmmm'),
+                'email_verified_at' => '2021-01-18 10:56:37.000000',
             ),
             5 => array(
                 'id' => 6,
@@ -69,6 +74,7 @@ class UserSeeder extends Seeder
                 'user_phone' => '09075886342',
                 'email' => 'aburahman@gmail.com',
                 'password' => Hash::make('mmmmmmmm'),
+                'email_verified_at' => '2021-01-18 10:56:37.000000',
             ),
             6 => array(
                 'id' => 7,
@@ -78,6 +84,7 @@ class UserSeeder extends Seeder
                 'user_phone' => '08136586342',
                 'email' => 'abutah@gmail.com',
                 'password' => Hash::make('mmmmmmmm'),
+                'email_verified_at' => '2021-01-18 10:56:37.000000',
             ),
             7 => array(
                 'id' => 8,
@@ -87,6 +94,7 @@ class UserSeeder extends Seeder
                 'user_phone' => '08046586342',
                 'email' => 'omotaofeek@gmail.com',
                 'password' => Hash::make('mmmmmmmm'),
+                'email_verified_at' => '2021-01-18 10:56:37.000000',
             ),
             8 => array(
                 'id' => 9,
@@ -96,6 +104,7 @@ class UserSeeder extends Seeder
                 'user_phone' => '08098586342',
                 'email' => 'dlarn@gmail.com',
                 'password' => Hash::make('mmmmmmmm'),
+                'email_verified_at' => '2021-01-18 10:56:37.000000',
             ),
         ));
     }

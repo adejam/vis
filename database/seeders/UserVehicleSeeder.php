@@ -23,9 +23,6 @@ class UserVehicleSeeder extends Seeder
             'vehicleBrand' => 'Toyota',
             'vehicleModel' => 'camry 4',
             'vehicleColor' => 'wine',
-            'driverLicenseId' => 'dgj638738dd',
-            'vehicleRegNum' => '537383hi',
-            'vehicleRegState' => 'Lagos state',
             'plateNumber' => 'mus546al',
          ),
          1 => array(
@@ -36,9 +33,6 @@ class UserVehicleSeeder extends Seeder
             'vehicleBrand' => 'Toyota',
             'vehicleModel' => 'camry sport',
             'vehicleColor' => 'black',
-            'driverLicenseId' => 'fhj538738dd',
-            'vehicleRegNum' => '857383hi',
-            'vehicleRegState' => 'Oyo state',
             'plateNumber' => 'ibd546al',
          ),
          2 => array(
@@ -49,9 +43,6 @@ class UserVehicleSeeder extends Seeder
             'vehicleBrand' => 'Golf',
             'vehicleModel' => 'Golf 4',
             'vehicleColor' => 'green',
-            'driverLicenseId' => 'gjk538738dd',
-            'vehicleRegNum' => '8936383hi',
-            'vehicleRegState' => 'Lagos state',
             'plateNumber' => 'kos546al',
          ),
          3 => array(
@@ -62,9 +53,6 @@ class UserVehicleSeeder extends Seeder
             'vehicleBrand' => 'Audi',
             'vehicleModel' => 'Aspire',
             'vehicleColor' => 'white',
-            'driverLicenseId' => 'ht76538738dd',
-            'vehicleRegNum' => 'ku96383hi',
-            'vehicleRegState' => 'Lagos state',
             'plateNumber' => 'ald546al',
          ),
          4 => array(
@@ -75,9 +63,6 @@ class UserVehicleSeeder extends Seeder
              'vehicleBrand' => 'Benz',
              'vehicleModel' => 'legend',
              'vehicleColor' => 'Ash',
-             'driverLicenseId' => 'th76538738dh',
-             'vehicleRegNum' => '479j6383hi',
-             'vehicleRegState' => 'Osun state',
              'plateNumber' => 'ife546al',
          ),
          5 => array(
@@ -88,9 +73,6 @@ class UserVehicleSeeder extends Seeder
             'vehicleBrand' => 'Audi',
             'vehicleModel' => 'pro',
             'vehicleColor' => 'black',
-            'driverLicenseId' => '735hdghf6',
-            'vehicleRegNum' => 'jdhggg36673',
-            'vehicleRegState' => 'Ogun state',
             'plateNumber' => 'ijb746ad',
          ),
          6 => array(
@@ -101,9 +83,6 @@ class UserVehicleSeeder extends Seeder
             'vehicleBrand' => 'Toyota',
             'vehicleModel' => 'sport',
             'vehicleColor' => 'black',
-            'driverLicenseId' => '567kndh7',
-            'vehicleRegNum' => '245ghjkh74',
-            'vehicleRegState' => 'Lagos state',
             'plateNumber' => 'ikd746ap',
          ),
      ));

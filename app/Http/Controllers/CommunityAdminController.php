@@ -7,6 +7,7 @@ use App\Models\CommunityAdmin;
 use App\Models\Community;
 use App\Models\CommunityVehicle;
 use App\Models\UserVehicle;
+use App\Models\UserVehicleAccess;
 use Webpatser\Uuid\Uuid;
 use Auth;
 use DB;
@@ -203,7 +204,13 @@ class CommunityAdminController extends Controller
         $adminPriveledges =  $this->getAdminPriv($communityId);
         if ($adminPriveledges) {
             $community = DB::table('communities')
-                ->select('communityName', 'communityId')
+                ->select(
+                    'communityName',
+                    'communityId',
+                    'driverLicenseIdAccess',
+                    'vehicleRegNumAccess',
+                    'vehicleRegStateAccess'
+                )
                 ->where('communityId', '=', $communityId)
                 ->first();
             $user =  $this->getUserByUsername($username);
@@ -266,7 +273,13 @@ class CommunityAdminController extends Controller
         $adminPriveledges =  $this->getAdminPriv($communityId);
         if ($adminPriveledges) {
             $community = DB::table('communities')
-                ->select('communityName', 'communityId')
+                ->select(
+                    'communityName',
+                    'communityId',
+                    'driverLicenseIdAccess',
+                    'vehicleRegNumAccess',
+                    'vehicleRegStateAccess'
+                )
                 ->where('communityId', '=', $communityId)
                 ->first();
             $user =  $this->getUserByUsername($username);
@@ -312,6 +325,14 @@ class CommunityAdminController extends Controller
         $adminPriveledges =  $this->getAdminPriv($request->communityId);
         if ($adminPriveledges) {
             if ($adminPriveledges->identifyVehicleUser) {
+                $community = DB::table('communities')
+                    ->select(
+                        'driverLicenseIdAccess',
+                        'vehicleRegNumAccess',
+                        'vehicleRegStateAccess'
+                    )
+                    ->where('communityId', '=', $request->communityId)
+                    ->first();
                 $user = DB::table('community_vehicles')
                     ->join('user_vehicles', 'user_vehicles.userVehicleId', 'community_vehicles.userVehicleId')
                     ->join('users', 'users.id', 'user_vehicles.userId')
@@ -337,7 +358,8 @@ class CommunityAdminController extends Controller
                 return view('user.my-community.identifyUser')
                     ->with('user', $user)
                     ->with('communityId', $request->communityId)
-                    ->with('communityName', $request->communityName);
+                    ->with('communityName', $request->communityName)
+                    ->with('community', $community);
             } else {
                 return back()->with('error', 'You don\'t have the priviledge to identify this vehicle\'s user');
             }

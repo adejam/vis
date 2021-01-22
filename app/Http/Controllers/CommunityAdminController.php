@@ -199,20 +199,25 @@ class CommunityAdminController extends Controller
         }
     }
 
+    public static function getCommunityWithAccess($communityId)
+    {
+        return DB::table('communities')
+            ->select(
+                'communityName',
+                'communityId',
+                'driverLicenseIdAccess',
+                'vehicleRegNumAccess',
+                'vehicleRegStateAccess'
+            )
+            ->where('communityId', '=', $communityId)
+            ->first();
+    }
+
     public function registrationRequestsVehicles($communityId, $username)
     {
         $adminPriveledges =  $this->getAdminPriv($communityId);
         if ($adminPriveledges) {
-            $community = DB::table('communities')
-                ->select(
-                    'communityName',
-                    'communityId',
-                    'driverLicenseIdAccess',
-                    'vehicleRegNumAccess',
-                    'vehicleRegStateAccess'
-                )
-                ->where('communityId', '=', $communityId)
-                ->first();
+            $community = $this->getCommunityWithAccess($communityId);
             $user =  $this->getUserByUsername($username);
 
             $communityUserVehicles = $this->communityUserVehicles($communityId, $user->id, 0);
@@ -283,16 +288,7 @@ class CommunityAdminController extends Controller
     {
         $adminPriveledges =  $this->getAdminPriv($communityId);
         if ($adminPriveledges) {
-            $community = DB::table('communities')
-                ->select(
-                    'communityName',
-                    'communityId',
-                    'driverLicenseIdAccess',
-                    'vehicleRegNumAccess',
-                    'vehicleRegStateAccess'
-                )
-                ->where('communityId', '=', $communityId)
-                ->first();
+            $community = $this->getCommunityWithAccess($communityId);
             $user =  $this->getUserByUsername($username);
 
             $communityUserVehicles = $this->communityUserVehicles($communityId, $user->id, 1);
@@ -336,14 +332,7 @@ class CommunityAdminController extends Controller
         $adminPriveledges =  $this->getAdminPriv($request->communityId);
         if ($adminPriveledges) {
             if ($adminPriveledges->identifyVehicleUser) {
-                $community = DB::table('communities')
-                    ->select(
-                        'driverLicenseIdAccess',
-                        'vehicleRegNumAccess',
-                        'vehicleRegStateAccess'
-                    )
-                    ->where('communityId', '=', $request->communityId)
-                    ->first();
+                $community = $this->getCommunityWithAccess($request->communityId);
                 $user = DB::table('community_vehicles')
                     ->join('user_vehicles', 'user_vehicles.userVehicleId', 'community_vehicles.userVehicleId')
                     ->join('users', 'users.id', 'user_vehicles.userId')

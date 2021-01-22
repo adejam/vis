@@ -170,11 +170,11 @@ class CommunityAdminController extends Controller
                 'userId',
                 'users.name',
                 'users.lastname',
-                'users.username',
-                'user_phone',
-                'profile_photo_path'
+                'users.username'
+                // 'user_phone',
+                // 'profile_photo_path'
             )->where('communityId', '=', $communityId)
-            ->where('community_vehicles.verified', '=', $verifiedStatus)->paginate(15);
+            ->where('community_vehicles.verified', '=', $verifiedStatus)->paginate(20);
     }
 
     public function registrationRequests($communityId)
@@ -248,6 +248,17 @@ class CommunityAdminController extends Controller
         } else {
             abort(404);
         }
+    }
+
+    public function allVehicleUsers($communityId)
+    {
+        $community = DB::table('communities')
+            ->select('communityName')
+            ->where('communityId', '=', $communityId)
+            ->first();
+        return view('user.my-community.allVehicleUsers')
+            ->with('communityId', $communityId)
+            ->with('communityName', $community->communityName);
     }
 
     public function vehicleUsers($communityId)

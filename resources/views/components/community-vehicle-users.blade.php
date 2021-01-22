@@ -1,7 +1,7 @@
 <div>
     @if (count($communityVehicleUsers) > 0)
         @foreach ($communityVehicleUsers as $user)
-            <div class="vehicle-class">
+            {{-- <div class="vehicle-class">
                 <div class="">
                     <div class="md:flex bg-white m-3 rounded-lg border p-6">
                         @if ($user->profile_photo_path)
@@ -47,7 +47,16 @@
                     </div>
 
                 </div>
-            </div>
+            </div>  --}}
+            <article class="p-3 m-3 text-center border-gray-100 border hover:bg-lightblue rounded-full">
+                <a class="text-lg font-semibold text-primary w-full flex justify-center"
+                    href="{{ $type === 'comUsers'? url('my-community/' . $communityId . '/vehicle-users/' . $user->username) : url('my-community/' . $communityId . '/registration-requests/' . $user->username) }}">
+                    {{ $user->name }} {{ $user->lastname }} &commat;{{ $user->username }}
+                    {{-- @if ($registrationRequests)
+                    <i class="inline-block py-1 px-2 text-xs font-semibold text-center whitespace-no-wrap align-baseline rounded-full bg-red-400 text-white">{{ $registrationRequests }}</i>
+                    @endif --}}
+                </a>
+            </article>
         @endforeach
 
     @else

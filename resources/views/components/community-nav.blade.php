@@ -14,4 +14,8 @@
         <a href="{{ url('my-community/' . $communityId . '/settings') }}"
             class="border rounded-t block px-3 py-2 {{ request()->routeIs('community.get.settings') ? 'text-dark bg-white border-gray-100 border-b-white' : 'border-transparent' }}">Settings</a>
     </li>
+    <li class="" style="margin-bottom: -1px">
+        <a href="{{ url('my-community/' . $communityId . '/settings') }}"
+            class="border rounded-t block px-3 py-2 {{ request()->routeIs('community.get.settings') ? 'text-dark bg-white border-gray-100 border-b-white' : 'border-transparent' }}">Add Vehicle</a>
+    </li>
 </ul>

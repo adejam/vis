@@ -16,6 +16,8 @@ class CreateCommunityUserVehiclesTable extends Migration
         Schema::create('community_user_vehicles', function (Blueprint $table) {
             $table->id();
             $table->char('communityUserVehicleId')->unique();
+            $table->char('communityId');
+            $table->foreign('communityId')->references('communityId')->on('communities');
             $table->char('username');
             $table->foreign('username')->references('username')->on('community_vehicle_users');
             $table->string('vehicleBrand');

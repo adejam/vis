@@ -52,6 +52,13 @@ Route::middleware(['auth:sanctum', 'verified'])->group(
                 Route::get("/{communityId}/identify-vehicle-user", [CommunityAdminController::class, 'identifyVehicleUser'])->name('community.identify-vehicle-user');
                 Route::post("/add-user-and-vehicle", [CommunityVehicleUserController::class, 'addUserAndVehicle'])->name('community.add.userAndVehicle');
                 Route::get("{communityId}/community-user-vehicles/{username}", [CommunityVehicleUserController::class, 'showUserVehicle'])->name('community.showUserVehicle');
+                Route::get("{communityId}/community-vehicle-users", [CommunityVehicleUserController::class, 'showVehicleUsers'])->name('community.showVehicleUsers');
+                Route::post("/edit-user-vehicle", [CommunityVehicleUserController::class, 'editUserVehicle'])->name('community.edit.userVehicle');
+                Route::post("/delete-user-vehicle", [CommunityVehicleUserController::class, 'removeUserVehicle'])->name('community.delete.userVehicle');
+                Route::post("/add-user-vehicle", [CommunityVehicleUserController::class, 'addUserVehicle'])->name('community.add.userVehicle');
+                Route::post("/delete-user-and-vehicle", [CommunityVehicleUserController::class, 'deleteUserAndVehicle'])->name('community.delete.userAndVehicle');
+                Route::post("/edit-vehicle-user", [CommunityVehicleUserController::class, 'editVehicleUser'])->name('community.edit.vehicleUser');
+                Route::post("/edit-vehicle-userPhoto", [CommunityVehicleUserController::class, 'editVehicleUserPhoto'])->name('community.edit.vehicleUserPhoto');
             }
         );
 

@@ -14,7 +14,7 @@ use DB;
 
 class CommunityAdminController extends Controller
 {
-    public function getAdminPriv($communityId)
+    public static function getAdminPriv($communityId)
     {
         return DB::table('community_admins')
             ->select(

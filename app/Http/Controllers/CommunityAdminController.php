@@ -171,8 +171,6 @@ class CommunityAdminController extends Controller
                 'users.name',
                 'users.lastname',
                 'users.username'
-                // 'user_phone',
-                // 'profile_photo_path'
             )->where('communityId', '=', $communityId)
             ->where('community_vehicles.verified', '=', $verifiedStatus)->paginate(20);
     }

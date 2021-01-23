@@ -6,6 +6,7 @@ use App\Http\Controllers\CommunityAdminController;
 use App\Http\Controllers\UserVehicleController;
 use App\Http\Controllers\ContactUsController;
 use App\Http\Controllers\UserVehicleAccessController;
+use App\Http\Controllers\CommunityVehicleUserController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
 
@@ -49,7 +50,8 @@ Route::middleware(['auth:sanctum', 'verified'])->group(
                 Route::get("/{communityId}/registration-requests/{username}", [CommunityAdminController::class, 'registrationRequestsVehicles'])->name('community.registration-requests.vehicles');
                 Route::post("/vehicle/user/verify-user", [CommunityAdminController::class, 'verifyUser'])->name('community.user.verify-user');
                 Route::get("/{communityId}/identify-vehicle-user", [CommunityAdminController::class, 'identifyVehicleUser'])->name('community.identify-vehicle-user');
-                Route::post("/add-user-and-vehicle", [CommunityAdminController::class, 'addUserAndVehicle'])->name('community.add.userAndVehicle');
+                Route::post("/add-user-and-vehicle", [CommunityVehicleUserController::class, 'addUserAndVehicle'])->name('community.add.userAndVehicle');
+                Route::get("{communityId}/community-user-vehicles/{username}", [CommunityVehicleUserController::class, 'showUserVehicle'])->name('community.showUserVehicle');
             }
         );
 

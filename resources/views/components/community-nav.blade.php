@@ -32,35 +32,44 @@ use App\Http\Controllers\CommunityAdminController;
                         <span aria-hidden="true">X</span>
                     </button>
                 </header>
-                <form method="POST" action="{{ route('community.add.userAndVehicle') }}">
+                <form method="POST" enctype="multipart/form-data" action="{{ route('community.add.userAndVehicle') }}">
                     <article class="modal-body text-gray-600">
-                            <div class="overflow-hidden sm:rounded-md bg-gray-300 p-5">
-                                <x-text-input :input="['value' => '', 'name' => 'name', 'title' => 'Firstname']" />
-                                <x-text-input :input="['value' => '', 'name' => 'lastname', 'title' => 'Lastname']" />
-                                <x-text-input :input="['value' => '', 'name' => 'vehicleColor', 'title' => 'userPhone']" />
-                                <x-text-input
-                                    :input="['value' => '', 'name' => 'locationInCommunity', 'title' => 'Location in Community']" />
-                                <x-text-input :input="['value' => '', 'name' => 'vehicleBrand', 'title' => 'Vehicle Brand']" />
-                                <x-text-input :input="['value' => '', 'name' => 'vehicleModel', 'title' => 'Vehicle Model']" />
-                                <x-text-input :input="['value' => '', 'name' => 'vehicleColor', 'title' => 'Vehicle Colour']" />
-                                <x-text-input :input="['value' => '', 'name' => 'plateNumber', 'title' => 'Plate Number']" />
-                                    @php
-                                    $community =
-                                    CommunityAdminController::getCommunityWithAccess($communityId);
-                                    @endphp
-                                        @if ($community->driverLicenseIdAccess)
-                                            <x-text-input
-                                                :input="['value' => '', 'name' => 'driverLicenseId', 'title' => 'Driver License ID']" />
-                                        @endif
-                                        @if ($community->vehicleRegNumAccess)
-                                            <x-text-input
-                                                :input="['value' => '', 'name' => 'vehicleRegNum', 'title' => 'Vehicle Registration Number']" />
-                                        @endif
-                                        @if ($community->vehicleRegStateAccess)
-                                            <x-text-input
-                                                :input="['value' => '', 'name' => 'vehicleRegState', 'title' => 'Vehicle Registration State']" />
-                                        @endif
+                        <div class="overflow-hidden sm:rounded-md bg-gray-300 p-5">
+                            <x-text-input :input="['value' => '', 'name' => 'name', 'title' => 'Firstname']" />
+                            <x-text-input :input="['value' => '', 'name' => 'lastname', 'title' => 'Lastname']" />
+                            <div>
+                                <x-jet-label for="photo" value="{{ __('User Photo') }}" />
+                                <x-jet-input id="photo" class="block mt-1 w-full" type="file" :value="old('photo')" name="photo"/>
                             </div>
+                            <x-text-input
+                                :input="['value' => '', 'name' => 'user_phone', 'title' => 'User Phone Number']" />
+                            <x-text-input
+                                :input="['value' => '', 'name' => 'locationInCommunity', 'title' => 'Location in Community']" />
+                            <x-text-input
+                                :input="['value' => '', 'name' => 'vehicleBrand', 'title' => 'Vehicle Brand']" />
+                            <x-text-input
+                                :input="['value' => '', 'name' => 'vehicleModel', 'title' => 'Vehicle Model']" />
+                            <x-text-input
+                                :input="['value' => '', 'name' => 'vehicleColor', 'title' => 'Vehicle Colour']" />
+                            <x-text-input
+                                :input="['value' => '', 'name' => 'plateNumber', 'title' => 'Plate Number']" />
+                            @php
+                            $community =
+                            CommunityAdminController::getCommunityWithAccess($communityId);
+                            @endphp
+                            @if ($community->driverLicenseIdAccess)
+                                <x-text-input
+                                    :input="['value' => '', 'name' => 'driverLicenseId', 'title' => 'Driver License ID']" />
+                            @endif
+                            @if ($community->vehicleRegNumAccess)
+                                <x-text-input
+                                    :input="['value' => '', 'name' => 'vehicleRegNum', 'title' => 'Vehicle Registration Number']" />
+                            @endif
+                            @if ($community->vehicleRegStateAccess)
+                                <x-text-input
+                                    :input="['value' => '', 'name' => 'vehicleRegState', 'title' => 'Vehicle Registration State']" />
+                            @endif
+                        </div>
                     </article>
                     <div class="modal-footer">
 

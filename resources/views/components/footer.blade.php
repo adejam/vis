@@ -1,13 +1,13 @@
 <footer class="flex flex-col pt-3 bg-white">
-    <nav class="border-t border-gray-100">
+    <nav class="border-t border-gray-100 text-xs">
         <ul class="flex p-3 justify-center">
-            <li class="mr-2 py-2 px-2  hover:text-primary text-dark"><a href="{{ url('/about-us') }}"
+            <li class="mr-2 py-2 px-1  hover:text-primary text-dark"><a href="{{ url('/about-us') }}"
                     class=" {{ request()->routeIs('about-us') ? 'text-primary' : '' }}">About Us</a> </li>
-            <li class="mr-2 py-2 px-2  hover:text-primary text-dark"><a href="{{ url('/privacy') }}"
+            <li class="mr-2 py-2 px-1  hover:text-primary text-dark"><a href="{{ url('/privacy') }}"
                     class=" {{ request()->routeIs('privacy') ? 'text-primary' : '' }}">Privacy</a> </li>
-            <li class="mr-2 py-2 px-2  hover:text-primary text-dark"><a href="{{ url('/faq') }}"
+            <li class="mr-2 py-2 px-1  hover:text-primary text-dark"><a href="{{ url('/faq') }}"
                     class=" {{ request()->routeIs('faq') ? 'text-primary' : '' }}">FAQ</a> </li>
-            <li class="py-2 px-2  hover:text-primary text-dark"><a href="{{ url('/contact-us') }}"
+            <li class="py-2 px-1  hover:text-primary text-dark"><a href="{{ url('/contact-us') }}"
                     class=" {{ request()->routeIs('contact-us') ? 'text-primary' : '' }}">Contact Us</a></li>
         </ul>
     </nav>

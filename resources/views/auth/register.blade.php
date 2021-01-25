@@ -64,11 +64,8 @@
                 </x-jet-button>
             </div>
         </form>
-<<<<<<< HEAD
-=======
         <p class="text-center text-gray-500 text-xs mt-3">
-            &copy;2020 Adeleye jamiu. All rights reserved.
+            &copy;{{ date('Y') }} Adeleye jamiu. All rights reserved.
         </p>
->>>>>>> development
     </x-jet-authentication-card>
 </x-guest-layout>

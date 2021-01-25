@@ -149,12 +149,6 @@
                     </x-jet-responsive-nav-link>
                 </div>
 
-                <div class="pt-2 pb-3 space-y-1">
-                    <x-jet-responsive-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
-                        {{ __('Communities') }}
-                    </x-jet-responsive-nav-link>
-                </div>
-
                 <!-- Responsive Settings Options -->
                 <div class="pt-4 pb-1 border-t border-gray-200">
                     <div class="flex items-center px-4">
@@ -235,25 +229,25 @@
                 </div>
             </div>
         @else
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="max-w-7xl mx-auto md:px-4 px-2 sm:px-6 lg:px-8">
 
                 <div class="flex justify-between h-16 flex-wrap">
                     <div class="flex">
                         <div class="flex-shrink-0 flex items-center">
                             <a href="{{ url('/') }}">
-                                <img src="{{asset('communivis-logo.png')}}" class="block h-9 w-auto" alt="communivis-logo"/>
+                                <img src="{{asset('communivis-logo.png')}}" class="block h-8 w-auto" alt="communivis-logo"/>
                                 </a>
                         </div>
                     </div>
                     <div class="flex">
-                        <div class="space-x-8 -my-px ml-10 flex">
+                        <div class="space-x-8 -my-px ml-3 md:ml-10 flex text-lg">
                             <x-jet-nav-link href="{{ route('login') }}" :active="request()->routeIs('login')">
                                 {{ __('Login') }}
                             </x-jet-nav-link>
                         </div>
 
                         @if (Route::has('register'))
-                            <div class="space-x-8 -my-px ml-10 flex">
+                            <div class="space-x-8 -my-px ml-3 md:ml-10 flex text-lg">
                                 <x-jet-nav-link href="{{ route('register') }}" :active="request()->routeIs('register')">
                                     {{ __('Register') }}
                                 </x-jet-nav-link>

@@ -8,7 +8,7 @@
                         <div>
                         </div>
                     
-                        <h3 class="mt-8 text-2xl">
+                        <h3 class="mt-8 text-xl md:text-2xl text-center md:text-left">
                             Welcome to Communivis!
                         </h3>
                     

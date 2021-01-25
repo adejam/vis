@@ -13,7 +13,6 @@ class UserVehicleAccessController extends Controller
     public static function checkGrantedAccess($communityId, $userId)
     {
         return DB::table('user_vehicle_accesses')
-            // ->where('userVehicleId', '=', $userVehicleId)
             ->where('userId', '=', $userId)
             ->where('communityId', '=', $communityId)->first();
     }

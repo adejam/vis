@@ -60,10 +60,6 @@ $community = CommunityAdminController::getCommunityWithAccess($communityId);
                                 :input="['value' => '', 'name' => 'vehicleColor', 'title' => 'Vehicle Colour']" />
                             <x-text-input
                                 :input="['value' => '', 'name' => 'plateNumber', 'title' => 'Plate Number']" />
-                            {{-- @php
-                            $community =
-                            CommunityAdminController::getCommunityWithAccess($communityId);
-                            @endphp --}}
                             @if ($community->driverLicenseIdAccess)
                                 <x-text-input
                                     :input="['value' => '', 'name' => 'driverLicenseId', 'title' => 'Driver License ID']" />

@@ -50,15 +50,6 @@ $checkGrantedAccess = UserVehicleAccessController::checkGrantedAccess($community
                         <li class="mb-2 py-3 px-5 border-b">
                             <p><b>Vehicle plate Number: </b>{{ $user->plateNumber }}</p>
                         </li>
-                        {{-- @php
-                        $checkGrantedAccess = UserVehicleAccessController::checkGrantedAccess($communityId,
-                        $user->userVehicleId);
-                        @endphp --}}
-                        {{-- @if ($community->driverLicenseIdAccess && $checkGrantedAccess->grantDriverLicenseIdAccess)
-                            <li class="mb-2 py-3 px-5 border-b">
-                                <p><b>Driver's License Id: </b>{{ $user->driverLicenseId }}</p>
-                            </li>
-                        @endif --}}
                         @if ($community->vehicleRegNumAccess && $checkGrantedAccess->grantVehicleRegNumAccess)
                             <li class="mb-2 py-3 px-5 border-b">
                                 <p><b>Vehicle Registration Number: </b>{{ $user->vehicleRegNum }}</p>

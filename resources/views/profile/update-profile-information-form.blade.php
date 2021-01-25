@@ -89,7 +89,7 @@
 
         <!-- Driver's License ID -->
         <div class="col-span-6 sm:col-span-4">
-            <x-jet-label for="driverLicenseId" value="{{ __('Driver\'s License ID') }}" />
+            <x-jet-label for="driverLicenseId" value="{{ __('Driver License ID') }}" />
             <x-jet-input id="driverLicenseId" type="text" class="mt-1 block w-full" wire:model.defer="state.driverLicenseId" autocomplete="driverLicenseId" />
             <x-jet-input-error for="driverLicenseId" class="mt-2" />
         </div>

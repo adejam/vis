@@ -14,7 +14,7 @@ use DB;
 
 class CommunityVehicleUserController extends Controller
 {
-    public function validateVehiclePlateNumber($request, $table=null)
+    public function validateVehiclePlateNumber($request)
     {
         $plateNumberExist = DB::table('community_vehicles')
             ->join('user_vehicles', 'user_vehicles.userVehicleId', 'community_vehicles.userVehicleId')
@@ -26,21 +26,21 @@ class CommunityVehicleUserController extends Controller
         if ($plateNumberExist) {
             return back()->with('error', 'Cannot add vehicle as a vehicle with the Plate Number already exist in this community or has sent a request to join this community');
         }
-
+        
+        
         $plateNumberAlreadyAdded = DB::table('community_user_vehicles')
             ->select(
                 'plateNumber',
                 'username'
             )->where('plateNumber', '=', $request->plateNumber)
             ->where('communityId', '=', $request->communityId)->first();
-
         if ($plateNumberAlreadyAdded) {
             return back()->with('error', 'Cannot add vehicle as a vehicle with the Plate Number is already added for '.$plateNumberAlreadyAdded->username);
         }
     }
 
 
-    public function validateVehicleRegNum($request, $table=null)
+    public function validateVehicleRegNum($request)
     {
         if ($request->vehicleRegNumAccess) {
             $this->validate(
@@ -50,14 +50,6 @@ class CommunityVehicleUserController extends Controller
                 ]
             );
 
-            if ($table) {
-                $this->validate(
-                    $request,
-                    [
-                    'vehicleRegNum' => [Rule::unique('community_vehicle_users')->ignore($table->id)],
-                    ]
-                );
-            }
             $regNumExist = DB::table('community_vehicles')
                 ->join('user_vehicles', 'user_vehicles.userVehicleId', 'community_vehicles.userVehicleId')
                 ->select('vehicleRegNum')
@@ -81,7 +73,7 @@ class CommunityVehicleUserController extends Controller
         }
     }
 
-    public function validateUserDriverLicenseId($request, $table=null)
+    public function validateUserDriverLicenseId($request)
     {
         if ($request->driverLicenseIdAccess) {
             $this->validate(
@@ -90,15 +82,6 @@ class CommunityVehicleUserController extends Controller
                 'driverLicenseId' => ['required', 'string', 'max:255'],
                 ]
             );
-
-            if ($table) {
-                $this->validate(
-                    $request,
-                    [
-                    'driverLicenseId' => [Rule::unique('community_vehicle_users')->ignore($table->id)],
-                    ]
-                );
-            }
 
             $licenseIdExist = DB::table('community_vehicles')
                 ->join('user_vehicles', 'user_vehicles.userVehicleId', 'community_vehicles.userVehicleId')
@@ -206,9 +189,6 @@ class CommunityVehicleUserController extends Controller
                     'vehicleBrand' => ['required', 'string', 'max:255'],
                     'vehicleModel' => ['required', 'string', 'max:255'],
                     'vehicleColor' => ['required', 'string', 'max:255'],
-                    // 'driverLicenseId' => ['require', 'string', 'max:255', 'unique:community_vehicle_users'],
-                    // 'vehicleRegNum' => ['require', 'string', 'max:255'],
-                    // 'vehicleRegState' => ['require', 'string', 'max:255'],
                     'plateNumber' => ['required', 'string', 'max:255'],
                     ]
                 );
@@ -227,18 +207,6 @@ class CommunityVehicleUserController extends Controller
                 if ($checkLicenseIdValidation) {
                     return $checkLicenseIdValidation;
                 }
-                // if ($request->driverLicenseId) {
-                // $driverLicenseAlreadyAdded = DB::table('community_user_vehicles')
-                //     ->select(
-                //         'driverLicenseId',
-                //         'username'
-                //     )->where('driverLicenseId', '=', $request->driverLicenseId)
-                //     ->where('communityId', '=', $request->communityId)->first();
-
-                // if ($driverLicenseAlreadyAdded) {
-                //     return back()->with('error', 'Cannot add vehicle as a vehicle with the License ID is already added for '.$driverLicenseAlreadyAdded->username);
-                // }
-                // }
 
                 $vehicleUser = new CommunityVehicleUser;
                 $vehicleUser->communityId = $request->communityId;
@@ -248,20 +216,6 @@ class CommunityVehicleUserController extends Controller
                 $vehicleUser->locationInCommunity = $request->locationInCommunity;
                 $vehicleUser->username = $request->name.$request->lastname.date('mdHis');
                 $vehicleUser->driverLicenseId = $request->driverLicenseId;
-                // if ($request->driverLicenseIdAccess) {
-                //     $this->validate(
-                //         $request,
-                //         [
-                //         'driverLicenseId' => ['required', 'string', 'max:255'],
-                //         ]
-                //     );
-    
-                //     $user->driverLicenseId = $request->driverLicenseId;
-                //     $user->save();
-                //
-                // }
-                
-
                 $photo = $request->file('photo');
                 $imagePath = $photo->getRealpath();
                 Cloudder::upload($imagePath, null);
@@ -319,10 +273,7 @@ class CommunityVehicleUserController extends Controller
                     'vehicleBrand' => ['required', 'string', 'max:255'],
                     'vehicleModel' => ['required', 'string', 'max:255'],
                     'vehicleColor' => ['required', 'string', 'max:255'],
-                    // 'driverLicenseId' => ['nullable', 'string', 'max:255'],
-                    // 'vehicleRegNum' => ['nullable', 'string', 'max:255', 'unique:community_user_vehicles'],
-                    // 'vehicleRegState' => ['nullable', 'string', 'max:255'],
-                    'plateNumber' => ['required', 'string', 'max:255', 'unique:community_user_vehicles'],
+                    'plateNumber' => ['required', 'string', 'max:255'],
                     ]
                 );
 
@@ -344,37 +295,6 @@ class CommunityVehicleUserController extends Controller
                 $userVehicle->vehicleBrand = $request->vehicleBrand;
                 $userVehicle->vehicleModel = $request->vehicleModel;
                 $userVehicle->vehicleColor = $request->vehicleColor;
-                // if ($request->driverLicenseId) {
-                //     $driverLicenseAlreadyAdded = DB::table('community_user_vehicles')
-                //         ->select(
-                //             'driverLicenseId',
-                //             'username'
-                //         )->where('driverLicenseId', '=', $request->driverLicenseId)
-                //         ->where('communityId', '=', $request->communityId)->first();
-
-                //     if ($driverLicenseAlreadyAdded) {
-                //         if ($driverLicenseAlreadyAdded->username === $request->username) {
-                //             $userVehicle->driverLicenseId = $request->driverLicenseId;
-                //         } else {
-                //             return back()->with('error', 'Cannot add vehicle as a vehicle with the License ID is already added for '.$driverLicenseAlreadyAdded->username);
-                //         }
-                //     } else {
-                //         $hasDriverLicense = DB::table('community_user_vehicles')
-                //             ->select(
-                //                 'driverLicenseId',
-                //                 'username'
-                //             )->where('username', '=', $request->username)
-                //             ->where('communityId', '=', $request->communityId)->first();
-                        
-                //         if ($hasDriverLicense && ($hasDriverLicense->driverLicenseId === $request->driverLicenseId)) {
-                //             $userVehicle->driverLicenseId = $request->driverLicenseId;
-                //         } elseif ($hasDriverLicense && ($hasDriverLicense->driverLicenseId !== $request->driverLicenseId)) {
-                //             return back()->with('error', 'Cannot add vehicle as a vehicle with the License ID is already added for '.$driverLicenseAlreadyAdded->username);
-                //         } else {
-                //             $userVehicle->driverLicenseId = $request->driverLicenseId;
-                //         }
-                //     }
-                // }
                 $userVehicle->vehicleRegNum = $request->vehicleRegNum;
                 if ($request->vehicleRegStateAccess) {
                     $this->validate(
@@ -416,9 +336,11 @@ class CommunityVehicleUserController extends Controller
 
                 $vehicleUser = CommunityVehicleUser::where('username', '=', $request->username)->where('communityId', '=', $request->communityId)->firstOrFail();
                 
-                $checkLicenseIdValidation = $this->validateUserDriverLicenseId($request, $vehicleUser);
-                if ($checkLicenseIdValidation) {
-                    return $checkLicenseIdValidation;
+                if ($vehicleUser->driverLicenseId !== $request->driverLicenseId) {
+                    $checkLicenseIdValidation = $this->validateUserDriverLicenseId($request);
+                    if ($checkLicenseIdValidation) {
+                        return $checkLicenseIdValidation;
+                    }
                 }
                 $vehicleUser->name = $request->name;
                 $vehicleUser->lastname = $request->lastname;
@@ -488,26 +410,27 @@ class CommunityVehicleUserController extends Controller
                     'vehicleModel' => ['required', 'string', 'max:255'],
                     'vehicleColor' => ['required', 'string', 'max:255'],
                     'driverLicenseId' => ['nullable', 'string', 'max:255'],
-                    // 'vehicleRegNum' => ['nullable', 'string', 'max:255', Rule::unique('community_user_vehicles')->ignore($userVehicle->id)],
-                    // 'vehicleRegState' => ['nullable', 'string', 'max:255'],
-                    'plateNumber' => ['required', 'string', 'max:255', Rule::unique('community_user_vehicles')->ignore($userVehicle->id)],
+                    'plateNumber' => ['required', 'string', 'max:255'],
                     ]
                 );
 
-                $checkPlateNumberValidation = $this->validateVehiclePlateNumber($request, $userVehicle);
-                if ($checkPlateNumberValidation) {
-                    return $checkPlateNumberValidation;
+                if ($userVehicle->plateNumber !== $request->plateNumber) {
+                    $checkPlateNumberValidation = $this->validateVehiclePlateNumber($request);
+                    if ($checkPlateNumberValidation) {
+                        return $checkPlateNumberValidation;
+                    }
                 }
-
-                $checkVehicleRegNumValidation = $this->validateVehicleRegNum($request, $userVehicle);
-                if ($checkVehicleRegNumValidation) {
-                    return $checkVehicleRegNumValidation;
+                
+                if ($userVehicle->vehicleRegNumber !== $request->vehicleRegNumber) {
+                    $checkVehicleRegNumValidation = $this->validateVehicleRegNum($request);
+                    if ($checkVehicleRegNumValidation) {
+                        return $checkVehicleRegNumValidation;
+                    }
                 }
 
                 $userVehicle->vehicleBrand = $request->vehicleBrand;
                 $userVehicle->vehicleModel = $request->vehicleModel;
                 $userVehicle->vehicleColor = $request->vehicleColor;
-                $userVehicle->driverLicenseId = $request->driverLicenseId;
                 $userVehicle->vehicleRegNum = $request->vehicleRegNum;
                 $userVehicle->vehicleRegState = $request->vehicleRegState;
                 $userVehicle->plateNumber = $request->plateNumber;

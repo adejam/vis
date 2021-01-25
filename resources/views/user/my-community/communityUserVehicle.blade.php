@@ -10,8 +10,11 @@
                     class="flex text-primary bg-lightblue font-bold text-2xl justify-center items-center h-16 w-16 md:h-24 md:w-24 rounded-full mx-auto md:mx-0 md:mr-6 capitalize">{{ $user->username[0] }}</span>
             @endif
             <div class="flex flex-col items-center justify-center text-center md:text-left">
-                <h2 class="text-lg capitalize">{{ $user->name }} {{ $user->lastname }} &commat;{{ $user->username }}
+                <h2 class="text-xl font-bold capitalize">{{ $user->name }} {{ $user->lastname }}
                 </h2>
+                <article>
+                    <h3 class="text-lg font-semibold capitalize">&commat;{{ $user->username }}</h3>
+                </article>
                 <div class="flex mt-3 justify-center text-gray-600">
                     <svg class="mr-2 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
                         <path class="min-w-full"
@@ -88,7 +91,7 @@
                                         :input="['value' => $user->locationInCommunity, 'name' => 'locationInCommunity', 'title' => 'Location in Community']" />
                                     @if ($community->driverLicenseIdAccess)
                                         <x-text-input
-                                            :input="['value' => '', 'name' => 'driverLicenseId', 'title' => 'Driver License ID']" />
+                                            :input="['value' => $user->driverLicenseId, 'name' => 'driverLicenseId', 'title' => 'Driver License ID']" />
                                     @endif
                                 </article>
                                 <div class="modal-footer">
@@ -153,10 +156,6 @@
                                         :input="['value' => '', 'name' => 'vehicleColor', 'title' => 'Vehicle Colour']" />
                                     <x-text-input
                                         :input="['value' => '', 'name' => 'plateNumber', 'title' => 'Plate Number']" />
-                                    {{-- @if ($community->driverLicenseIdAccess)
-                                        <x-text-input
-                                            :input="['value' => '', 'name' => 'driverLicenseId', 'title' => 'Driver License ID']" />
-                                    @endif --}}
                                     @if ($community->vehicleRegNumAccess)
                                         <x-text-input
                                             :input="['value' => '', 'name' => 'vehicleRegNum', 'title' => 'Vehicle Registration Number']" />

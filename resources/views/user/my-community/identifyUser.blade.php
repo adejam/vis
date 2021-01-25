@@ -1,12 +1,16 @@
 @php
 use App\Http\Controllers\UserVehicleAccessController;
+if ($isVerifiedUser){
+  $checkGrantedAccess = UserVehicleAccessController::checkGrantedAccess($community->communityId, $user->id);
+}
+
 @endphp
 <x-app-layout>
     @section('title', 'Identify Vehicle')
-        <x-community-nav :communityId="$communityId" :communityName="$communityName" />
-        <x-vehicle-identify-form :communityId="$communityId" :communityName="$communityName" />
+        <x-community-nav :communityId="$community->communityId" :communityName="$community->communityName" />
+        <x-vehicle-identify-form :communityId="$community->communityId" :communityName="$community->communityName" />
         @if ($user)
-            <div class="md:flex bg-white m-3 rounded-lg border p-6">
+            <div class="md:flex justify-evenly bg-white m-3 rounded-lg border p-6">
                 @if ($user->profile_photo_path)
                     <img class="h-16 w-16 md:h-24 md:w-24 rounded-full mx-auto md:mx-0 md:mr-6"
                         src="{{ $user->profile_photo_path }}" alt="user-photo">
@@ -15,8 +19,11 @@ use App\Http\Controllers\UserVehicleAccessController;
                         class="flex text-primary bg-lightblue font-bold text-2xl justify-center items-center h-16 w-16 md:h-24 md:w-24 rounded-full mx-auto md:mx-0 md:mr-6 capitalize">{{ $user->username[0] }}</span>
                 @endif
                 <div class="flex flex-col items-center justify-center text-center md:text-left">
-                    <h2 class="text-lg capitalize">{{ $user->name }} {{ $user->lastname }} &commat;{{ $user->username }}
+                    <h2 class="text-xl font-bold capitalize">{{ $user->name }} {{ $user->lastname }}
                     </h2>
+                    <article>
+                        <h3 class="text-lg font-semibold capitalize">&commat;{{ $user->username }}</h3>
+                    </article>
                     <div class="flex mt-3 justify-center text-gray-600">
                         <svg class="mr-2 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
                             <path class="min-w-full"
@@ -24,6 +31,15 @@ use App\Http\Controllers\UserVehicleAccessController;
                         </svg>
                         <span>{{ $user->user_phone }}</span>
                     </div>
+                    @if ($community->driverLicenseIdAccess)
+                            @if ($isVerifiedUser)
+                                @if ($checkGrantedAccess->grantDriverLicenseIdAccess)
+                                    <p><b>Driver's License Id: </b>{{ $user->driverLicenseId }}</p>
+                                @endif
+                            @else
+                                <p><b>Driver's License Id: </b>{{ $user->driverLicenseId }}</p>
+                            @endif
+                    @endif
                     <p>{{ $user->locationInCommunity }}</p>
                 </div>
             </div>
@@ -44,24 +60,32 @@ use App\Http\Controllers\UserVehicleAccessController;
                         <li class="mb-2 py-3 px-5 border-b">
                             <p><b>Vehicle plate Number: </b>{{ $user->plateNumber }}</p>
                         </li>
-                        @php
-                        $checkGrantedAccess = UserVehicleAccessController::checkGrantedAccess($communityId,
-                        $user->userVehicleId);
-                        @endphp
-                        @if ($community->driverLicenseIdAccess && $checkGrantedAccess->grantDriverLicenseIdAccess)
-                            <li class="mb-2 py-3 px-5 border-b">
-                                <p><b>Driver's License Id: </b>{{ $user->driverLicenseId }}</p>
-                            </li>
-                        @endif
-                        @if ($community->vehicleRegNumAccess && $checkGrantedAccess->grantVehicleRegNumAccess)
+                        @if ($community->vehicleRegNumAccess)
+                            @if ($isVerifiedUser)
+                                @if ($checkGrantedAccess->grantVehicleRegNumAccess)
+                                <li class="mb-2 py-3 px-5 border-b">
+                                    <p><b>Vehicle Registration Number: </b>{{ $user->vehicleRegNum }}</p>
+                                </li>
+                                @endif
+                            @else
                             <li class="mb-2 py-3 px-5 border-b">
                                 <p><b>Vehicle Registration Number: </b>{{ $user->vehicleRegNum }}</p>
                             </li>
+                            @endif
                         @endif
-                        @if ($community->vehicleRegStateAccess && $checkGrantedAccess->grantVehicleRegStateAccess)
-                            <li class="mb-2 py-3 px-5 border-b capitalize">
+
+                        @if ($community->vehicleRegStateAccess)
+                            @if ($isVerifiedUser)
+                                @if ($checkGrantedAccess->grantVehicleRegStateAccess)
+                                <li class="mb-2 py-3 px-5 border-b">
+                                    <p><b>Vehicle Registration State: </b>{{ $user->vehicleRegState }}</p>
+                                </li>
+                                @endif
+                            @else
+                            <li class="mb-2 py-3 px-5 border-b">
                                 <p><b>Vehicle Registration State: </b>{{ $user->vehicleRegState }}</p>
                             </li>
+                            @endif
                         @endif
                     </ul>
                 </div>

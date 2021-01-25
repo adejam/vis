@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class UserVehicle extends Model
+class CommunityUserVehicle extends Model
 {
     use HasFactory;
     protected $fillable = [
@@ -14,6 +14,6 @@ class UserVehicle extends Model
         'vehicleColor',
         'vehicleRegNum',
         'vehicleRegState',
-        'plateNumber'
+        'plateNumber',
     ];
 }

@@ -84,6 +84,7 @@ use App\Http\Controllers\UserVehicleController;
                                         <form method="POST" action="{{ route('vehicle.community.join') }}">
                                             @csrf
                                             <input type="hidden" value="{{ $community->communityId }}" name="communityId" />
+                                            <input type="hidden" value="{{ $community->communityName }}" name="communityName" />
                                             <input type="hidden" value="{{ $userVehicleId }}" name="userVehicleId" />
                                             <input type="hidden" value="{{ $community->driverLicenseIdAccess }}"
                                                 name="driverLicenseIdAccess" />

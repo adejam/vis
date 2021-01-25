@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateUserVehiclesTable extends Migration
+class CreateCommunityUserVehiclesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,17 +13,18 @@ class CreateUserVehiclesTable extends Migration
      */
     public function up()
     {
-        Schema::create('user_vehicles', function (Blueprint $table) {
+        Schema::create('community_user_vehicles', function (Blueprint $table) {
             $table->id();
-            $table->char('userVehicleId')->unique();
-            $table->foreignId('userId')->unsigned();
-            $table->foreign('userId')->references('id')->on('users');
-            $table->integer('timesVerified')->unsigned();
+            $table->char('communityUserVehicleId')->unique();
+            $table->char('communityId');
+            $table->foreign('communityId')->references('communityId')->on('communities');
+            $table->char('username');
+            $table->foreign('username')->references('username')->on('community_vehicle_users');
             $table->string('vehicleBrand');
             $table->string('vehicleModel');
             $table->string('vehicleColor');
-            $table->string('plateNumber')->unique();
-            $table->string('vehicleRegNum')->unique()->nullable();
+            $table->string('plateNumber');
+            $table->string('vehicleRegNum')->nullable();
             $table->string('vehicleRegState')->nullable();
             $table->timestamps();
         });
@@ -36,6 +37,6 @@ class CreateUserVehiclesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('user_vehicles');
+        Schema::dropIfExists('community_user_vehicles');
     }
 }

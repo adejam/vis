@@ -5,15 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class UserVehicle extends Model
+class CommunityVehicleUser extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'vehicleBrand',
-        'vehicleModel',
-        'vehicleColor',
-        'vehicleRegNum',
-        'vehicleRegState',
-        'plateNumber'
+        'name',
+        'lastname',
+        'user_phone',
+        'locationInCommunity',
+        'photo',
+        'driverLicenseId'
     ];
 }

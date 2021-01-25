@@ -85,11 +85,6 @@
                                             </p>
                                         </div>
                                         <div>
-                                            <x-jet-label for="driverLicenseId" value="{{ __('Driver License ID') }}" />
-                                            <x-jet-input id="driverLicenseId" class="block mt-1 w-full" type="text" name="driverLicenseId"
-                                                :value="$vehicle->driverLicenseId" autocomplete="driverLicenseId" />
-                                        </div>
-                                        <div>
                                             <x-jet-label for="vehicleRegNum" value="{{ __('Vehicle Registration Number') }}" />
                                             <x-jet-input id="vehicleRegNum" class="block mt-1 w-full" type="text" name="vehicleRegNum"
                                                 :value="$vehicle->vehicleRegNum" autocomplete="vehicleRegNum" />

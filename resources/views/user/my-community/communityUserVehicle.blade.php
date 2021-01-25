@@ -197,12 +197,6 @@
                         <li class="mb-2 py-3 px-5 border-b">
                             <p><b>Vehicle plate Number: </b>{{ $vehicle->plateNumber }}</p>
                         </li>
-
-                        {{-- @if ($community->driverLicenseIdAccess)
-                            <li class="mb-2 py-3 px-5 border-b">
-                                <p><b>Driver's License Id: </b>{{ $vehicle->driverLicenseId }}</p>
-                            </li>
-                        @endif --}}
                         @if ($community->vehicleRegNumAccess)
                             <li class="mb-2 py-3 px-5 border-b">
                                 <p><b>Vehicle Registration Number: </b>{{ $vehicle->vehicleRegNum }}</p>
@@ -250,10 +244,6 @@
                                                 :input="['value' => $vehicle->vehicleColor, 'name' => 'vehicleColor', 'title' => 'Vehicle Colour']" />
                                             <x-text-input
                                                 :input="['value' => $vehicle->plateNumber, 'name' => 'plateNumber', 'title' => 'Plate Number']" />
-                                            {{-- @if ($community->driverLicenseIdAccess)
-                                                <x-text-input
-                                                    :input="['value' => $vehicle->driverLicenseId, 'name' => 'driverLicenseId', 'title' => 'Driver License ID']" />
-                                            @endif --}}
                                             @if ($community->vehicleRegNumAccess)
                                                 <x-text-input
                                                     :input="['value' => $vehicle->vehicleRegNum, 'name' => 'vehicleRegNum', 'title' => 'Vehicle Registration Number']" />

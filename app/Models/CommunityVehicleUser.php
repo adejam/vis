@@ -14,5 +14,6 @@ class CommunityVehicleUser extends Model
         'user_phone',
         'locationInCommunity',
         'photo',
+        'driverLicenseId'
     ];
 }

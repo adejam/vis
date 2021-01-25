@@ -12,7 +12,6 @@ class UserVehicle extends Model
         'vehicleBrand',
         'vehicleModel',
         'vehicleColor',
-        'driverLicenseId',
         'vehicleRegNum',
         'vehicleRegState',
         'plateNumber'

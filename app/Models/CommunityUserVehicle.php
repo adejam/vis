@@ -12,7 +12,6 @@ class CommunityUserVehicle extends Model
         'vehicleBrand',
         'vehicleModel',
         'vehicleColor',
-        'driverLicenseId',
         'vehicleRegNum',
         'vehicleRegState',
         'plateNumber',

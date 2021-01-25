@@ -1,5 +1,6 @@
 @php
 use App\Http\Controllers\CommunityAdminController;
+$community = CommunityAdminController::getCommunityWithAccess($communityId);
 @endphp
 <div class=" mb-5 border-gray-100">
     <h3 class="text-center font-bold text-3xl capitalize">{{ $communityName }}</h3>
@@ -33,13 +34,19 @@ use App\Http\Controllers\CommunityAdminController;
                     </button>
                 </header>
                 <form method="POST" enctype="multipart/form-data" action="{{ route('community.add.userAndVehicle') }}">
+                    @csrf
+                    <input type="hidden" name="communityId" value={{ $communityId }} />
+                    <input type="hidden" value="{{ $community->driverLicenseIdAccess }}" name="driverLicenseIdAccess" />
+                    <input type="hidden" value="{{ $community->vehicleRegNumAccess }}" name="vehicleRegNumAccess" />
+                    <input type="hidden" value="{{ $community->vehicleRegStateAccess }}" name="vehicleRegStateAccess" />
                     <article class="modal-body text-gray-600">
-                        <div class="overflow-hidden sm:rounded-md bg-gray-300 p-5">
+                        <div class="overflow-hidden sm:rounded-md p-5">
                             <x-text-input :input="['value' => '', 'name' => 'name', 'title' => 'Firstname']" />
                             <x-text-input :input="['value' => '', 'name' => 'lastname', 'title' => 'Lastname']" />
                             <div>
                                 <x-jet-label for="photo" value="{{ __('User Photo') }}" />
-                                <x-jet-input id="photo" class="block mt-1 w-full" type="file" :value="old('photo')" name="photo"/>
+                                <x-jet-input id="photo" class="block mt-1 w-full" type="file" :value="old('photo')"
+                                    name="photo" />
                             </div>
                             <x-text-input
                                 :input="['value' => '', 'name' => 'user_phone', 'title' => 'User Phone Number']" />
@@ -53,10 +60,10 @@ use App\Http\Controllers\CommunityAdminController;
                                 :input="['value' => '', 'name' => 'vehicleColor', 'title' => 'Vehicle Colour']" />
                             <x-text-input
                                 :input="['value' => '', 'name' => 'plateNumber', 'title' => 'Plate Number']" />
-                            @php
+                            {{-- @php
                             $community =
                             CommunityAdminController::getCommunityWithAccess($communityId);
-                            @endphp
+                            @endphp --}}
                             @if ($community->driverLicenseIdAccess)
                                 <x-text-input
                                     :input="['value' => '', 'name' => 'driverLicenseId', 'title' => 'Driver License ID']" />
@@ -72,9 +79,6 @@ use App\Http\Controllers\CommunityAdminController;
                         </div>
                     </article>
                     <div class="modal-footer">
-
-                        @csrf
-                        <input type="hidden" name="communityId" value={{ $communityId }} />
                         <button type="submit"
                             class="inline-flex items-center px-4 py-2 bg-primary border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:shadow-outline-gray disabled:opacity-25 transition ease-in-out duration-150">
                             Submit

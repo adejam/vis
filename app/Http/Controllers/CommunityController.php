@@ -132,8 +132,6 @@ class CommunityController extends Controller
             'aboutCommunity' => ['required', 'string', 'max:255'],
             ]
         );
-        
-        return $request;
 
         $communityId = utf8_encode(Uuid::generate());
         $community = new Community;

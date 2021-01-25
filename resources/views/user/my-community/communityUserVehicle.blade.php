@@ -26,6 +26,11 @@
                     </svg>
                     <span>{{ $user->locationInCommunity }}</span>
                 </div>
+                @if ($community->driverLicenseIdAccess)
+
+                    <p><b>Driver's License Id: </b>{{ $user->driverLicenseId }}</p>
+
+                @endif
                 <div class="flex mt-3 justify-center flex-wrap text-gray-600">
                     <section class="mr-2">
                         <button type="button" data-target="delete-user-modal"
@@ -69,14 +74,22 @@
                             <form action="{{ route('community.edit.vehicleUser') }}" method="POST">
                                 @csrf
                                 <article class="modal-body text-gray-600">
-                                <input type="hidden" name="communityId" value="{{ $community->communityId }}" />
-                                <input type="hidden" name="username" value="{{ $user->username }}" />
-                                <x-text-input :input="['value' => $user->name, 'name' => 'name', 'title' => 'Firstname']" />
-                                <x-text-input :input="['value' => $user->lastname, 'name' => 'lastname', 'title' => 'Lastname']" />
-                                <x-text-input
-                                    :input="['value' => $user->user_phone, 'name' => 'user_phone', 'title' => 'User Phone Number']" />
-                                <x-text-input
-                                    :input="['value' => $user->locationInCommunity, 'name' => 'locationInCommunity', 'title' => 'Location in Community']" />
+                                    <input type="hidden" name="communityId" value="{{ $community->communityId }}" />
+                                    <input type="hidden" name="username" value="{{ $user->username }}" />
+                                    <input type="hidden" value="{{ $community->driverLicenseIdAccess }}"
+                                        name="driverLicenseIdAccess" />
+                                    <x-text-input
+                                        :input="['value' => $user->name, 'name' => 'name', 'title' => 'Firstname']" />
+                                    <x-text-input
+                                        :input="['value' => $user->lastname, 'name' => 'lastname', 'title' => 'Lastname']" />
+                                    <x-text-input
+                                        :input="['value' => $user->user_phone, 'name' => 'user_phone', 'title' => 'User Phone Number']" />
+                                    <x-text-input
+                                        :input="['value' => $user->locationInCommunity, 'name' => 'locationInCommunity', 'title' => 'Location in Community']" />
+                                    @if ($community->driverLicenseIdAccess)
+                                        <x-text-input
+                                            :input="['value' => '', 'name' => 'driverLicenseId', 'title' => 'Driver License ID']" />
+                                    @endif
                                 </article>
                                 <div class="modal-footer">
                                     <button type="submit"
@@ -97,16 +110,17 @@
                             </svg>
                         </button>
                         <x-modal modalId="edit-user-pic-modal" :modalTitle="'Edit '.$user->name.' Photo'">
-                            <form enctype="multipart/form-data" action="{{ route('community.edit.vehicleUserPhoto') }}" method="POST">
+                            <form enctype="multipart/form-data" action="{{ route('community.edit.vehicleUserPhoto') }}"
+                                method="POST">
                                 @csrf
                                 <article class="modal-body text-gray-600">
-                                <input type="hidden" name="communityId" value="{{ $community->communityId }}" />
-                                <input type="hidden" name="username" value="{{ $user->username }}" />
-                               <div>
-                                    <x-jet-label for="photo" value="{{ __('User Photo') }}" />
-                                    <x-jet-input id="photo" class="block mt-1 w-full" type="file" :value="old('photo')"
-                                        name="photo" />
-                                </div>
+                                    <input type="hidden" name="communityId" value="{{ $community->communityId }}" />
+                                    <input type="hidden" name="username" value="{{ $user->username }}" />
+                                    <div>
+                                        <x-jet-label for="photo" value="{{ __('User Photo') }}" />
+                                        <x-jet-input id="photo" class="block mt-1 w-full" type="file" :value="old('photo')"
+                                            name="photo" />
+                                    </div>
                                 </article>
                                 <div class="modal-footer">
                                     <button type="submit"
@@ -129,28 +143,28 @@
                             <form action="{{ route('community.add.userVehicle') }}" method="POST">
                                 @csrf
                                 <article class="modal-body text-gray-600">
-                                <input type="hidden" name="communityId" value="{{ $community->communityId }}" />
-                                <input type="hidden" name="username" value="{{ $user->username }}" />
-                                <x-text-input
-                                :input="['value' => '', 'name' => 'vehicleBrand', 'title' => 'Vehicle Brand']" />
-                            <x-text-input
-                                :input="['value' => '', 'name' => 'vehicleModel', 'title' => 'Vehicle Model']" />
-                            <x-text-input
-                                :input="['value' => '', 'name' => 'vehicleColor', 'title' => 'Vehicle Colour']" />
-                            <x-text-input
-                                :input="['value' => '', 'name' => 'plateNumber', 'title' => 'Plate Number']" />
-                            @if ($community->driverLicenseIdAccess)
-                                <x-text-input
-                                    :input="['value' => '', 'name' => 'driverLicenseId', 'title' => 'Driver License ID']" />
-                            @endif
-                            @if ($community->vehicleRegNumAccess)
-                                <x-text-input
-                                    :input="['value' => '', 'name' => 'vehicleRegNum', 'title' => 'Vehicle Registration Number']" />
-                            @endif
-                            @if ($community->vehicleRegStateAccess)
-                                <x-text-input
-                                    :input="['value' => '', 'name' => 'vehicleRegState', 'title' => 'Vehicle Registration State']" />
-                            @endif
+                                    <input type="hidden" name="communityId" value="{{ $community->communityId }}" />
+                                    <input type="hidden" name="username" value="{{ $user->username }}" />
+                                    <x-text-input
+                                        :input="['value' => '', 'name' => 'vehicleBrand', 'title' => 'Vehicle Brand']" />
+                                    <x-text-input
+                                        :input="['value' => '', 'name' => 'vehicleModel', 'title' => 'Vehicle Model']" />
+                                    <x-text-input
+                                        :input="['value' => '', 'name' => 'vehicleColor', 'title' => 'Vehicle Colour']" />
+                                    <x-text-input
+                                        :input="['value' => '', 'name' => 'plateNumber', 'title' => 'Plate Number']" />
+                                    {{-- @if ($community->driverLicenseIdAccess)
+                                        <x-text-input
+                                            :input="['value' => '', 'name' => 'driverLicenseId', 'title' => 'Driver License ID']" />
+                                    @endif --}}
+                                    @if ($community->vehicleRegNumAccess)
+                                        <x-text-input
+                                            :input="['value' => '', 'name' => 'vehicleRegNum', 'title' => 'Vehicle Registration Number']" />
+                                    @endif
+                                    @if ($community->vehicleRegStateAccess)
+                                        <x-text-input
+                                            :input="['value' => '', 'name' => 'vehicleRegState', 'title' => 'Vehicle Registration State']" />
+                                    @endif
                                 </article>
                                 <div class="modal-footer">
                                     <button type="submit"
@@ -185,11 +199,11 @@
                             <p><b>Vehicle plate Number: </b>{{ $vehicle->plateNumber }}</p>
                         </li>
 
-                        @if ($community->driverLicenseIdAccess)
+                        {{-- @if ($community->driverLicenseIdAccess)
                             <li class="mb-2 py-3 px-5 border-b">
                                 <p><b>Driver's License Id: </b>{{ $vehicle->driverLicenseId }}</p>
                             </li>
-                        @endif
+                        @endif --}}
                         @if ($community->vehicleRegNumAccess)
                             <li class="mb-2 py-3 px-5 border-b">
                                 <p><b>Vehicle Registration Number: </b>{{ $vehicle->vehicleRegNum }}</p>
@@ -202,19 +216,6 @@
                         @endif
                     </ul>
                 </div>
-                {{-- adejamjamiu0123031534 2021-01-23 03:15:37
-                http://res.cloudinary.com/communivis/image/upload/c_fit,h_300,w_300/hkdybpc90gb9ylm6ztrp.png
-                INSERT INTO `community_vehicle_users` (`id`, `communityId`, `name`, `lastname`, `username`, `user_phone`,
-                `profile_photo_path`, `profile_photo_public_id`, `locationInCommunity`, `created_at`, `updated_at`) VALUES
-                (NULL, '5b12ec70-2f0f-11eb-a7d0-79509a2fd478', 'adejam', 'jamiu', 'adejamjamiu0123031534', '09024009005',
-                'http://res.cloudinary.com/communivis/image/upload/c_fit,h_300,w_300/hkdybpc90gb9ylm6ztrp.png',
-                'hkdybpc90gb9ylm6ztrp', 'No, 5 buari str', '2021-01-23 03:15:37', '2021-01-23 03:15:37');
-                INSERT INTO `community_user_vehicles` (`id`, `communityUserVehicleId`, `communityId`, `username`,
-                `vehicleBrand`, `vehicleModel`, `vehicleColor`, `plateNumber`, `driverLicenseId`, `vehicleRegNum`,
-                `vehicleRegState`, `created_at`, `updated_at`) VALUES (NULL, 'gdjg-478565nf-fnfbjrfg-784bf',
-                '5b12ec70-2f0f-11eb-a7d0-79509a2fd478', 'adejamjamiu0123031534', 'golf', 'golf4', 'green', 'gfhg735d',
-                'hgjb7468', NULL, 'lagos', '2020-10-17 02:02:16', '2021-01-23 03:15:37');
-                --}}
                 <div class="flex justify-between">
                     <div>
                         <button type="button" data-target="edit-vehicle-modal-{{ $vehicle->communityUserVehicleId }}"
@@ -236,6 +237,10 @@
                                     <input type="hidden" value="{{ $vehicle->communityUserVehicleId }}"
                                         name="communityUserVehicleId" />
                                     <input type="hidden" name="communityId" value="{{ $vehicle->communityId }}" />
+                                    <input type="hidden" value="{{ $community->vehicleRegNumAccess }}"
+                                        name="vehicleRegNumAccess" />
+                                    <input type="hidden" value="{{ $community->vehicleRegStateAccess }}"
+                                        name="vehicleRegStateAccess" />
                                     <article class="modal-body text-gray-600">
                                         <div class="overflow-hidden sm:rounded-md bg-gray-300 p-5">
                                             <x-text-input
@@ -246,10 +251,10 @@
                                                 :input="['value' => $vehicle->vehicleColor, 'name' => 'vehicleColor', 'title' => 'Vehicle Colour']" />
                                             <x-text-input
                                                 :input="['value' => $vehicle->plateNumber, 'name' => 'plateNumber', 'title' => 'Plate Number']" />
-                                            @if ($community->driverLicenseIdAccess)
+                                            {{-- @if ($community->driverLicenseIdAccess)
                                                 <x-text-input
                                                     :input="['value' => $vehicle->driverLicenseId, 'name' => 'driverLicenseId', 'title' => 'Driver License ID']" />
-                                            @endif
+                                            @endif --}}
                                             @if ($community->vehicleRegNumAccess)
                                                 <x-text-input
                                                     :input="['value' => $vehicle->vehicleRegNum, 'name' => 'vehicleRegNum', 'title' => 'Vehicle Registration Number']" />

@@ -24,6 +24,7 @@ class CreateCommunityVehicleUsersTable extends Migration
             $table->text('profile_photo_path')->nullable();
             $table->char('profile_photo_public_id')->nullable();
             $table->string('locationInCommunity');
+            $table->string('driverLicenseId')->nullable();
             $table->timestamps();
         });
     }

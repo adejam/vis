@@ -26,6 +26,7 @@ class CreateUsersTable extends Migration
             $table->foreignId('current_team_id')->nullable();
             $table->text('profile_photo_path')->nullable();
             $table->char('profile_photo_public_id')->nullable();
+            $table->string('driverLicenseId')->unique()->nullable();
             $table->timestamps();
         });
     }

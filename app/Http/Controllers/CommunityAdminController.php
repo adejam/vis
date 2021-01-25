@@ -38,7 +38,8 @@ class CommunityAdminController extends Controller
                 'username',
                 'lastname',
                 'profile_photo_path',
-                'user_phone'
+                'user_phone',
+                'driverLicenseId'
             )->where('username', '=', $username)->first();
     }
 
@@ -54,7 +55,7 @@ class CommunityAdminController extends Controller
                 'user_vehicles.vehicleBrand',
                 'user_vehicles.vehicleModel',
                 'user_vehicles.vehicleColor',
-                'user_vehicles.driverLicenseId',
+                // 'user_vehicles.driverLicenseId',
                 'user_vehicles.vehicleRegNum',
                 'user_vehicles.vehicleRegState',
                 'user_vehicles.plateNumber',
@@ -273,7 +274,7 @@ class CommunityAdminController extends Controller
         $adminPriveledges =  $this->getAdminPriv($communityId);
         if ($adminPriveledges) {
             $communityVehicleUsers =  $this->communityVehicleUsers($communityId, 1);
-            return view('user.my-community.communityUsers')
+            return view('user.my-community.verifiedUsers')
                 ->with('communityVehicleUsers', $communityVehicleUsers)
                 ->with('communityId', $communityId)
                 ->with('communityName', $community->communityName);
@@ -341,10 +342,11 @@ class CommunityAdminController extends Controller
                         'user_vehicles.vehicleBrand',
                         'user_vehicles.vehicleModel',
                         'user_vehicles.vehicleColor',
-                        'user_vehicles.driverLicenseId',
                         'user_vehicles.vehicleRegNum',
                         'user_vehicles.vehicleRegState',
                         'user_vehicles.plateNumber',
+                        'users.driverLicenseId',
+                        'users.id',
                         'users.name',
                         'users.username',
                         'users.lastname',

@@ -1,5 +1,6 @@
 @php
 use App\Http\Controllers\UserVehicleAccessController;
+$checkGrantedAccess = UserVehicleAccessController::checkGrantedAccess($community->communityId, $user->id);
 @endphp
 <x-app-layout>
     @section('title', 'Identify Vehicle')
@@ -24,6 +25,11 @@ use App\Http\Controllers\UserVehicleAccessController;
                         </svg>
                         <span>{{ $user->user_phone }}</span>
                     </div>
+                    @if ($community->driverLicenseIdAccess && $checkGrantedAccess->grantDriverLicenseIdAccess)
+
+                        <p><b>Driver's License Id: </b>{{ $user->driverLicenseId }}</p>
+
+                    @endif
                     <p>{{ $user->locationInCommunity }}</p>
                 </div>
             </div>
@@ -44,15 +50,15 @@ use App\Http\Controllers\UserVehicleAccessController;
                         <li class="mb-2 py-3 px-5 border-b">
                             <p><b>Vehicle plate Number: </b>{{ $user->plateNumber }}</p>
                         </li>
-                        @php
+                        {{-- @php
                         $checkGrantedAccess = UserVehicleAccessController::checkGrantedAccess($communityId,
                         $user->userVehicleId);
-                        @endphp
-                        @if ($community->driverLicenseIdAccess && $checkGrantedAccess->grantDriverLicenseIdAccess)
+                        @endphp --}}
+                        {{-- @if ($community->driverLicenseIdAccess && $checkGrantedAccess->grantDriverLicenseIdAccess)
                             <li class="mb-2 py-3 px-5 border-b">
                                 <p><b>Driver's License Id: </b>{{ $user->driverLicenseId }}</p>
                             </li>
-                        @endif
+                        @endif --}}
                         @if ($community->vehicleRegNumAccess && $checkGrantedAccess->grantVehicleRegNumAccess)
                             <li class="mb-2 py-3 px-5 border-b">
                                 <p><b>Vehicle Registration Number: </b>{{ $user->vehicleRegNum }}</p>

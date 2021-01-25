@@ -21,7 +21,7 @@ use App\Http\Controllers\UserVehicleAccessController;
             </div>
             @php
             $checkGrantedAccess = UserVehicleAccessController::checkGrantedAccess($community->communityId,
-            $userVehicleId);
+            Auth::id());
             @endphp
             @if ($community->driverLicenseIdAccess || $community->vehicleRegNumAccess || $community->vehicleRegStateAccess)
 

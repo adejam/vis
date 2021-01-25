@@ -23,9 +23,8 @@ class CreateCommunityUserVehiclesTable extends Migration
             $table->string('vehicleBrand');
             $table->string('vehicleModel');
             $table->string('vehicleColor');
-            $table->string('plateNumber')->unique();
-            $table->string('driverLicenseId')->nullable();
-            $table->string('vehicleRegNum')->unique()->nullable();
+            $table->string('plateNumber');
+            $table->string('vehicleRegNum')->nullable();
             $table->string('vehicleRegState')->nullable();
             $table->timestamps();
         });

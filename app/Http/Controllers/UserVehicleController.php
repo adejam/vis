@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\UserVehicle;
+use App\Models\User;
 use App\Models\CommunityVehicle;
 use App\Models\UserVehicleAccess;
 use Webpatser\Uuid\Uuid;
@@ -57,7 +58,6 @@ class UserVehicleController extends Controller
                 'vehicleBrand',
                 'vehicleModel',
                 'vehicleColor',
-                'driverLicenseId',
                 'vehicleRegNum',
                 'vehicleRegState',
                 'plateNumber'
@@ -77,7 +77,6 @@ class UserVehicleController extends Controller
             'vehicleBrand' => ['required', 'string', 'max:255'],
             'vehicleModel' => ['required', 'string', 'max:255'],
             'vehicleColor' => ['required', 'string', 'max:255'],
-            'driverLicenseId' => ['nullable', 'string', 'max:255', 'unique:user_vehicles'],
             'vehicleRegNum' => ['nullable', 'string', 'max:255', 'unique:user_vehicles'],
             'vehicleRegState' => ['nullable', 'string', 'max:255'],
             'plateNumber' => ['required', 'string', 'max:255', 'unique:user_vehicles'],
@@ -91,7 +90,6 @@ class UserVehicleController extends Controller
         $vehicle->vehicleBrand = $request->vehicleBrand;
         $vehicle->vehicleModel = $request->vehicleModel;
         $vehicle->vehicleColor = $request->vehicleColor;
-        $vehicle->driverLicenseId = $request->driverLicenseId;
         $vehicle->vehicleRegNum = $request->vehicleRegNum;
         $vehicle->vehicleRegState = $request->vehicleRegState;
         $vehicle->plateNumber = $request->plateNumber;
@@ -110,43 +108,42 @@ class UserVehicleController extends Controller
             'vehicleBrand' => ['required', 'string', 'max:255'],
             'vehicleModel' => ['required', 'string', 'max:255'],
             'vehicleColor' => ['required', 'string', 'max:255'],
-            'driverLicenseId' => ['nullable', 'string', 'max:255'],
             'vehicleRegNum' => ['nullable', 'string', 'max:255', Rule::unique('user_vehicles')->ignore($userVehicle->id)],
             'vehicleRegState' => ['nullable', 'string', 'max:255'],
             'plateNumber' => ['required', 'string', 'max:255', Rule::unique('user_vehicles')->ignore($userVehicle->id)],
             ]
         );
-        $driverLicenseOwner = DB::table('user_vehicles')
-            ->select(
-                'userId'
-            )->where('driverLicenseId', '=', $request->driverLicenseId)
-            ->where('userVehicleId', '!=', $request->userVehicleId)->first();
-        $alreadyHaveALicense = DB::table('user_vehicles')
-            ->select(
-                'driverLicenseId'
-            )->where('userId', '=', Auth::user()->id)
-            ->where('userVehicleId', '!=', $request->userVehicleId)->first();
-        // dd($alreadyHaveALicense);
+        // $driverLicenseOwner = DB::table('user_vehicles')
+        //     ->select(
+        //         'userId'
+        //     )->where('driverLicenseId', '=', $request->driverLicenseId)
+        //     ->where('userVehicleId', '!=', $request->userVehicleId)->first();
+        // $alreadyHaveALicense = DB::table('user_vehicles')
+        //     ->select(
+        //         'driverLicenseId'
+        //     )->where('userId', '=', Auth::user()->id)
+        //     ->where('userVehicleId', '!=', $request->userVehicleId)->first();
+        // // dd($alreadyHaveALicense);
         if ($userVehicle->timesVerified < 1) {
             $userVehicle->vehicleColor = $request->vehicleColor;
             $userVehicle->vehicleBrand = $request->vehicleBrand;
             $userVehicle->vehicleModel = $request->vehicleModel;
             $userVehicle->vehicleRegState = $request->vehicleRegState;
-            if ($request->driverLicenseId && $driverLicenseOwner) {
-                if ($driverLicenseOwner->userId === Auth::user()->id) {
-                    $userVehicle->driverLicenseId = $request->driverLicenseId;
-                } else {
-                    return back()->with('error', 'The driver\'s License has already been used by another user');
-                }
-            } elseif ($request->driverLicenseId && $alreadyHaveALicense) {
-                if ($request->driverLicenseId === $alreadyHaveALicense->driverLicenseId) {
-                    $userVehicle->driverLicenseId = $request->driverLicenseId;
-                } else {
-                    return back()->with('error', 'You Licence id must be the same with the one you used with other vehicles');
-                }
-            } else {
-                $userVehicle->driverLicenseId = $request->driverLicenseId;
-            }
+            // if ($request->driverLicenseId && $driverLicenseOwner) {
+            //     if ($driverLicenseOwner->userId === Auth::user()->id) {
+            //         $userVehicle->driverLicenseId = $request->driverLicenseId;
+            //     } else {
+            //         return back()->with('error', 'The driver\'s License has already been used by another user');
+            //     }
+            // } elseif ($request->driverLicenseId && $alreadyHaveALicense) {
+            //     if ($request->driverLicenseId === $alreadyHaveALicense->driverLicenseId) {
+            //         $userVehicle->driverLicenseId = $request->driverLicenseId;
+            //     } else {
+            //         return back()->with('error', 'You Licence id must be the same with the one you used with other vehicles');
+            //     }
+            // } else {
+            //     $userVehicle->driverLicenseId = $request->driverLicenseId;
+            // }
             $userVehicle->vehicleRegNum = $request->vehicleRegNum;
             $userVehicle->plateNumber = $request->plateNumber;
         }
@@ -181,6 +178,7 @@ class UserVehicleController extends Controller
             ->setpath('');
         
         $userVehicle = DB::table('user_vehicles')
+            ->join('users', 'users.id', 'user_vehicles.userId')
             ->select(
                 'vehicleBrand',
                 'driverLicenseId',
@@ -222,6 +220,8 @@ class UserVehicleController extends Controller
     public function joinCommunity(Request $request)
     {
         $userVehicle = UserVehicle::where('userVehicleId', '=', $request->userVehicleId)->firstOrFail();
+        $user = User::where('id', '=', Auth::id())->firstOrFail();
+        // dd($user->profile_photo_url);
         $this->validate(
             $request,
             [
@@ -229,57 +229,71 @@ class UserVehicleController extends Controller
             ]
         );
 
-        $community = DB::table('communities')->select(
-            'communityName',
-            'driverLicenseIdAccess',
-            'vehicleRegNumAccess',
-            'vehicleRegStateAccess'
-        )->where('communityId', '=', $request->communityId)->first();
+        // $community = DB::table('communities')->select(
+        //     'communityName',
+        //     'driverLicenseIdAccess',
+        //     'vehicleRegNumAccess',
+        //     'vehicleRegStateAccess'
+        // )->where('communityId', '=', $request->communityId)->first();
 
         $vehicleExistInCommunity = DB::table('community_vehicles')->select(
             'communityVehicleId',
         )->where('userVehicleId', '=', $request->userVehicleId)
             ->where('communityId', '=', $request->communityId)->first();
         if (!$vehicleExistInCommunity) {
-            if ($community->driverLicenseIdAccess && !$userVehicle->driverLicenseId) {
-                $driverLicenseOwner = DB::table('user_vehicles')
-                    ->select(
-                        'userId'
-                    )->where('driverLicenseId', '=', $request->driverLicenseId)
-                    ->where('userVehicleId', '!=', $request->userVehicleId)->first();
-                $alreadyHaveALicense = DB::table('user_vehicles')
-                    ->select(
-                        'driverLicenseId'
-                    )->where('userId', '=', Auth::user()->id)
-                    ->where('userVehicleId', '!=', $request->userVehicleId)->first();
-                if ($request->driverLicenseId && $driverLicenseOwner) {
-                    if ($driverLicenseOwner->userId === Auth::user()->id) {
-                        $this->validate(
-                            $request,
-                            [
-                            'driverLicenseId' => ['required', 'string', 'max:255'],
-                            ]
-                        );
-                        $userVehicle->driverLicenseId = $request->driverLicenseId;
-                    } else {
-                        return back()->with('error', 'The driver\'s License has already been used by another user');
-                    }
-                } else {
-                    $this->validate(
-                        $request,
-                        [
-                            'driverLicenseId' => ['required', 'string', 'max:255'],
-                            ]
-                    );
-                    if ($request->driverLicenseId === $alreadyHaveALicense->driverLicenseId) {
-                        $userVehicle->driverLicenseId = $request->driverLicenseId;
-                    } else {
-                        return back()->with('error', 'Your Licence id must be the same with the one you used with other vehicles');
-                    }
-                }
+            // if ($community->driverLicenseIdAccess && !$userVehicle->driverLicenseId) {
+            //     $driverLicenseOwner = DB::table('user_vehicles')
+            //         ->select(
+            //             'userId'
+            //         )->where('driverLicenseId', '=', $request->driverLicenseId)
+            //         ->where('userVehicleId', '!=', $request->userVehicleId)->first();
+            //     $alreadyHaveALicense = DB::table('user_vehicles')
+            //         ->select(
+            //             'driverLicenseId'
+            //         )->where('userId', '=', Auth::user()->id)
+            //         ->where('userVehicleId', '!=', $request->userVehicleId)->first();
+            //     if ($request->driverLicenseId && $driverLicenseOwner) {
+            //         if ($driverLicenseOwner->userId === Auth::user()->id) {
+            // $this->validate(
+            //     $request,
+            //     [
+            //     'driverLicenseId' => ['required', 'string', 'max:255'],
+            //     ]
+            // );
+            //             $userVehicle->driverLicenseId = $request->driverLicenseId;
+            //         } else {
+            //             return back()->with('error', 'The driver\'s License has already been used by another user');
+            //         }
+            //     } elseif ($request->driverLicenseId && $alreadyHaveALicense) {
+            //         $this->validate(
+            //             $request,
+            //             [
+            //                 'driverLicenseId' => ['required', 'string', 'max:255'],
+            //                 ]
+            //         );
+            //         if ($request->driverLicenseId === $alreadyHaveALicense->driverLicenseId) {
+            //             $userVehicle->driverLicenseId = $request->driverLicenseId;
+            //         } else {
+            //             return back()->with('error', 'Your Licence id must be the same with the one you used with other vehicles');
+            //         }
+            //     } else {
+            //         $userVehicle->driverLicenseId = $request->driverLicenseId;
+            //     }
+            // }
+
+            if ($request->driverLicenseIdAccess && !$user->driverLicenseId) {
+                $this->validate(
+                    $request,
+                    [
+                    'driverLicenseId' => ['required', 'string', 'max:255', Rule::unique('users')->ignore($user->id)],
+                    ]
+                );
+
+                $user->driverLicenseId = $request->driverLicenseId;
+                $user->save();
             }
 
-            if ($community->vehicleRegNumAccess && !$userVehicle->vehicleRegNum) {
+            if ($request->vehicleRegNumAccess && !$userVehicle->vehicleRegNum) {
                 $this->validate(
                     $request,
                     [
@@ -289,7 +303,7 @@ class UserVehicleController extends Controller
                 $userVehicle->vehicleRegNum = $request->vehicleRegNum;
             }
 
-            if ($community->vehicleRegStateAccess && !$userVehicle->vehicleRegState) {
+            if ($request->vehicleRegStateAccess && !$userVehicle->vehicleRegState) {
                 $this->validate(
                     $request,
                     [
@@ -326,9 +340,9 @@ class UserVehicleController extends Controller
             $communityVehicle->locationInCommunity = $request->locationInCommunity;
             $communityVehicle->verified = 0;
             $communityVehicle->save();
-            return back()->with('success', 'Request to join '.$community->communityName.' community Successfully sent!');
+            return back()->with('success', 'Request to join '.$request->communityName.' community Successfully sent!');
         } else {
-            return back()->with('error', 'This vehicle is already registered with '.$community->communityName.' community!');
+            return back()->with('error', 'This vehicle is already registered with '.$request->communityName.' community!');
         }
     }
 

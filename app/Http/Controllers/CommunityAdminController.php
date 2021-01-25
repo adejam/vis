@@ -332,7 +332,8 @@ class CommunityAdminController extends Controller
         if ($adminPriveledges) {
             if ($adminPriveledges->identifyVehicleUser) {
                 $community = $this->getCommunityWithAccess($request->communityId);
-                $user = DB::table('community_vehicles')
+                $user;
+                $verifiedUser = DB::table('community_vehicles')
                     ->join('user_vehicles', 'user_vehicles.userVehicleId', 'community_vehicles.userVehicleId')
                     ->join('users', 'users.id', 'user_vehicles.userId')
                     ->select(
@@ -355,10 +356,35 @@ class CommunityAdminController extends Controller
                     )->where('community_vehicles.communityId', '=', $request->communityId)
                     ->where('user_vehicles.plateNumber', '=', $request->plateNumber)
                     ->where('community_vehicles.verified', '=', 1)->first();
+
+                $addedUser = $user = DB::table('community_vehicle_users')
+                    ->join('community_user_vehicles', 'community_user_vehicles.username', 'community_vehicle_users.username')
+                    ->select(
+                        'community_vehicle_users.communityId',
+                        'locationInCommunity',
+                        'vehicleBrand',
+                        'vehicleModel',
+                        'vehicleColor',
+                        'vehicleRegNum',
+                        'vehicleRegState',
+                        'plateNumber',
+                        'driverLicenseId',
+                        'community_vehicle_users.id',
+                        'name',
+                        'community_vehicle_users.username',
+                        'lastname',
+                        'profile_photo_path',
+                        'user_phone'
+                    )->where('community_vehicle_users.communityId', '=', $request->communityId)
+                    ->where('community_user_vehicles.plateNumber', '=', $request->plateNumber)->first();
+                $isVerifiedUser = 1;
+
+                $isVerifiedUser = $verifiedUser ? 1 : 0;
+
+                $user = $addedUser ? $addedUser : $verifiedUser;
                 return view('user.my-community.identifyUser')
                     ->with('user', $user)
-                    ->with('communityId', $request->communityId)
-                    ->with('communityName', $request->communityName)
+                    ->with('isVerifiedUser', $isVerifiedUser)
                     ->with('community', $community);
             } else {
                 return back()->with('error', 'You don\'t have the priviledge to identify this vehicle\'s user');

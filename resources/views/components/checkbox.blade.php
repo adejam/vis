@@ -1,5 +1,5 @@
 <div class="mb-3">
-    <label class="block text-gray-500 font-bold">
+    <label class="block text-gray-700 font-semibold">
         @if ($input['value'])
             <input class="mr-2 leading-tight" name="{{ $input['name'] }}" checked type="checkbox">
         @else

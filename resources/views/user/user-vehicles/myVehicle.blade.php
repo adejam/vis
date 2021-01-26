@@ -79,7 +79,7 @@
                                     :input="['value' => $vehicle->plateNumber, 'name' => 'plateNumber', 'title' => 'Plate Number']" />
                                     <div class="p-3 bg-gray-100 border-gray-300">
                                         <div class="flex justify-between items-start bg-green-100 border border-green-400 text-green-700 px-4 py-3 m-3 rounded relative" role="alert">
-                                            <p class="block sm:inline">The field below should only be filled or updated if a community request for them.
+                                            <p class="block sm:inline text-sm">The field below should only be filled or updated if a community request for them.
                                                 <br />
                                                 Only the communities you grant access to can have access to them.
                                             </p>
@@ -104,7 +104,7 @@
                                 </button>
                                 @else
                                 <div class="flex justify-between items-start bg-green-100 border border-green-400 text-green-700 px-4 py-3 m-3 rounded relative" role="alert">
-                                    <p class="block sm:inline">This vehicle has been registered with a community. You have to unregister this vehicle from
+                                    <p class="block sm:inline text-sm">This vehicle has been registered with a community. You have to unregister this vehicle from
                                         all communities to be able to adit vehicle's details.
                                     </p>
                                 </div>

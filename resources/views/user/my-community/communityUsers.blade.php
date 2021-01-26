@@ -8,7 +8,7 @@
                     @foreach ($communityVehicleUsers as $user)
 
                         <article class="p-3 m-3 text-center border-gray-100 border hover:bg-lightblue rounded-full">
-                            <a class="text-lg font-semibold text-primary w-full flex justify-center"
+                            <a class="font-semibold text-primary w-full flex justify-center"
                                 href="{{ url('my-community/' . $communityId . '/community-user-vehicles/' . $user->username) }}">
                                 {{ $user->name }} {{ $user->lastname }} &commat;{{ $user->username }}
                             </a>

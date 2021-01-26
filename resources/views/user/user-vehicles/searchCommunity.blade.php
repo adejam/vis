@@ -40,7 +40,7 @@ use App\Http\Controllers\UserVehicleController;
                     <div class="flex flex-col items-center justify-center md:text-left">
                         <h2 class="text-lg capitalize font-semibold">{{ $community->communityName }}</h2>
                         <div class="flex mt-3 justify-center text-gray-600">
-                            <svg class="mr-2 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512">
+                            <svg class="mr-2 w-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512">
                                 <path class="min-w-full"
                                     d="M172.268 501.67C26.97 291.031 0 269.413 0 192 0 85.961 85.961 0 192 0s192 85.961 192 192c0 77.413-26.97 99.031-172.268 309.67-9.535 13.774-29.93 13.773-39.464 0zM192 272c44.183 0 80-35.817 80-80s-35.817-80-80-80-80 35.817-80 80 35.817 80 80 80z" />
                             </svg>
@@ -96,7 +96,7 @@ use App\Http\Controllers\UserVehicleController;
                                             <article class="modal-body">
                                                 @if ($community->driverLicenseIdAccess || $community->vehicleRegNumAccess || $community->vehicleRegStateAccess)
                                                     <div class="">
-                                                        <div class="py-3 m-3 relative">
+                                                        <div class="py-3 m-3 relative text-sm">
                                                             <p>This community vehicle requirements includes the following
                                                                 informations.</p>
                                                             <ul class="flex flex-col">

@@ -3,7 +3,7 @@
         <div>
             @foreach ($userVehicles as $vehicle)
             <section class="p-3 m-3 text-center border-gray-100 border hover:bg-lightblue rounded-full">
-                <a class="text-lg font-semibold text-primary w-full inline-block"
+                <a class="font-semibold text-primary w-full inline-block"
                     href="{{ url('my-vehicles/' . $vehicle->userVehicleId .'/'. $vehicle->vehicleBrand) }}">
                     {{ __($vehicle->vehicleBrand) }}
                 </a>
@@ -13,7 +13,7 @@
         <section class="mt-10">
             <div class="">
                 <div class="px-4 sm:px-0">
-                    <h3 class="text-lg font-semibold text-gray-900 text-center">Add Vehicle</h3>
+                    <h3 class="text-lg font-medium text-gray-900 text-center">Add Vehicle</h3>
                 </div>
             </div>
 

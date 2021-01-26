@@ -3,7 +3,7 @@ use App\Http\Controllers\CommunityAdminController;
 $community = CommunityAdminController::getCommunityWithAccess($communityId);
 @endphp
 <div class=" mb-5 border-gray-100">
-    <h3 class="text-center font-bold text-3xl capitalize">{{ $communityName }}</h3>
+    <h3 class="text-center font-bold text-2xl capitalize">{{ $communityName }}</h3>
 </div>
 <ul class="border-b border-gray-100 mb-0 justify-center  text-primary flex flex-wrap">
     <li class="" style="margin-bottom: -1px;">

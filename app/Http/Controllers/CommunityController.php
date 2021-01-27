@@ -128,6 +128,9 @@ class CommunityController extends Controller
  
     public function add(Request $request)
     {
+        if (!Auth::user()->profile_photo_path) {
+            return back()->with('error', 'You cannot add a community without adding your profile photo. Please go to profile to add your profile photo');
+        }
         $this->validate(
             $request,
             [

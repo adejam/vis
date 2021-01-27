@@ -94,6 +94,10 @@ class UserVehicleController extends Controller
 
     public function addVehicle(Request $request)
     {
+        if (!Auth::user()->profile_photo_path) {
+            return back()->with('error', 'You cannot add a vehicle or join any community without adding your profile photo. Please go to profile to add your profile photo');
+        }
+        
         $this->validate(
             $request,
             [
@@ -152,6 +156,9 @@ class UserVehicleController extends Controller
 
     public function searchCommunity(Request $request)
     {
+        if (!Auth::user()->profile_photo_path) {
+            return back()->with('error', 'You cannot add a vehicle or join any community without adding your profile photo. Please go to profile to add your profile photo');
+        }
         $this->validate(
             $request,
             [

@@ -75,8 +75,8 @@ use App\Http\Controllers\UserVehicleAccessController;
             @foreach ($communityAdmins as $admin)
                 <div class="md:flex bg-white m-3 rounded-lg border p-6">
                     @if ($admin->profile_photo_path)
-                        <img class="h-16 w-16 md:h-24 md:w-24 rounded-full mx-auto md:mx-0 md:mr-6 object-cover"
-                            src="/storage/{{ $admin->profile_photo_path }}" alt="admin-photo">
+                        <img class="h-20 w-20 md:h-24 md:w-24 rounded-full mx-auto md:mx-0 md:mr-6 object-cover"
+                            src="{{ $admin->profile_photo_path }}" alt="admin-photo">
                     @else
                         <span
                             class="flex text-primary bg-lightblue font-bold text-2xl justify-center items-center h-16 w-16 md:h-24 md:w-24 rounded-full mx-auto md:mx-0 md:mr-6">{{ strToUpper($admin->username[0]) }}</span>

@@ -26,7 +26,7 @@
             <div class="">
                 <div class="">
                     <div class="px-4 sm:px-0">
-                        <h3 class="text-lg font-medium text-gray-900">Create Community</h3>
+                        <h3 class="text-lg font-medium text-center text-gray-900">Create Community</h3>
                     </div>
                 </div>
 
@@ -43,7 +43,7 @@
                                     :input="['value' => null, 'name' => 'communityLocation', 'title' => 'Community Location']" />
                                 <x-text-area-input
                                     :input="['value' => null, 'name' => 'aboutCommunity', 'title' => 'About Community']" />
-                                <h4 class="text-xl font-semibold text-gray-900">Select Additional vehicle information to
+                                <h4 class="text-lg font-semibold text-gray-900">Select Additional vehicle information to
                                     request</h4>
                                 <x-checkbox
                                     :input="['value' => '', 'name' => 'driverLicenseIdAccess', 'title' => 'Request Driver License Id']" />

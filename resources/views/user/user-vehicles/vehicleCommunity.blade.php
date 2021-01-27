@@ -26,12 +26,12 @@ use App\Http\Controllers\UserVehicleAccessController;
             @if ($community->driverLicenseIdAccess || $community->vehicleRegNumAccess || $community->vehicleRegStateAccess)
 
                 <div class="p-3 bg-gray-100 border-gray-300">
-                    <h4 class="text-xl font-semibold text-center text-gray-900">
+                    <h4 class="text-lg font-semibold text-center text-gray-900">
                         Requested Informations
                     </h4>
                     <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 m-3 rounded relative"
                         role="alert">
-                        <ul class="flex flex-col">
+                        <ul class="flex flex-col text-sm">
                             <li class="mb-1 py-1 px-3 border-b">
                                 <p> - Informations you have granted access to are tagged <b>Access Granted</b></p>
                             </li>
@@ -75,8 +75,8 @@ use App\Http\Controllers\UserVehicleAccessController;
             @foreach ($communityAdmins as $admin)
                 <div class="md:flex bg-white m-3 rounded-lg border p-6">
                     @if ($admin->profile_photo_path)
-                        <img class="h-16 w-16 md:h-24 md:w-24 rounded-full mx-auto md:mx-0 md:mr-6"
-                            src="/storage/{{ $admin->profile_photo_path }}" alt="admin-photo">
+                        <img class="h-20 w-20 md:h-24 md:w-24 rounded-full mx-auto md:mx-0 md:mr-6 object-cover"
+                            src="{{ $admin->profile_photo_path }}" alt="admin-photo">
                     @else
                         <span
                             class="flex text-primary bg-lightblue font-bold text-2xl justify-center items-center h-16 w-16 md:h-24 md:w-24 rounded-full mx-auto md:mx-0 md:mr-6">{{ strToUpper($admin->username[0]) }}</span>

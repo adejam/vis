@@ -69,6 +69,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(
                 Route::get("/{userVehicleId}/{vehicleBrand}", [UserVehicleController::class, 'myVehicle'])->name('vehicle');
                 Route::get("/search-communities", [UserVehicleController::class, 'searchCommunity'])->name('vehicles.community.search');
                 Route::post("/vehicle-add", [UserVehicleController::class, 'addVehicle'])->name('vehicle.add');
+                Route::post("/vehicle-license-update", [UserVehicleController::class, 'updateLicense'])->name('vehicle.license.update');
                 Route::post("/vehicle-update", [UserVehicleController::class, 'updateVehicle'])->name('vehicle.update');
                 Route::post("/vehicle-delete", [UserVehicleController::class, 'deleteVehicle'])->name('vehicle.delete');
                 Route::post("/join-community", [UserVehicleController::class, 'joinCommunity'])->name('vehicle.community.join');

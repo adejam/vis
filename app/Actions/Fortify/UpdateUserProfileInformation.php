@@ -28,7 +28,7 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
             'lastname' => ['required', 'string', 'max:255'],
             'user_phone' => ['required', 'digits:11'],
             'username' => ['required', 'string', 'max:255', Rule::unique('users')->ignore($user->id)],
-            'driverLicenseId' => ['nullable', 'string', 'max:255', Rule::unique('users')->ignore($user->id)],
+            // 'driverLicenseId' => ['nullable', 'string', 'max:255', Rule::unique('users')->ignore($user->id)],
             'email' => ['required', 'email', 'max:255', Rule::unique('users')->ignore($user->id)],
             'photo' => ['nullable', 'image', 'max:1024'],
             ]
@@ -61,7 +61,7 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
                 'name' => $input['name'],
                 'lastname' => $input['lastname'],
                 'username' => $input['username'],
-                'driverLicenseId' => $input['driverLicenseId'],
+                // 'driverLicenseId' => $input['driverLicenseId'],
                 'user_phone' => $input['user_phone'],
                 'email' => $input['email'],
                 ]
@@ -83,7 +83,7 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
             'name' => $input['name'],
             'lastname' => $input['lastname'],
             'username' => $input['username'],
-            'driverLicenseId' => $input['driverLicenseId'],
+            // 'driverLicenseId' => $input['driverLicenseId'],
             'user_phone' => $input['user_phone'],
             'email' => $input['email'],
             'email_verified_at' => null,

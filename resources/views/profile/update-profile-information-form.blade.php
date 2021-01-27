@@ -12,10 +12,7 @@
         @if (Laravel\Jetstream\Jetstream::managesProfilePhotos())
             <div x-data="{photoName: null, photoPreview: null}" class="col-span-6 sm:col-span-4">
                 <!-- Profile Photo File Input -->
-                <input type="file" class="hidden"
-                            wire:model="photo"
-                            x-ref="photo"
-                            x-on:change="
+                <input type="file" class="hidden" wire:model="photo" x-ref="photo" x-on:change="
                                     photoName = $refs.photo.files[0].name;
                                     const reader = new FileReader();
                                     reader.onload = (e) => {
@@ -28,13 +25,20 @@
 
                 <!-- Current Profile Photo -->
                 <div class="mt-2" x-show="! photoPreview">
-                    <img src="{{ $this->user->profile_photo_path }}" alt="{{ $this->user->name }}" class="rounded-full h-20 w-20 object-cover">
-                </div>
+                    @if (Auth::user()->profile_photo_path)
 
+                        <img src="{{ $this->user->profile_photo_path }}" alt="{{ $this->user->name }}"
+                            class="rounded-full h-20 w-20 object-cover">
+
+                    @else
+                        <span
+                            class="flex text-primary bg-lightblue font-bold text-2xl justify-center items-center h-20 w-20 rounded-full">{{ strToUpper(Auth::user()->username[0]) }}</span>
+                    @endif
+                </div>
                 <!-- New Profile Photo Preview -->
                 <div class="mt-2" x-show="photoPreview">
                     <span class="block rounded-full w-20 h-20"
-                          x-bind:style="'background-size: cover; background-repeat: no-repeat; background-position: center center; background-image: url(\'' + photoPreview + '\');'">
+                        x-bind:style="'background-size: cover; background-repeat: no-repeat; background-position: center center; background-image: url(\'' + photoPreview + '\');'">
                     </span>
                 </div>
 
@@ -55,28 +59,32 @@
         <!-- Firstname -->
         <div class="col-span-6 sm:col-span-4">
             <x-jet-label for="name" value="{{ __('Firstname') }}" />
-            <x-jet-input id="name" type="text" class="mt-1 block w-full" wire:model.defer="state.name" autocomplete="name" />
+            <x-jet-input id="name" type="text" class="mt-1 block w-full" wire:model.defer="state.name"
+                autocomplete="name" />
             <x-jet-input-error for="name" class="mt-2" />
         </div>
 
         <!-- Lastname -->
         <div class="col-span-6 sm:col-span-4">
             <x-jet-label for="lastname" value="{{ __('lastname') }}" />
-            <x-jet-input id="lastname" type="text" class="mt-1 block w-full" wire:model.defer="state.lastname" autocomplete="lastname" />
+            <x-jet-input id="lastname" type="text" class="mt-1 block w-full" wire:model.defer="state.lastname"
+                autocomplete="lastname" />
             <x-jet-input-error for="lastname" class="mt-2" />
         </div>
 
         <!-- Username -->
         <div class="col-span-6 sm:col-span-4">
             <x-jet-label for="username" value="{{ __('Username') }}" />
-            <x-jet-input id="username" type="text" class="mt-1 block w-full" wire:model.defer="state.username" autocomplete="username" />
+            <x-jet-input id="username" type="text" class="mt-1 block w-full" wire:model.defer="state.username"
+                autocomplete="username" />
             <x-jet-input-error for="username" class="mt-2" />
         </div>
 
         <!-- Phone Number -->
         <div class="col-span-6 sm:col-span-4">
             <x-jet-label for="user_phone" value="{{ __('Phone Number') }}" />
-            <x-jet-input id="user_phone" type="text" class="mt-1 block w-full" wire:model.defer="state.user_phone" autocomplete="user_phone" />
+            <x-jet-input id="user_phone" type="text" class="mt-1 block w-full" wire:model.defer="state.user_phone"
+                autocomplete="user_phone" />
             <x-jet-input-error for="user_phone" class="mt-2" />
         </div>
 
@@ -87,12 +95,6 @@
             <x-jet-input-error for="email" class="mt-2" />
         </div>
 
-        <!-- Driver's License ID -->
-        <div class="col-span-6 sm:col-span-4">
-            <x-jet-label for="driverLicenseId" value="{{ __('Driver License ID') }}" />
-            <x-jet-input id="driverLicenseId" type="text" class="mt-1 block w-full" wire:model.defer="state.driverLicenseId" autocomplete="driverLicenseId" />
-            <x-jet-input-error for="driverLicenseId" class="mt-2" />
-        </div>
     </x-slot>
 
     <x-slot name="actions">

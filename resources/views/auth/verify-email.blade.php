@@ -17,7 +17,7 @@
             </div>
         @endif
 
-        <div class="mt-4 flex items-center justify-between">
+        <div class="mt-4 flex items-center justify-between flex-wrap">
             <form method="POST" action="{{ route('verification.send') }}">
                 @csrf
 
@@ -37,7 +37,7 @@
             </form>
         </div>
         <p class="text-center text-gray-500 text-xs mt-3">
-            &copy;2020 Adeleye jamiu. All rights reserved.
+            &copy;{{ date('Y') }} Adeleye jamiu. All rights reserved.
         </p>
     </x-jet-authentication-card>
 </x-guest-layout>

@@ -43,8 +43,13 @@
                         @if (Laravel\Jetstream\Jetstream::managesProfilePhotos())
                             <button
                                 class="my-auto sm:ml-6 flex text-sm border-2 border-transparent rounded-full focus:outline-none focus:border-gray-300 transition duration-150 ease-in-out">
+                                @if ( Auth::user()->profile_photo_path)
                                 <img class="h-8 w-8 rounded-full object-cover" src="{{ Auth::user()->profile_photo_path }}"
                                     alt="{{ Auth::user()->name }}" />
+                                @else
+                                    <span
+                                        class="flex text-primary bg-lightblue font-bold text-xl justify-center items-center h-9 w-9 rounded-full">{{ strToUpper(Auth::user()->username[0]) }}</span>
+                                @endif
                             </button>
                         @else
                             <button
@@ -153,8 +158,13 @@
                 <div class="pt-4 pb-1 border-t border-gray-200">
                     <div class="flex items-center px-4">
                         <div class="flex-shrink-0">
-                            <img class="h-10 w-10 rounded-full" src="{{ Auth::user()->profile_photo_url }}"
+                            @if ( Auth::user()->profile_photo_path)
+                            <img class="h-10 w-10 rounded-full" src="{{ Auth::user()->profile_photo_path }}"
                                 alt="{{ Auth::user()->name }}" />
+                            @else
+                                <span
+                                    class="flex text-primary bg-lightblue font-bold text-xl justify-center items-center h-9 w-9 rounded-full">{{ strToUpper(Auth::user()->username[0]) }}</span>
+                            @endif
                         </div>
 
                         <div class="ml-3">

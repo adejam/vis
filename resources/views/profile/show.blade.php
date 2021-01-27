@@ -7,6 +7,9 @@
 
                 <x-jet-section-border />
             @endif
+            
+            <x-driver-license-form />
+            <x-jet-section-border />
 
             @if (Laravel\Fortify\Features::enabled(Laravel\Fortify\Features::updatePasswords()))
                 <div class="mt-10 sm:mt-0">

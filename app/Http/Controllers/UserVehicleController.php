@@ -14,6 +14,29 @@ use DB;
 
 class UserVehicleController extends Controller
 {
+    public function updateLicense(Request $request)
+    {
+        $user = User::where('id', '=', Auth::id())->firstOrFail();
+        $this->validate(
+            $request,
+            [
+            'driverLicenseId' => ['required', 'string', 'max:255', Rule::unique('users')->ignore($user->id)],
+            ]
+        );
+
+        $checkIfAccessgrantedToACommunity = UserVehicleAccess::where('userId', '=', Auth::user()->id)
+            ->where('grantDriverLicenseIdAccess', '=', 1)->first();
+        if ($request->driverLicenseId !== $user->driverLicenseId) {
+            if ($checkIfAccessgrantedToACommunity) {
+                return back()->with('error', 'Remove your vehicle from the community you granted the Driver License ID access to be able to update your Driver License ID');
+            }
+        }
+        
+        $user->driverLicenseId = $request->driverLicenseId;
+        $user->save();
+        return back()->with('success', 'Driver License ID Updated');
+    }
+
     public function index()
     {
         $userVehicles = DB::table('user_vehicles')

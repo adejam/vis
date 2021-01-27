@@ -1,107 +1,20 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\CommunityController;
-use App\Http\Controllers\CommunityAdminController;
-use App\Http\Controllers\UserVehicleController;
-use App\Http\Controllers\ContactUsController;
-use App\Http\Controllers\UserVehicleAccessController;
-use App\Http\Controllers\CommunityVehicleUserController;
-use Illuminate\Foundation\Auth\EmailVerificationRequest;
-use Illuminate\Http\Request;
+
+/*
+|--------------------------------------------------------------------------
+| Web Routes
+|--------------------------------------------------------------------------
+|
+| Here is where you can register web routes for your application. These
+| routes are loaded by the RouteServiceProvider within a group which
+| contains the "web" middleware group. Now create something great!
+|
+*/
 
 Route::get(
-    '/',
-    function () {
+    '/', function () {
         return view('welcome');
     }
 );
-
-Route::get('/contact-us', [ContactUsController::class, 'index'])->name('contact-us');
-Route::post('/contact-us/sendemail', [ContactUsController::class, 'send'])->name('contact-us.send');
-
-Route::middleware(['auth:sanctum', 'verified'])->get(
-    '/dashboard',
-    function () {
-        return view('dashboard');
-    }
-)->name('dashboard');
-
-Route::middleware(['auth:sanctum', 'verified'])->group(
-    function () {
-        Route::group(
-            ['prefix' => '/my-community'],
-            function () {
-                Route::get("/", [CommunityController::class, 'index'])->name('community');
-                Route::post("/add", [CommunityController::class, 'add'])->name('community.add');
-                Route::post("/update", [CommunityController::class, 'update'])->name('community.update');
-                Route::post("/delete", [CommunityController::class, 'delete'])->name('community.delete');
-                Route::get("/{communityId}", [CommunityController::class, 'getMyCommunity'])->name('community.get');
-                Route::get("/{communityId}/admins", [CommunityController::class, 'getMyCommunityAdmins'])->name('community.get.admins');
-                Route::get("/{communityId}/settings", [CommunityController::class, 'getMyCommunitySettings'])->name('community.get.settings');
-                Route::post("/add-admin", [CommunityAdminController::class, 'add'])->name('community.admin.add');
-                Route::post("/update-admin", [CommunityAdminController::class, 'updateAdmin'])->name('community.admin.update');
-                Route::post("/remove-admin", [CommunityAdminController::class, 'removeAdmin'])->name('community.admin.remove');
-                Route::get("/{communityId}/all-vehicle-users", [CommunityAdminController::class, 'allVehicleUsers'])->name('community.vehicle.all-users');
-                Route::get("/{communityId}/vehicle-users", [CommunityAdminController::class, 'vehicleUsers'])->name('community.vehicle.users');
-                Route::get("/{communityId}/vehicle-users/{username}", [CommunityAdminController::class, 'usersVehicle'])->name('community.users.vehicle');
-                Route::post("/vehicle/user/remove-vehicle", [CommunityAdminController::class, 'removeUserVehicle'])->name('community.user.remove-vehicle');
-                Route::get("/{communityId}/registration-requests", [CommunityAdminController::class, 'registrationRequests'])->name('community.registration-requests');
-                Route::get("/{communityId}/registration-requests/{username}", [CommunityAdminController::class, 'registrationRequestsVehicles'])->name('community.registration-requests.vehicles');
-                Route::post("/vehicle/user/verify-user", [CommunityAdminController::class, 'verifyUser'])->name('community.user.verify-user');
-                Route::get("/{communityId}/identify-vehicle-user", [CommunityAdminController::class, 'identifyVehicleUser'])->name('community.identify-vehicle-user');
-                Route::post("/add-user-and-vehicle", [CommunityVehicleUserController::class, 'addUserAndVehicle'])->name('community.add.userAndVehicle');
-                Route::get("{communityId}/community-user-vehicles/{username}", [CommunityVehicleUserController::class, 'showUserVehicle'])->name('community.showUserVehicle');
-                Route::get("{communityId}/community-vehicle-users", [CommunityVehicleUserController::class, 'showVehicleUsers'])->name('community.showVehicleUsers');
-                Route::post("/edit-user-vehicle", [CommunityVehicleUserController::class, 'editUserVehicle'])->name('community.edit.userVehicle');
-                Route::post("/delete-user-vehicle", [CommunityVehicleUserController::class, 'removeUserVehicle'])->name('community.delete.userVehicle');
-                Route::post("/add-user-vehicle", [CommunityVehicleUserController::class, 'addUserVehicle'])->name('community.add.userVehicle');
-                Route::post("/delete-user-and-vehicle", [CommunityVehicleUserController::class, 'deleteUserAndVehicle'])->name('community.delete.userAndVehicle');
-                Route::post("/edit-vehicle-user", [CommunityVehicleUserController::class, 'editVehicleUser'])->name('community.edit.vehicleUser');
-                Route::post("/edit-vehicle-userPhoto", [CommunityVehicleUserController::class, 'editVehicleUserPhoto'])->name('community.edit.vehicleUserPhoto');
-            }
-        );
-
-        Route::group(
-            ['prefix' => '/my-vehicles'],
-            function () {
-                Route::get("/", [UserVehicleController::class, 'index'])->name('vehicles');
-                Route::get("/{userVehicleId}/{vehicleBrand}", [UserVehicleController::class, 'myVehicle'])->name('vehicle');
-                Route::get("/search-communities", [UserVehicleController::class, 'searchCommunity'])->name('vehicles.community.search');
-                Route::post("/vehicle-add", [UserVehicleController::class, 'addVehicle'])->name('vehicle.add');
-                Route::post("/vehicle-license-update", [UserVehicleController::class, 'updateLicense'])->name('vehicle.license.update');
-                Route::post("/vehicle-update", [UserVehicleController::class, 'updateVehicle'])->name('vehicle.update');
-                Route::post("/vehicle-delete", [UserVehicleController::class, 'deleteVehicle'])->name('vehicle.delete');
-                Route::post("/join-community", [UserVehicleController::class, 'joinCommunity'])->name('vehicle.community.join');
-                Route::get("/{vehicleBrand}/{userVehicleId}/community/{communityName}/{communityId}", [UserVehicleController::class, 'showCommunity'])->name('vehicle.community.show');
-                Route::post("/unjoin-community", [UserVehicleController::class, 'unjoinCommunity'])->name('vehicle.community.unjoin');
-                Route::post("/grant-remove-access", [UserVehicleAccessController::class, 'grantOrRemoveAccess'])->name('vehicle.access.grantOrRemove');
-            }
-        );
-    }
-);
-
-Route::get(
-    '/email/verify',
-    function () {
-        return view('auth.verify-email');
-    }
-)->middleware('auth')->name('verification.notice');
-
-Route::get(
-    '/email/verify/{id}/{hash}',
-    function (EmailVerificationRequest $request) {
-        $request->fulfill();
-
-        return redirect('/dashboard');
-    }
-)->middleware(['auth', 'signed'])->name('verification.verify');
-
-Route::post(
-    '/email/verification-notification',
-    function (Request $request) {
-        $request->user()->sendEmailVerificationNotification();
-
-        return back()->with('message', 'Verification link sent!');
-    }
-)->middleware(['auth', 'throttle:6,1'])->name('verification.send');

@@ -11,8 +11,6 @@
     <exclude-pattern>*/docs/*</exclude-pattern>
     <exclude-pattern>*/vendor/*</exclude-pattern>
     <exclude-pattern>*/node_modules/*</exclude-pattern>
-    <exclude-pattern>*/app/Actions/Jetstream/*</exclude-pattern>
-    <exclude-pattern>*/app/Actions/Fortify/*</exclude-pattern>
     <exclude-pattern>*/migrations/*</exclude-pattern>
     <exclude-pattern>*/app/Http/Middleware/Authenticate.php</exclude-pattern>
     <exclude-pattern>*/app/Http/Middleware/RedirectIfAuthenticated.php</exclude-pattern>
@@ -25,7 +23,6 @@
 
     <rule ref="PEAR">
         <exclude name="PEAR.Commenting.FileComment.Missing"/>
-        <exclude name="PEAR.Commenting.FunctionComment.MissingParamTag"/>
         <exclude name="PEAR.Commenting.FileComment.WrongStyle"/>
         <exclude name="PEAR.Commenting.ClassComment.Missing"/>
         <exclude name="PEAR.Commenting.FunctionComment.Missing"/>

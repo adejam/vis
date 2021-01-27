@@ -30,7 +30,7 @@ class CommunityController extends Controller
     {
         return DB::table('community_vehicles')
             ->join('users', 'users.id', 'community_vehicles.userId')
-            ->distinct()
+            ->distinct('users.id')
             ->select(
                 'userId',
             )->where('communityId', '=', $communityId)
@@ -51,7 +51,11 @@ class CommunityController extends Controller
         if (!$community) {
             abort(404);
         }
-        $communityVehicleUsers =  $this->communityVehicleUsers($communityId, 1);
+        $addedUsersCount = DB::table('community_vehicle_users')
+            ->select(
+                'id',
+            )->where('communityId', '=', $communityId)->count();
+        $communityVehicleUsers = $addedUsersCount + $this->communityVehicleUsers($communityId, 1);
         $registrationRequests =  $this->communityVehicleUsers($communityId, 0);
         return view('user.my-community.getMyCommunity')
             ->with('community', $community)

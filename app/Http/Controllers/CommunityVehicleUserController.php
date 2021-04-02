@@ -207,14 +207,15 @@ class CommunityVehicleUserController extends Controller
                 if ($checkLicenseIdValidation) {
                     return $checkLicenseIdValidation;
                 }
-
+                $lastUserId = DB::table('community_vehicle_users')->select('id')->latest()->first();
+                $id = $lastUserId ? $lastUserId+1 : 1;
                 $vehicleUser = new CommunityVehicleUser;
                 $vehicleUser->communityId = $request->communityId;
                 $vehicleUser->name = $request->name;
                 $vehicleUser->lastname = $request->lastname;
                 $vehicleUser->user_phone = $request->user_phone;
                 $vehicleUser->locationInCommunity = $request->locationInCommunity;
-                $vehicleUser->username = $request->name.$request->lastname.date('mdHis');
+                $vehicleUser->username = $request->name.'-'.$request->lastname.$id;
                 $vehicleUser->driverLicenseId = $request->driverLicenseId;
                 $photo = $request->file('photo');
                 $imagePath = $photo->getRealpath();

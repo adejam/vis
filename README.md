@@ -1,10 +1,23 @@
 # Communivis
 
-> A vehicle Identification System built with Laravel.
+> Communivis is a user identification System via vehicle license number. The systema aims to identify the owner of a vehicle in particular community via their vehicle license number.
 
 ![screenshot](./app_screenshot.png)
 
-The App is used to identify a user through the vehicle plate number. It can be used by any community to keep track of vehicle users in that community.
+A user is able to create a community and add or verify vehicles and their owners to the community. This allows the user to be able to identify a vehicle owner via the vehicle license number when the need arises.
+
+## FEATURES
+The features of the system includes;
+- A user can add, edit or delete communities and become the main admin of the community.
+- A community admin can add, edit, delete a vehicle and its owner to the community.
+- A community admin can add other admins and give them roles such as the ability to
+    - Add/Verify a vehicle user
+    - Remove a vehicle and its user
+    - Add other admins
+    - Identify a vehicle owner
+    - Edit admin roles
+    - Remove an admin
+- A user can add their vehicle informations to the system and send a request to communities to register the vehicle with the communities.
 
 ## Built With
 
@@ -12,11 +25,18 @@ The App is used to identify a user through the vehicle plate number. It can be u
 - CSS
 - Javascript
 - Laravel
+- Laravel livewire
+- Laravel fortify
+- Laravel Jetstream
 - Tailwind
+- Cloudinary
+- Sendgrid
+- Heroku
+- Clear DB (heroku addon)
 
 ## Live Demo
 
-[Live Demo Link](https://livedemo.com)
+[Development stage Link](http://communivis-staging.herokuapp.com/)
 
 ### Development (Running locally)
 

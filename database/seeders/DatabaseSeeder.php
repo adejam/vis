@@ -19,6 +19,8 @@ class DatabaseSeeder extends Seeder
             CommunitySeeder::class,
             CommunityAdminSeeder::class,
             UserVehicleSeeder::class,
+            CommunityUserSeeder::class,
+            CommunityVehicleSeeder::class,
         ]);
     }
 }

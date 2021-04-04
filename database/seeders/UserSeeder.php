@@ -106,6 +106,26 @@ class UserSeeder extends Seeder
                 'password' => Hash::make('mmmmmmmm'),
                 'email_verified_at' => '2021-01-18 10:56:37.000000',
             ),
+            9 => array(
+                'id' => 10,
+                'name' => 'LauTech',
+                'lastname' => 'Security1',
+                'username' => 'Lautech-Main-Admin',
+                'user_phone' => '08098586342',
+                'email' => 'lautechsecurityadmin@gmail.com',
+                'password' => Hash::make('mmmmmmmm'),
+                'email_verified_at' => '2021-01-18 10:56:37.000000',
+            ),
+            10 => array(
+                'id' => 11,
+                'name' => 'Lautech',
+                'lastname' => 'Security2',
+                'username' => 'Lautech-acting-admin',
+                'user_phone' => '08098786342',
+                'email' => 'lautechsecurityadmin2@gmail.com',
+                'password' => Hash::make('mmmmmmmm'),
+                'email_verified_at' => '2021-01-18 10:56:37.000000',
+            ),
         ));
     }
 }

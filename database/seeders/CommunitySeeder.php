@@ -20,7 +20,7 @@ class CommunitySeeder extends Seeder
                 'communityId' => 'fe890840-3c82-11eb-bfcf-f3188657a9e64',
                 'userId' => 10,
                 'communityName' => 'LAUTECH',
-                'communityLocation' => 'Pmbs 4000 Ogbomosho, oyo state',
+                'communityLocation' => 'P.M.B 4000 Ogbomosho, oyo state',
                 'aboutCommunity' => 'Vehicle security for lautech community',
                 'driverLicenseIdAccess' => 1,
                 'vehicleRegNumAccess' => 1,
@@ -29,7 +29,7 @@ class CommunitySeeder extends Seeder
             1 => array(
                 'id' => 2,
                 'communityId' => '5b12ec70-2f0f-11eb-a7d0-79509a2fd478',
-                'userId' => 1,
+                'userId' => 5,
                 'communityName' => 'Buari Street',
                 'communityLocation' => 'Ogudu,kosofe local govt, lagos, nigeria',
                 'aboutCommunity' => 'for buari street at ogudu',

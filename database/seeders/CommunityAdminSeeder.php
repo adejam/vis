@@ -18,7 +18,7 @@ class CommunityAdminSeeder extends Seeder
             0 => array(
                 'id' => 1,
                 'communityAdminId' => '431616bc-7875-41a5-be3b-a2591cffbc5d',
-                'userId' => 1,
+                'userId' => 5,
                 'communityId' => '5b12ec70-2f0f-11eb-a7d0-79509a2fd478',
                 'verifyUser' => 1,
                 'removeUserVehicle' => 1,
@@ -61,6 +61,18 @@ class CommunityAdminSeeder extends Seeder
                 'removeAdmin' => 1,
                 'addAdmin' => 0,
                 'editAdminRoles' => 0,
+                'identifyVehicleUser' => 1,
+            ),
+            4 => array(
+                'id' => 5,
+                'communityAdminId' => 'c2fc4081-dea5-451a-ae1d-905725e6e560',
+                'userId' => 10,
+                'communityId' => 'fe890840-3c82-11eb-bfcf-f3188657a9e64',
+                'verifyUser' => 1,
+                'removeUserVehicle' => 1,
+                'removeAdmin' => 1,
+                'addAdmin' => 1,
+                'editAdminRoles' => 1,
                 'identifyVehicleUser' => 1,
             ),
         ));

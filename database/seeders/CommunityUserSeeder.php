@@ -644,7 +644,7 @@ class CommunityUserSeeder extends Seeder
                 'communityId' => 'fe890840-3c82-11eb-bfcf-f3188657a9e64',
                 'name' => 'ahmad',
                 'lastname' => 'tinubu',
-                'username' => 'ahmad-tinubu-54',
+                'username' => 'ahmad-tinubu-53',
                 'user_phone' => '07097809089',
                 'profile_photo_path' => 'http://res.cloudinary.com/communivis/image/upload/c_fit,h_300,w_300/azbpdjmwapfxmj57ygp9.png',
                 'profile_photo_public_id' => 'azbpdjmwapfxmj57ygp9',

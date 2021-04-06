@@ -25,6 +25,8 @@ class UserSeeder extends Seeder
                 'email' => 'adejam@gmail.com',
                 'password' => Hash::make('mmmmmmmm'),
                 'email_verified_at' => '2021-01-18 10:56:37.000000',
+                'profile_photo_path' => '',
+                'profile_photo_public_id' => '',
             ),
             1 => array(
                 'id' => 2,
@@ -35,6 +37,8 @@ class UserSeeder extends Seeder
                 'email' => 'costa@gmail.com',
                 'password' => Hash::make('mmmmmmmm'),
                 'email_verified_at' => '2021-01-18 10:56:37.000000',
+                'profile_photo_path' => '',
+                'profile_photo_public_id' => '',
             ),
             2 => array(
                 'id' => 3,
@@ -45,6 +49,8 @@ class UserSeeder extends Seeder
                 'email' => 'hafshit@gmail.com',
                 'password' => Hash::make('mmmmmmmm'),
                 'email_verified_at' => '2021-01-18 10:56:37.000000',
+                'profile_photo_path' => '',
+                'profile_photo_public_id' => '',
             ),
             3 => array(
                 'id' => 4,
@@ -55,6 +61,8 @@ class UserSeeder extends Seeder
                 'email' => 'basituta@gmail.com',
                 'password' => Hash::make('mmmmmmmm'),
                 'email_verified_at' => '2021-01-18 10:56:37.000000',
+                'profile_photo_path' => '',
+                'profile_photo_public_id' => '',
             ),
             4 => array(
                 'id' => 5,
@@ -65,6 +73,8 @@ class UserSeeder extends Seeder
                 'email' => 'aburidwan@gmail.com',
                 'password' => Hash::make('mmmmmmmm'),
                 'email_verified_at' => '2021-01-18 10:56:37.000000',
+                'profile_photo_path' => '',
+                'profile_photo_public_id' => '',
             ),
             5 => array(
                 'id' => 6,
@@ -75,6 +85,8 @@ class UserSeeder extends Seeder
                 'email' => 'aburahman@gmail.com',
                 'password' => Hash::make('mmmmmmmm'),
                 'email_verified_at' => '2021-01-18 10:56:37.000000',
+                'profile_photo_path' => '',
+                'profile_photo_public_id' => '',
             ),
             6 => array(
                 'id' => 7,
@@ -85,6 +97,8 @@ class UserSeeder extends Seeder
                 'email' => 'abutah@gmail.com',
                 'password' => Hash::make('mmmmmmmm'),
                 'email_verified_at' => '2021-01-18 10:56:37.000000',
+                'profile_photo_path' => '',
+                'profile_photo_public_id' => '',
             ),
             7 => array(
                 'id' => 8,
@@ -95,6 +109,8 @@ class UserSeeder extends Seeder
                 'email' => 'omotaofeek@gmail.com',
                 'password' => Hash::make('mmmmmmmm'),
                 'email_verified_at' => '2021-01-18 10:56:37.000000',
+                'profile_photo_path' => '',
+                'profile_photo_public_id' => '',
             ),
             8 => array(
                 'id' => 9,
@@ -105,6 +121,8 @@ class UserSeeder extends Seeder
                 'email' => 'dlarn@gmail.com',
                 'password' => Hash::make('mmmmmmmm'),
                 'email_verified_at' => '2021-01-18 10:56:37.000000',
+                'profile_photo_path' => '',
+                'profile_photo_public_id' => '',
             ),
             9 => array(
                 'id' => 10,
@@ -115,6 +133,8 @@ class UserSeeder extends Seeder
                 'email' => 'lautechsecurityadmin@gmail.com',
                 'password' => Hash::make('mmmmmmmm'),
                 'email_verified_at' => '2021-01-18 10:56:37.000000',
+                'profile_photo_path' => 'http://res.cloudinary.com/communivis/image/upload/c_fit,h_300,w_300/xd2wfn90xw21zf7gbth0.png',
+                'profile_photo_public_id' => 'xd2wfn90xw21zf7gbth0',
             ),
             10 => array(
                 'id' => 11,
@@ -125,6 +145,8 @@ class UserSeeder extends Seeder
                 'email' => 'lautechsecurityadmin2@gmail.com',
                 'password' => Hash::make('mmmmmmmm'),
                 'email_verified_at' => '2021-01-18 10:56:37.000000',
+                'profile_photo_path' => 'http://res.cloudinary.com/communivis/image/upload/c_fit,h_300,w_300/u0donaxh0j51tkdjqswi.png',
+                'profile_photo_public_id' => 'u0donaxh0j51tkdjqswi',
             ),
         ));
     }

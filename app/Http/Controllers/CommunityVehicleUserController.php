@@ -208,7 +208,7 @@ class CommunityVehicleUserController extends Controller
                     return $checkLicenseIdValidation;
                 }
                 $lastUserId = DB::table('community_vehicle_users')->select('id')->latest()->first();
-                $id = strval($lastUserId ? $lastUserId+1 : 1);
+                $id = $lastUserId ? $lastUserId->id+1 : 1;
                 $vehicleUser = new CommunityVehicleUser;
                 $vehicleUser->communityId = $request->communityId;
                 $vehicleUser->name = $request->name;
